@@ -1,32 +1,15 @@
-import CategoriesGrid from "@/components/blocks/CategoriesGrid";
-import ProductSwiper from "@/components/blocks/DiscoutProduct";
-import Hero from "@/components/blocks/Hero";
-import Process from "@/components/blocks/Process";
-import ProductList from "@/components/blocks/ProductListing";
-import Quote from "@/components/blocks/Quote";
-import FadeInView from "@/components/ui/FadeInView";
+import { sanityFetch } from "@/sanity/lib/live";
+import { getPageQuery } from "@/sanity/lib/queries";
+import PageBuilder from "./components/PageBuilder";
 
 export default async function Page() {
+  const { data: homepageData } = await sanityFetch({
+    query: getPageQuery,
+    params: { slug: "home" },
+  });
   return (
-    <main className="lg:container px-5 flex flex-col gap-5 lg:gap-20">
-      <FadeInView>
-        <Hero />
-      </FadeInView>
-      <FadeInView>
-        <CategoriesGrid />
-      </FadeInView>
-      <FadeInView>
-        <Quote />
-      </FadeInView>
-      <FadeInView>
-        <ProductSwiper />
-      </FadeInView>
-      <FadeInView>
-        <ProductList />
-      </FadeInView>
-      <FadeInView>
-        <Process />
-      </FadeInView>
-    </main>
+    <div className="container">
+      <PageBuilder page={homepageData} />
+    </div>
   );
 }

@@ -1,4 +1,8 @@
-export default function Footer() {
+import { sanityFetch } from "@/sanity/lib/live";
+import { getFooterQuery } from "@/sanity/lib/queries";
+
+export default async function Footer() {
+
   return (
     <footer className="bg-gray-50 border-gray-100 border-t">
       <div className="container">

@@ -5,12 +5,13 @@ import { useOptimistic } from "next-sanity/hooks";
 import Link from "next/link";
 
 import BlockRenderer from "@/app/components/BlockRenderer";
-import { GetPageQueryResult } from "@/sanity.types";
+import { GetPageQueryResult, SettingsQueryResult } from "@/sanity.types";
 import { dataAttr } from "@/sanity/lib/utils";
 import { studioUrl } from "@/sanity/lib/api";
 
 type PageBuilderPageProps = {
   page: GetPageQueryResult;
+  siteSettings?: SettingsQueryResult;
 };
 
 type PageBuilderSection = {
@@ -31,6 +32,7 @@ type PageData = {
 function renderSections(
   pageBuilderSections: PageBuilderSection[],
   page: GetPageQueryResult,
+  siteSettings?: SettingsQueryResult
 ) {
   if (!page) {
     return null;
@@ -42,6 +44,7 @@ function renderSections(
         type: page._type,
         path: `pageBuilder`,
       }).toString()}
+      className="space-y-10"
     >
       {pageBuilderSections.map((block: any, index: number) => (
         <BlockRenderer
@@ -50,6 +53,7 @@ function renderSections(
           block={block}
           pageId={page._id}
           pageType={page._type}
+          siteSettings={siteSettings}
         />
       ))}
     </div>
@@ -82,7 +86,10 @@ function renderEmptyState(page: GetPageQueryResult) {
   );
 }
 
-export default function PageBuilder({ page }: PageBuilderPageProps) {
+export default function PageBuilder({
+  page,
+  siteSettings,
+}: PageBuilderPageProps) {
   const pageBuilderSections = useOptimistic<
     PageBuilderSection[] | undefined,
     SanityDocument<PageData>
@@ -100,7 +107,7 @@ export default function PageBuilder({ page }: PageBuilderPageProps) {
       // Reconcile References. https://www.sanity.io/docs/enabling-drag-and-drop#ffe728eea8c1
       return action.document.pageBuilder.map(
         (section) =>
-          currentSections?.find((s) => s._key === section?._key) || section,
+          currentSections?.find((s) => s._key === section?._key) || section
       );
     }
 
@@ -113,6 +120,6 @@ export default function PageBuilder({ page }: PageBuilderPageProps) {
   }
 
   return pageBuilderSections && pageBuilderSections.length > 0
-    ? renderSections(pageBuilderSections, page)
+    ? renderSections(pageBuilderSections, page, siteSettings)
     : renderEmptyState(page);
 }

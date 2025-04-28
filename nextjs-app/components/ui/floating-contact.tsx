@@ -71,7 +71,7 @@ const FloatContact: React.FC<IFloatContactProps> = (props) => {
                             gradientUnits="userSpaceOnUse"
                         >
                             <stop stopColor="#AA875C" />
-                            <stop offset="1" stop-color="#AA875C" />
+                            <stop offset="1" stopColor="#AA875C" />
                         </linearGradient>
                     </defs>
                 </svg>

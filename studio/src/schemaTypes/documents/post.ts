@@ -9,7 +9,7 @@ import {defineField, defineType} from 'sanity'
 
 export const post = defineType({
   name: 'post',
-  title: 'Post',
+  title: 'Blog',
   icon: DocumentTextIcon,
   type: 'document',
   fields: [
@@ -75,12 +75,6 @@ export const post = defineType({
       title: 'Date',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
-    }),
-    defineField({
-      name: 'author',
-      title: 'Author',
-      type: 'reference',
-      to: [{type: 'person'}],
     }),
   ],
   // List preview configuration. https://www.sanity.io/docs/previews-list-views

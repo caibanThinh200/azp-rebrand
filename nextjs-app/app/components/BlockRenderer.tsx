@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 
-import Cta from "@/app/components/Cta";
-import Info from "@/app/components/InfoSection";
 import { dataAttr } from "@/sanity/lib/utils";
+import { SettingsQueryResult } from "@/sanity.types";
+
+import dynamic from "next/dynamic";
+import ShoppingCart from "@/components/blocks/ShoppingCart";
+
+const Hero = dynamic(() => import("@/components/blocks/Hero"));
+const CategoriesGrid = dynamic(
+  () => import("@/components/blocks/CategoriesGrid")
+);
+const ProductSwiper = dynamic(
+  () => import("@/components/blocks/ProductSwiper")
+);
+const ProductList = dynamic(() => import("@/components/blocks/ProductListing"));
+const Process = dynamic(() => import("@/components/blocks/Process"));
+const Quote = dynamic(() => import("@/components/blocks/Quote"));
+const BlogContent = dynamic(() => import("@/components/blocks/BlogContent"));
+const Map = dynamic(() => import("@/components/blocks/Map"));
+const ContactForm = dynamic(() => import("@/components/blocks/ContactForm"));
 
 type BlocksType = {
-  [key: string]: React.FC<any>;
+  [key: string]: React.ComponentType<any>;
 };
 
 type BlockType = {
@@ -18,11 +34,20 @@ type BlockProps = {
   block: BlockType;
   pageId: string;
   pageType: string;
+  siteSettings?: SettingsQueryResult;
 };
 
 const Blocks: BlocksType = {
-  callToAction: Cta,
-  infoSection: Info,
+  heroSlider: Hero,
+  gridCard: CategoriesGrid,
+  productSwiper: ProductSwiper,
+  productListing: ProductList,
+  processStep: Process,
+  contactForm: ContactForm,
+  quote: Quote,
+  blogContent: BlogContent,
+  map: Map,
+  shoppingCart: ShoppingCart
 };
 
 /**
@@ -33,6 +58,7 @@ export default function BlockRenderer({
   index,
   pageId,
   pageType,
+  siteSettings,
 }: BlockProps) {
   // Block does exist
   if (typeof Blocks[block._type] !== "undefined") {
@@ -49,6 +75,7 @@ export default function BlockRenderer({
           key: block._key,
           block: block,
           index: index,
+          siteSettings,
         })}
       </div>
     );
@@ -60,6 +87,6 @@ export default function BlockRenderer({
         A &ldquo;{block._type}&rdquo; block hasn&apos;t been created
       </div>
     ),
-    { key: block._key },
+    { key: block._key }
   );
 }

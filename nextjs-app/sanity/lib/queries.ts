@@ -1,4 +1,4 @@
-import { defineQuery } from "next-sanity";
+import { defineQuery } from "groq";
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]`);
 
@@ -27,31 +27,48 @@ const linkFields = /* groq */ `
       }
 `;
 
-export const getPageQuery = defineQuery(`
-  *[_type == 'page' && slug.current == $slug][0]{
-    _id,
-    _type,
-    name,
-    slug,
-    heading,
-    subheading,
-    "pageBuilder": pageBuilder[]{
-      ...,
-      _type == "callToAction" => {
-        ${linkFields},
-      },
-      _type == "infoSection" => {
-        content[]{
-          ...,
-          markDefs[]{
-            ...,
-            ${linkReference}
-          }
-        }
-      },
-    },
-  }
+export const getAllPages = defineQuery(`
+      *[_type == 'page']
 `);
+
+export const getAllProducts = defineQuery(`
+      *[_type == 'product']
+`);
+
+export const getAllCategories = defineQuery(`
+      *[_type == 'category']
+`);
+
+export const getPageQuery =
+  defineQuery(` *[_type == 'page' && slug.current == $slug][0]{
+  _id,
+  _type,
+  name,
+  slug,
+  heading,
+  subheading,
+  "pageBuilder": pageBuilder[]{
+    ...,
+    _type == "productSwiper" => {
+      ...,
+      products[]-> {
+        ...,
+      }
+    },
+    _type == "gridCard" => {
+      ...,
+      categories[]-> {
+        ...,
+      }
+    },
+    _type == "productListing" => {
+      ...,
+      products[]-> {
+        ...,
+      }
+    },
+  },
+}`);
 
 export const sitemapData = defineQuery(`
   *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {
@@ -94,4 +111,74 @@ export const postPagesSlugs = defineQuery(`
 export const pagesSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)]
   {"slug": slug.current}
+`);
+
+export const getHeaderQuery = defineQuery(`
+*[_type == "header"] {
+  ...,
+  navItems[]-> {
+    ...,
+  },
+  categories[]-> {
+    ...,
+    "children": *[_type == "category" && parent._ref == ^._id] {
+      _id,
+      title,
+      "slug": slug.current,
+      "level": 2,
+      "children": *[_type == "category" && parent._ref == ^._id] {
+        _id,
+        title,
+        "slug": slug.current,
+        "level": 3,
+        "children": *[_type == "category" && parent._ref == ^._id] {
+          _id,
+          title,
+          "slug": slug.current,
+          "level": 4,
+          "children": *[_type == "category" && parent._ref == ^._id] {
+            _id,
+            title,
+            "slug": slug.current,
+            "level": 5
+          }
+        }
+      }
+    }
+}
+}[0]
+`);
+
+export const rootCategories = defineQuery(`
+*[_type == "category" && !defined(parent)] {
+  ...,
+}
+`);
+
+export const singleCategoryQuery = defineQuery(`
+*[_type == "category" && slug.current == $slug] {
+  ...,
+}[0]
+`);
+
+export const getFooterQuery = defineQuery(`
+  *[_type == "footer"] {
+    ...,
+    "supportColumn": supportColumn[]{
+      ...,
+      "post": post->,
+      "page": page->,  
+    }
+  }[0]
+`);
+
+export const getProductsQuery = defineQuery(`
+*[_type == "product" && (
+  category._ref == $category || 
+  category._ref in *[_type == "category" && parent._ref == $category]._id
+)]
+`);
+
+export const getProductDetailQuery = defineQuery(`
+    *[_type == "product" && slug.current == $slug] {...,}[0]
 `);
