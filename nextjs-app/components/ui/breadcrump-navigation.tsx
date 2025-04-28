@@ -27,11 +27,6 @@ export function BreadcrumbNavigation({
 }: BreadcrumbNavigationProps) {
   const pathname = usePathname();
 
-  // Skip rendering breadcrumbs on home page
-  if (pathname === "/") {
-    return null;
-  }
-
   const dynamicBreadcrumps = useMemo(() => {
     const breadcrumpsObj: { [x: string]: string } = {};
     (breadcrumpSitemap || [])?.forEach(
@@ -55,6 +50,11 @@ export function BreadcrumbNavigation({
       isLastItem,
     };
   });
+
+  // Skip rendering breadcrumbs on home page
+  if (pathname === "/") {
+    return null;
+  }
 
   return (
     <Breadcrumb className="container pb-10">

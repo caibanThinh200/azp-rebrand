@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useCart } from "@/context/cart";
 import { urlForImage } from "@/sanity/lib/utils";
 import { formatVND } from "@/lib/utils";
-import { ShoppingCart } from "@/sanity.types";
+import { ShoppingCart as IShoppingCart } from "@/sanity.types";
 import Link from "next/link";
 
 // Define types for our cart items
@@ -19,13 +19,12 @@ type CartItem = {
 };
 
 interface ShoppingCartProps {
-  block: ShoppingCart;
+  block: IShoppingCart;
 }
 
 export default function ShoppingCart({ block }: ShoppingCartProps) {
   // Initial cart items
-  const { items, subtotal, total, clearCart, updateQuantity, removeItem } =
-    useCart();
+  const { items, subtotal, total, updateQuantity, removeItem } = useCart();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const [promoCode, setPromoCode] = useState("");

@@ -1,10 +1,10 @@
-import { BlogContent } from "@/sanity.types";
+import { BlogContent as IBlogContent } from "@/sanity.types";
 import { CircleChevronUp } from "lucide-react";
 import Link from "next/link";
 import PortableText from "react-portable-text";
 
 interface BlogContentProps {
-  block: BlogContent;
+  block: IBlogContent;
 }
 
 const BlogContent: React.FC<BlogContentProps> = ({ block }) => {

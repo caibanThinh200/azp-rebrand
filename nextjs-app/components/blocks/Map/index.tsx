@@ -1,10 +1,10 @@
-import { Map } from "@/sanity.types";
+import { Map as IMap } from "@/sanity.types";
 
 interface MapProps {
-    block: Map
+  block: IMap;
 }
 
-const Map: React.FC<MapProps> = ({block}) => {
+const Map: React.FC<MapProps> = ({ block }) => {
   return (
     <div className="rounded-20 overflow-hidden">
       <iframe

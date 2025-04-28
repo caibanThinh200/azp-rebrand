@@ -1,12 +1,12 @@
 "use client";
 
 import ProductCard from "@/components/ui/ProductCard";
-import { Product, ProductSwiper } from "@/sanity.types";
+import { Product, ProductSwiper as IProductSwiper } from "@/sanity.types";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 interface ProductSwiperProps {
-  block: Omit<ProductSwiper, "products"> & { products: Product[] };
+  block: Omit<IProductSwiper, "products"> & { products: Product[] };
 }
 
 const ProductSwiper: React.FC<ProductSwiperProps> = ({ block }) => {

@@ -10,8 +10,9 @@ import {
   EffectFade,
 } from "swiper/modules";
 import { urlForImage } from "@/sanity/lib/utils";
+import { Hero as IHero } from "@/sanity.types";
 
-const Hero: React.FC<{ block: any }> = ({ block }) => {
+const Hero: React.FC<{ block: IHero }> = ({ block }) => {
   return (
     <div className="rounded-20 overflow-hidden">
       <Swiper

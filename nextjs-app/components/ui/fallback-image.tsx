@@ -12,6 +12,7 @@ const FallbackImage: React.FC<ImageProps> = ({ src, ...rest }) => {
     <Image
       {...rest}
       src={imageUrl}
+      alt={rest?.alt || "placeholder"}
       onError={() => {
         setImageUrl("/images/placeholder-image.svg");
       }}

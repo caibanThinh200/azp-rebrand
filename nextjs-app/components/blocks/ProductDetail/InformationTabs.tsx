@@ -92,12 +92,12 @@ export default function ProductTabs() {
                 <h3 className="font-semibold mb-2">Dimensions</h3>
                 <ul className="space-y-1">
                   <li className="text-sm text-gray-700">
-                    Height: 45-49" (adjustable)
+                    Height: 45-49 (adjustable)
                   </li>
-                  <li className="text-sm text-gray-700">Width: 26"</li>
-                  <li className="text-sm text-gray-700">Depth: 28"</li>
+                  <li className="text-sm text-gray-700">Width: 26</li>
+                  <li className="text-sm text-gray-700">Depth: 28</li>
                   <li className="text-sm text-gray-700">
-                    Seat Height: 18-22" (adjustable)
+                    Seat Height: 18-22 (adjustable)
                   </li>
                 </ul>
               </div>

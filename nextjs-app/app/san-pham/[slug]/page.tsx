@@ -19,9 +19,9 @@ import { SanityAsset } from "@sanity/image-url/lib/types/types";
 export default async function ProductDetail({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const slug = await params?.slug;
+  const { slug } = await params;
   const { data } = await sanityFetch({
     query: getProductDetailQuery,
     params: { slug },

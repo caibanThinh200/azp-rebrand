@@ -19,7 +19,7 @@ const Products: React.FC<ProductListProps> = ({ products }) => {
 
   const handlePagination = useCallback((page: number) => {
     setPagination({ ...pagination, currentPage: page });
-  }, []);
+  }, [pagination]);
 
   return (
     <div>

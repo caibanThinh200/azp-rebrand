@@ -25,7 +25,7 @@ export function resolveOpenGraphImage(image: any, width = 1200, height = 627) {
 }
 
 // Depending on the type of link, we need to fetch the corresponding page, post, or URL.  Otherwise return null.
-export function linkResolver(link: Link | undefined) {
+export function linkResolver(link: any | undefined) {
   if (!link) return null;
 
   // If linkType is not set but href is, lets set linkType to "href".  This comes into play when pasting links into the portable text editor because a link type is not assumed.

@@ -10,12 +10,12 @@ import { useEffect, useState } from "react";
 import {
   GetProductsQueryResult,
   Product,
-  ProductListing,
+  ProductListing as IProductListing,
 } from "@/sanity.types";
 import { client } from "@/sanity/lib/client";
 
 interface ProductListProps {
-  block: Omit<ProductListing, "products"> & { products: Product[] };
+  block: Omit<IProductListing, "products"> & { products: Product[] };
 }
 
 const ProductList: React.FC<ProductListProps> = ({ block }) => {

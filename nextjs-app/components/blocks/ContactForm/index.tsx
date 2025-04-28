@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Phone, Mail, MapPin, User } from "lucide-react";
-import { ContactForm, SettingsQueryResult } from "@/sanity.types";
+import { ContactForm as IContactForm, SettingsQueryResult } from "@/sanity.types";
 import { Input } from "@/components/ui/input";
 
 type FormData = {
@@ -15,7 +15,7 @@ type FormData = {
 };
 
 interface ContactFormProps {
-  block: ContactForm;
+  block: IContactForm;
   siteSettings: SettingsQueryResult;
 }
 
@@ -195,7 +195,7 @@ export default function ContactForm({ block, siteSettings }: ContactFormProps) {
 
                 {(siteSettings?.contact?.address || [])?.length > 0 &&
                   siteSettings?.contact?.address?.map((addr) => (
-                    <div className="flex items-start">
+                    <div key={addr} className="flex items-start">
                       <MapPin className="w-5 h-5 mr-4 text-white shrink-0" />
                       <span>{addr}</span>
                     </div>

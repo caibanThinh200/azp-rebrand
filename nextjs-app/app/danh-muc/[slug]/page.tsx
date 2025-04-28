@@ -9,7 +9,11 @@ import { urlForImage } from "@/sanity/lib/utils";
 import Image from "next/image";
 import Products from "./components/ProductList";
 
-const CategoryPage = async ({ params }: { params: { slug: string } }) => {
+const CategoryPage = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
   const { data } = await sanityFetch({ query: singleCategoryQuery, params });
   const { data: products } = await sanityFetch({
     query: getProductsQuery,

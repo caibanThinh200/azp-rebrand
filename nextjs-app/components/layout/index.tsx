@@ -29,14 +29,13 @@ const Layout: React.FC<LayoutProps> = ({
   return (
     <CartProvider>
       <FloatContact />
-      {/* @ts-expect-error Async Server Component */}
       <Header siteSetting={siteSettings} />
       <BreadcrumbNavigation
         breadcrumpSitemap={breadcrumpSitemap}
         separator={<ChevronRight className="h-4 w-4" />}
       />
       <div className="mb-20">{children}</div>
-      {/* @ts-expect-error Async Server Component */}
+  
       <Footer siteSetting={siteSettings} />
     </CartProvider>
   );

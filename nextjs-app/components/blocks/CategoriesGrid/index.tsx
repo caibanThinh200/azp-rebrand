@@ -1,21 +1,9 @@
 "use client";
 
 import FallbackImage from "@/components/ui/fallback-image";
-import { isClientComponent } from "@/lib/utils";
-import {
-  Category,
-  GetPageQueryResult,
-  GridCard,
-  Product,
-  RootCategoriesResult,
-} from "@/sanity.types";
-import { client } from "@/sanity/lib/client";
-import { sanityFetch } from "@/sanity/lib/live";
-import { rootCategories } from "@/sanity/lib/queries";
+import { Category, GridCard } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
-import { use, useEffect, useState } from "react";
 
 interface CategoriesGridProps {
   block: Omit<GridCard, "categories"> & { categories: Category[] };
