@@ -112,7 +112,7 @@ export default function MegaMenu({ data }: MegaMenuProps) {
             className="p-2"
           >
             <div className="flex flex-col gap-2">
-              {renderCategoryTree(data?.children)}
+              {renderCategoryTree(data?.children as CategoryNode[])}
             </div>
           </DropdownMenuContent>
         )}
