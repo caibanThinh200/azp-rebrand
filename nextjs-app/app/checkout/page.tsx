@@ -52,7 +52,7 @@ export default function CheckoutPage() {
         total,
         subTotal: subtotal,
         products: items.map((item) => ({
-          // _key: ,
+          _key: item?._id,
           product: item,
           quanity: item?.quantity,
           price: item.discountPrice * item.quantity,
