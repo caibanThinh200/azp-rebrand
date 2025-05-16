@@ -357,6 +357,138 @@ export type BlockContent = Array<{
   _key: string;
 }>;
 
+export type Order = {
+  _id: string;
+  _type: "order";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  id?: string;
+  contact?: {
+    fullName?: string;
+    address?: string;
+    email?: string;
+    phone?: string;
+    note?: string;
+  };
+  orderSummary?: {
+    subTotal?: number;
+    ship?: number;
+    tax?: number;
+    total?: number;
+    products?: Array<{
+      product?: {
+        title: string;
+        productId: string;
+        slug: Slug;
+        originPrice: number;
+        discountPrice: number;
+        description?: string;
+        content?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        } | {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+          _key: string;
+        }>;
+        colors?: Array<{
+          _key: string;
+        } & Color>;
+        property?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        } | {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+          _key: string;
+        }>;
+        images?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+          _key: string;
+        }>;
+        category: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "category";
+        };
+        properties?: Array<{
+          title?: string;
+          values?: string;
+          _key: string;
+        }>;
+        _type: "product";
+      };
+      quanity?: number;
+      price?: number;
+      _key: string;
+    }>;
+  };
+};
+
+export type Property = {
+  _id: string;
+  _type: "property";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  values?: Array<string>;
+};
+
 export type Product = {
   _id: string;
   _type: "product";
@@ -399,6 +531,9 @@ export type Product = {
     _type: "image";
     _key: string;
   }>;
+  colors?: Array<{
+    _key: string;
+  } & Color>;
   property?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -448,33 +583,9 @@ export type Product = {
     [internalGroqTypeReferenceTo]?: "category";
   };
   properties?: Array<{
-    property: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "property";
-    };
-    value: string;
+    title?: string;
+    values?: string;
     _key: string;
-  }>;
-};
-
-export type Property = {
-  _id: string;
-  _type: "property";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-  unit?: string;
-  type?: "color" | "select" | "radio";
-  values?: string;
-  parent?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "category";
   }>;
 };
 
@@ -492,13 +603,6 @@ export type Category = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "category";
   };
-  properties?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "property";
-  }>;
   image?: {
     asset?: {
       _ref: string;
@@ -510,11 +614,6 @@ export type Category = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  filterValues?: Array<{
-    propertyName: string;
-    values: string;
-    _key: string;
-  }>;
 };
 
 export type Page = {
@@ -683,6 +782,39 @@ export type SanityImageMetadata = {
   isOpaque?: boolean;
 };
 
+export type Color = {
+  _type: "color";
+  hex?: string;
+  alpha?: number;
+  hsl?: HslaColor;
+  hsv?: HsvaColor;
+  rgb?: RgbaColor;
+};
+
+export type RgbaColor = {
+  _type: "rgbaColor";
+  r?: number;
+  g?: number;
+  b?: number;
+  a?: number;
+};
+
+export type HsvaColor = {
+  _type: "hsvaColor";
+  h?: number;
+  s?: number;
+  v?: number;
+  a?: number;
+};
+
+export type HslaColor = {
+  _type: "hslaColor";
+  h?: number;
+  s?: number;
+  l?: number;
+  a?: number;
+};
+
 export type SanityAssistInstructionTask = {
   _type: "sanity.assist.instructionTask";
   path?: string;
@@ -804,7 +936,7 @@ export type SanityAssistSchemaTypeField = {
   } & SanityAssistInstruction>;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | ShoppingCart | BlogContent | ProcessStep | ContactForm | Map | Quote | ProductListing | ProductSwiper | GridCard | Hero | Link | Footer | Header | InfoSection | BlockContent | Product | Property | Category | Page | Post | Slug | Settings | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | ShoppingCart | BlogContent | ProcessStep | ContactForm | Map | Quote | ProductListing | ProductSwiper | GridCard | Hero | Link | Footer | Header | InfoSection | BlockContent | Order | Property | Product | Category | Page | Post | Slug | Settings | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Color | RgbaColor | HsvaColor | HslaColor | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -931,6 +1063,9 @@ export type GetAllProductsResult = Array<{
     _type: "image";
     _key: string;
   }>;
+  colors?: Array<{
+    _key: string;
+  } & Color>;
   property?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -980,13 +1115,8 @@ export type GetAllProductsResult = Array<{
     [internalGroqTypeReferenceTo]?: "category";
   };
   properties?: Array<{
-    property: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "property";
-    };
-    value: string;
+    title?: string;
+    values?: string;
     _key: string;
   }>;
 }>;
@@ -1006,13 +1136,6 @@ export type GetAllCategoriesResult = Array<{
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "category";
   };
-  properties?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "property";
-  }>;
   image?: {
     asset?: {
       _ref: string;
@@ -1024,11 +1147,6 @@ export type GetAllCategoriesResult = Array<{
     crop?: SanityImageCrop;
     _type: "image";
   };
-  filterValues?: Array<{
-    propertyName: string;
-    values: string;
-    _key: string;
-  }>;
 }>;
 // Variable: getPageQuery
 // Query: *[_type == 'page' && slug.current == $slug][0]{  _id,  _type,  name,  slug,  heading,  subheading,  "pageBuilder": pageBuilder[]{    ...,    _type == "productSwiper" => {      ...,      products[]-> {        ...,      }    },    _type == "gridCard" => {      ...,      categories[]-> {        ...,      }    },    _type == "productListing" => {      ...,      products[]-> {        ...,      }    },  },}
@@ -1114,13 +1232,6 @@ export type GetPageQueryResult = {
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "category";
       };
-      properties?: Array<{
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        _key: string;
-        [internalGroqTypeReferenceTo]?: "property";
-      }>;
       image?: {
         asset?: {
           _ref: string;
@@ -1132,11 +1243,6 @@ export type GetPageQueryResult = {
         crop?: SanityImageCrop;
         _type: "image";
       };
-      filterValues?: Array<{
-        propertyName: string;
-        values: string;
-        _key: string;
-      }>;
     }> | null;
   } | {
     _key: string;
@@ -1217,6 +1323,9 @@ export type GetPageQueryResult = {
         _type: "image";
         _key: string;
       }>;
+      colors?: Array<{
+        _key: string;
+      } & Color>;
       property?: Array<{
         children?: Array<{
           marks?: Array<string>;
@@ -1266,13 +1375,8 @@ export type GetPageQueryResult = {
         [internalGroqTypeReferenceTo]?: "category";
       };
       properties?: Array<{
-        property: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "property";
-        };
-        value: string;
+        title?: string;
+        values?: string;
         _key: string;
       }>;
     }> | null;
@@ -1323,6 +1427,9 @@ export type GetPageQueryResult = {
         _type: "image";
         _key: string;
       }>;
+      colors?: Array<{
+        _key: string;
+      } & Color>;
       property?: Array<{
         children?: Array<{
           marks?: Array<string>;
@@ -1372,13 +1479,8 @@ export type GetPageQueryResult = {
         [internalGroqTypeReferenceTo]?: "category";
       };
       properties?: Array<{
-        property: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "property";
-        };
-        value: string;
+        title?: string;
+        values?: string;
         _key: string;
       }>;
     }> | null;
@@ -1568,13 +1670,6 @@ export type GetHeaderQueryResult = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "category";
     };
-    properties?: Array<{
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      _key: string;
-      [internalGroqTypeReferenceTo]?: "property";
-    }>;
     image?: {
       asset?: {
         _ref: string;
@@ -1586,11 +1681,6 @@ export type GetHeaderQueryResult = {
       crop?: SanityImageCrop;
       _type: "image";
     };
-    filterValues?: Array<{
-      propertyName: string;
-      values: string;
-      _key: string;
-    }>;
     children: Array<{
       _id: string;
       title: string;
@@ -1633,13 +1723,6 @@ export type RootCategoriesResult = Array<{
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "category";
   };
-  properties?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "property";
-  }>;
   image?: {
     asset?: {
       _ref: string;
@@ -1651,11 +1734,6 @@ export type RootCategoriesResult = Array<{
     crop?: SanityImageCrop;
     _type: "image";
   };
-  filterValues?: Array<{
-    propertyName: string;
-    values: string;
-    _key: string;
-  }>;
 }>;
 // Variable: singleCategoryQuery
 // Query: *[_type == "category" && slug.current == $slug] {  ...,}[0]
@@ -1673,13 +1751,6 @@ export type SingleCategoryQueryResult = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "category";
   };
-  properties?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "property";
-  }>;
   image?: {
     asset?: {
       _ref: string;
@@ -1691,11 +1762,6 @@ export type SingleCategoryQueryResult = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  filterValues?: Array<{
-    propertyName: string;
-    values: string;
-    _key: string;
-  }>;
 } | null;
 // Variable: getFooterQuery
 // Query: *[_type == "footer"] {    ...,    "supportColumn": supportColumn[]{      ...,      "post": post->,      "page": page->,      }  }[0]
@@ -1757,7 +1823,7 @@ export type GetFooterQueryResult = {
   copyright?: string;
 } | null;
 // Variable: getProductsQuery
-// Query: *[_type == "product" && (  category._ref == $category ||   category._ref in *[_type == "category" && parent._ref == $category]._id)]
+// Query: *[_type == "product" && (      category._ref == $category ||       category._ref in *[_type == "category" && parent._ref == $category]._id    )]
 export type GetProductsQueryResult = Array<{
   _id: string;
   _type: "product";
@@ -1800,6 +1866,9 @@ export type GetProductsQueryResult = Array<{
     _type: "image";
     _key: string;
   }>;
+  colors?: Array<{
+    _key: string;
+  } & Color>;
   property?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -1849,13 +1918,8 @@ export type GetProductsQueryResult = Array<{
     [internalGroqTypeReferenceTo]?: "category";
   };
   properties?: Array<{
-    property: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "property";
-    };
-    value: string;
+    title?: string;
+    values?: string;
     _key: string;
   }>;
 }>;
@@ -1903,6 +1967,9 @@ export type GetProductDetailQueryResult = {
     _type: "image";
     _key: string;
   }>;
+  colors?: Array<{
+    _key: string;
+  } & Color>;
   property?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -1952,16 +2019,22 @@ export type GetProductDetailQueryResult = {
     [internalGroqTypeReferenceTo]?: "category";
   };
   properties?: Array<{
-    property: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "property";
-    };
-    value: string;
+    title?: string;
+    values?: string;
     _key: string;
   }>;
 } | null;
+// Variable: getProperties
+// Query: *[_type == "property"]
+export type GetPropertiesResult = Array<{
+  _id: string;
+  _type: "property";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  values?: Array<string>;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -1982,7 +2055,8 @@ declare module "@sanity/client" {
     "\n*[_type == \"category\" && !defined(parent)] {\n  ...,\n}\n": RootCategoriesResult;
     "\n*[_type == \"category\" && slug.current == $slug] {\n  ...,\n}[0]\n": SingleCategoryQueryResult;
     "\n  *[_type == \"footer\"] {\n    ...,\n    \"supportColumn\": supportColumn[]{\n      ...,\n      \"post\": post->,\n      \"page\": page->,  \n    }\n  }[0]\n": GetFooterQueryResult;
-    "\n*[_type == \"product\" && (\n  category._ref == $category || \n  category._ref in *[_type == \"category\" && parent._ref == $category]._id\n)]\n": GetProductsQueryResult;
+    "\n    *[_type == \"product\" && (\n      category._ref == $category || \n      category._ref in *[_type == \"category\" && parent._ref == $category]._id\n    )]\n": GetProductsQueryResult;
     "\n    *[_type == \"product\" && slug.current == $slug] {...,}[0]\n": GetProductDetailQueryResult;
+    "\n    *[_type == \"property\"]\n": GetPropertiesResult;
   }
 }

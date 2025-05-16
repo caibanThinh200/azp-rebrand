@@ -16,6 +16,7 @@ import {
   type DocumentLocation,
 } from 'sanity/presentation'
 import {assist} from '@sanity/assist'
+import {colorInput} from '@sanity/color-input'
 
 // Environment variables for project configuration
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'your-projectID'
@@ -51,6 +52,18 @@ export default defineConfig({
 
   projectId,
   dataset,
+
+  document: {
+    newDocumentOptions: (prev, {currentUser, creationContext}) => {
+      const {type, schemaType} = creationContext
+      const disableActionTypes = ['order', 'submission']
+
+      if (type === 'structure' && disableActionTypes.includes(schemaType)) {
+        return []
+      }
+      return prev
+    },
+  },
 
   plugins: [
     // Presentation tool configuration for Visual Editing
@@ -122,6 +135,7 @@ export default defineConfig({
     unsplashImageAsset(),
     assist(),
     visionTool(),
+    colorInput(),
   ],
 
   // Schema configuration, imported from ./src/schemaTypes/index.ts

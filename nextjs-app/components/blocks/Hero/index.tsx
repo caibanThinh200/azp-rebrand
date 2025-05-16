@@ -23,7 +23,7 @@ const Hero: React.FC<{ block: IHero }> = ({ block }) => {
         slidesPerView={1}
         navigation
         pagination={{ clickable: true }}
-        onSwiper={(swiper) => console.log(swiper)}
+        // onSwiper={(swiper) => console.log(swiper)}
       >
         {(block?.sliders || []).map((slider: any) => (
           <SwiperSlide key={slider?._key}>

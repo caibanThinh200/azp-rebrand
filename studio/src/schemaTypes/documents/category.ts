@@ -31,18 +31,18 @@ export default {
       to: [{type: 'category'}],
       // This makes it possible to create a hierarchy
     },
-    {
-      name: 'properties',
-      title: 'Category Properties',
-      description: 'Properties that can be used to filter products in this category',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{type: 'property'}],
-        },
-      ],
-    },
+    // {
+    //   name: 'properties',
+    //   title: 'Category Properties',
+    //   description: 'Properties that can be used to filter products in this category',
+    //   type: 'array',
+    //   of: [
+    //     {
+    //       type: 'reference',
+    //       to: [{type: 'property'}],
+    //     },
+    //   ],
+    // },
     {
       title: 'Hình ảnh',
       name: 'image',
@@ -52,47 +52,47 @@ export default {
         hotspot: true,
       },
     },
-    {
-      name: 'filterValues',
-      title: 'Filter Values',
-      description: 'Values that can be used for filtering (comma-separated for multiple values)',
-      type: 'array',
-      components: {
-        input: PropertyFilterInput,
-      },
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'propertyName',
-              title: 'Tên thuộc tính',
-              // description: 'Comma-separated list of values (e.g., "Red, Blue, Green")',
-              type: 'string',
-              validation: (Rule: Rule) => Rule.required(),
-            },
-            {
-              name: 'values',
-              title: 'Filter Values',
-              description: 'Comma-separated list of values (e.g., "Red, Blue, Green")',
-              type: 'string',
-              validation: (Rule: Rule) => Rule.required(),
-            },
-          ],
-          // preview: {
-          //     select: {
-          //         propertyName: "property.name",
-          //         values: "values",
-          //     },
-          //     prepare({ propertyName, values }: { propertyName?: string; values?: string }) {
-          //         return {
-          //             title: propertyName || "Property",
-          //             subtitle: values || "No values",
-          //         }
-          //     },
-          // },
-        },
-      ],
-    },
+    // {
+    //   name: 'filterValues',
+    //   title: 'Filter Values',
+    //   description: 'Values that can be used for filtering (comma-separated for multiple values)',
+    //   type: 'array',
+    //   components: {
+    //     input: PropertyFilterInput,
+    //   },
+    //   of: [
+    //     {
+    //       type: 'object',
+    //       fields: [
+    //         {
+    //           name: 'propertyName',
+    //           title: 'Tên thuộc tính',
+    //           // description: 'Comma-separated list of values (e.g., "Red, Blue, Green")',
+    //           type: 'string',
+    //           validation: (Rule: Rule) => Rule.required(),
+    //         },
+    //         {
+    //           name: 'values',
+    //           title: 'Filter Values',
+    //           description: 'Comma-separated list of values (e.g., "Red, Blue, Green")',
+    //           type: 'string',
+    //           validation: (Rule: Rule) => Rule.required(),
+    //         },
+    //       ],
+    //       // preview: {
+    //       //     select: {
+    //       //         propertyName: "property.name",
+    //       //         values: "values",
+    //       //     },
+    //       //     prepare({ propertyName, values }: { propertyName?: string; values?: string }) {
+    //       //         return {
+    //       //             title: propertyName || "Property",
+    //       //             subtitle: values || "No values",
+    //       //         }
+    //       //     },
+    //       // },
+    //     },
+    //   ],
+    // },
   ],
 }

@@ -2,7 +2,12 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { getPageQuery } from "@/sanity/lib/queries";
 import PageBuilder from "./components/PageBuilder";
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  console.log(await searchParams)
   const { data: homepageData } = await sanityFetch({
     query: getPageQuery,
     params: { slug: "home" },

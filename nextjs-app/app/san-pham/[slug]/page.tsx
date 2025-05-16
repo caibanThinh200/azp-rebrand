@@ -35,9 +35,9 @@ export default async function ProductDetail({
         {/* Product Info */}
         <ProductMetaInformation data={data} />
       </div>
-      {(data?.content || data?.property) && (
+      {(data?.content || data?.properties) && (
         <div>
-          <ProductTabs />
+          <ProductTabs content={data?.content} properties={data?.properties} />
         </div>
       )}
       {/* <div>

@@ -208,12 +208,12 @@ export default function ShoppingCart({ block }: ShoppingCartProps) {
                   <span className="font-medium">{10}%</span>
                 </div>
 
-                {promoApplied && (
+                {/* {promoApplied && (
                   <div className="flex justify-between text-green-600">
                     <span>Discount (10%)</span>
                     <span>-${discount.toFixed(2)}</span>
                   </div>
-                )}
+                )} */}
 
                 <div className="border-t border-gray-200 pt-4 flex justify-between">
                   <span className="font-bold">Tổng</span>
@@ -226,7 +226,12 @@ export default function ShoppingCart({ block }: ShoppingCartProps) {
                 className="w-full mt-6 bg-light-brown hover:bg-light-brown/80"
                 size="lg"
               >
-                Thanh toán
+                <Link
+                    href="/checkout"
+                    // className="text-sm bg-black text-white text-gray-600 hover:text-gray-900"
+                  >
+                    Tiếp tục thanh toán
+                  </Link>
               </Button>
 
               {/* Continue Shopping */}

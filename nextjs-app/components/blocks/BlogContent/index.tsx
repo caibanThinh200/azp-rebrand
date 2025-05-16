@@ -11,7 +11,7 @@ const BlogContent: React.FC<BlogContentProps> = ({ block }) => {
   return (
     <div className="flex gap-10 overflow-y-visible">
       <div>
-        <div className="sticky h-fit self-start top-32">
+        <div className="sticky h-fit self-start top-32 rounded-20 p-3 py-5 bg-white shadow">
           <h3 className="mb-5 font-bold text-light-brown text-lg flex justify-between">
             Nội Dung Bài Viết
           </h3>
@@ -29,7 +29,7 @@ const BlogContent: React.FC<BlogContentProps> = ({ block }) => {
           </ul>
         </div>
       </div>
-      <div className="flex-1">
+      <div className="flex-1 rounded-20 p-10 bg-white shadow">
         <h2 className="mb-10">{block?.title}</h2>
         <div className="flex flex-col gap-10">
           {block?.sections?.map((section, idx) => (

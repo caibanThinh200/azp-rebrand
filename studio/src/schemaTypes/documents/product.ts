@@ -73,6 +73,28 @@ export default {
       ],
     },
     {
+      name: 'colors',
+      title: 'Màu sắc',
+      type: 'array',
+      of: [
+        {
+          type: 'color',
+          options: {
+            colorList: [
+              '#FF6900',
+              {hex: '#FCB900'},
+              {r: 123, g: 220, b: 181},
+              {r: 0, g: 208, b: 132, a: 0.5},
+              {h: 203, s: 95, l: 77, a: 1},
+              {h: 202, s: 95, l: 46, a: 0.5},
+              {h: 345, s: 43, v: 97},
+              {h: 344, s: 91, v: 92, a: 0.5},
+            ],
+          },
+        },
+      ],
+    },
+    {
       name: 'property',
       title: 'Thông số',
       type: 'array',
@@ -129,28 +151,28 @@ export default {
           type: 'object',
           fields: [
             {
-              name: 'property',
-              title: 'Property',
-              type: 'reference',
-              to: [{type: 'property'}],
-              validation: (Rule) => Rule.required(),
+              name: 'title',
+              title: 'Tên thuộc tính',
+              type: 'string',
+
+              // validation: (Rule) => Rule.required(),
             },
             {
-              name: 'value',
+              name: 'values',
               title: 'Value',
               type: 'string',
-              validation: (Rule) => Rule.required(),
+              // validation: (Rule) => Rule.required(),
             },
           ],
           preview: {
             select: {
-              propertyName: 'property.name',
-              value: 'value',
+              title: 'title',
+              values: 'values',
             },
-            prepare({propertyName, value}: {propertyName?: string; value?: string}) {
+            prepare({title, values}: {title?: string; values?: string}) {
               return {
-                title: propertyName || 'Property',
-                subtitle: value,
+                title: title || 'Property',
+                subtitle: values,
               }
             },
           },

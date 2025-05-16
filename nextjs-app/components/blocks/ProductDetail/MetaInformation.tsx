@@ -72,7 +72,7 @@ const ProductMetaInformation: React.FC<ProductMetaInformationProps> = ({
 
   return (
     <div className="flex flex-col gap-6 col-span-2 p-10 shadow-lg rounded-20 bg-white">
-      <h1 className="font-bold text-heading-1">{data?.title}</h1>
+      <h1 className="font-bold text-2xl">{data?.title}</h1>
 
       <div className="flex items-center gap-2">
         {data?.originPrice && (
@@ -87,7 +87,9 @@ const ProductMetaInformation: React.FC<ProductMetaInformationProps> = ({
         )}
       </div>
 
-      <p className="text-gray-700 whitespace-pre-line text-sm">{data?.description}</p>
+      <p className="text-gray-700 whitespace-pre-line text-sm">
+        {data?.description}
+      </p>
 
       {/* <ul className="space-y-2 text-gray-700">
         <li>Premium leather upholstery</li>
@@ -97,30 +99,35 @@ const ProductMetaInformation: React.FC<ProductMetaInformationProps> = ({
         <li>Heavy-duty base with smooth-rolling casters</li>
       </ul> */}
 
-      <div className="space-y-3">
-        <h3 className="font-semibold text-lg">Màu sắc</h3>
-        <RadioGroup
-          value={selectedColor}
-          onValueChange={setSelectedColor}
-          className="flex gap-3"
-        >
-          {colorOptions.map((option) => (
-            <div key={option.id} className="flex flex-col items-center">
-              <Label htmlFor={option.id} className="cursor-pointer">
-                <div
-                  className={`w-10 h-10 rounded-full ${option.className} border-2 ${selectedColor === option.value ? "border-primary" : "border-transparent"}`}
-                >
-                  <RadioGroupItem
-                    value={option.value}
-                    id={option.id}
-                    className="sr-only"
-                  />
-                </div>
-              </Label>
-            </div>
-          ))}
-        </RadioGroup>
-      </div>
+      {(data?.colors || [])?.length > 0 && (
+        <div className="space-y-3">
+          <h3 className="font-semibold text-lg">Màu sắc</h3>
+          <RadioGroup
+            value={selectedColor}
+            onValueChange={setSelectedColor}
+            className="flex gap-3"
+          >
+            {(data?.colors || []).map((color) => (
+              <div key={color._key} className="flex flex-col items-center">
+                <Label htmlFor={color._key} className="cursor-pointer">
+                  <div
+                    style={{
+                      background: color?.hex,
+                    }}
+                    className={`w-10 h-10 rounded-full border-2 ${selectedColor === color.hex ? "border-primary" : "border-transparent"}`}
+                  >
+                    <RadioGroupItem
+                      value={color.hex as string}
+                      id={color._key}
+                      className="sr-only"
+                    />
+                  </div>
+                </Label>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
+      )}
 
       <div className="space-y-2">
         <p className="text-sm text-gray-500">

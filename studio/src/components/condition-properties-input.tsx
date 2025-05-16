@@ -1,92 +1,122 @@
-import React, {useEffect, useState} from 'react'
-import {InputProps, useClient} from 'sanity'
-import {Box, Card, Stack, Text} from '@sanity/ui'
-import {useFormValue} from 'sanity'
-import {set, unset, ArraySchemaType, ObjectSchemaType, ReferenceSchemaType} from 'sanity'
+'use client'
 
-// Define types for Sanity documents and references
+import type React from 'react'
+import {useEffect, useState} from 'react'
+import {useClient, useFormValue} from 'sanity'
+import {Card, Stack, Text, Flex, TextInput, Label, Button} from '@sanity/ui'
+import {AddIcon, RemoveIcon} from '@sanity/icons'
+import {set, unset, type ArraySchemaType, type ObjectSchemaType, type InputProps} from 'sanity'
+
 interface SanityReference {
   _ref: string
   _type: 'reference'
 }
 
-interface SanityDocument {
-  _id: string
-  _type: string
-  [key: string]: any
-}
-
-interface PropertyItem {
-  property?: SanityReference
-  value?: string
+interface FilterValue {
+  propertyId?: string
+  values?: string
+  _key?: string
 }
 
 interface Property {
   _id: string
-  name: string
+  title: string
 }
 
-interface ConditionalPropertiesInputProps {
+interface PropertyFilterInputProps {
   onChange: (patch: any) => void
-  value?: PropertyItem[]
+  value?: FilterValue[]
+  path: string
   renderDefault: (props: any) => React.ReactElement
   schemaType: ArraySchemaType & {of: ObjectSchemaType[]}
+  document: {
+    properties?: SanityReference[]
+    [key: string]: any
+  }
 }
 
 export const ConditionalPropertiesInput = (props: InputProps) => {
-  const {onChange, value = [], renderDefault, schemaType} = props
-  const document = useFormValue(['category']) as SanityReference
-
+  const {onChange, value = [], renderDefault, path} = props
+  // const document = useFormValue(['properties']) as SanityReference[]
+  const [newValue, setNewValue] = useState<{[x: string]: string}>({})
   const [availableProperties, setAvailableProperties] = useState<Property[]>([])
   const client = useClient({apiVersion: '2023-05-03'})
-  // Get the current category ID
-  const categoryId = document?._ref
+  // Get the property references from the document
+  const propertyRefs = document || []
 
   useEffect(() => {
-    if (!categoryId) return
-
-    // Query for properties that apply to this category
     const query = `
-      *[_type == "property" && $categoryId in categories[]._ref] {
-        _id,
-        name
+      *[_type == "property" && !(_id in path("drafts.*"))] {
+        ...,
       }
     `
 
-    client.fetch<Property[]>(query, {categoryId}).then((properties) => {
+    client.fetch<Property[]>(query).then((properties) => {
       setAvailableProperties(properties || [])
     })
-  }, [categoryId, client])
+  }, [propertyRefs, client])
 
-  // Filter the existing properties to only include those that are applicable
-  const filteredValue = (value || []).filter((item) => {
-    const propertyId = item.property?._ref
-    return propertyId && availableProperties.some((p) => p._id === propertyId)
-  })
-
-  // If the filtered value is different from the current value, update it
   useEffect(() => {
-    if (JSON.stringify(filteredValue) !== JSON.stringify(value)) {
-      // In v3, we need to use the set/unset pattern
-      onChange(unset())
-      if (filteredValue.length > 0) {
-        onChange(set(filteredValue))
+    let obj: Record<string, any> = {}
+
+    ;(value as FilterValue[])?.forEach((item) => {
+      if (!!obj[item.propertyId as string]) {
+        obj[item.propertyId as string] = item?.values
       }
-    }
-  }, [availableProperties, value, filteredValue, onChange])
+    })
+    setNewValue({...newValue, ...obj});
+  }, [value])
+
+  const handleAddValue = (key: string, values: string, name: string) => {
+    const newValue = {propertyId: key, values, _key: key, title: name}
+    const uniqueValues = [
+      ...new Map(
+        [...((value as any[]) || []), newValue].map((item) => [item['_key'], item]),
+      ).values(),
+    ]
+    onChange(set(uniqueValues));
+  }
 
   return (
     <Stack space={3}>
-      <Card padding={3} radius={2} tone="primary">
-        <Text size={1}>
-          {categoryId
-            ? `Các thuộc tính của danh mục đã chọn (${availableProperties.length})`
-            : 'Chọn 1 danh mục'}
-        </Text>
-      </Card>
+      {/* <Card padding={3} radius={2} tone="primary">
+                <Text size={1}>
+                    {propertyRefs.length > 0
+                        ? `Filter values for selected properties (${availableProperties.length} available)`
+                        : "Add properties to the category first to define filter values"}
+                </Text>
+            </Card> */}
+      {availableProperties.length > 0 && (
+        <Stack space={2}>
+          {availableProperties.map((property) => (
+            <Flex align={'center'} key={property._id} gap={5}>
+              <Label style={{flexBasis: '15%'}}>{property.title}</Label>
+              <TextInput
+                defaultValue={
+                  (value as FilterValue[]).find((item) => item.propertyId === property._id)?.values
+                }
+                onChange={(e) => setNewValue({...newValue, [property._id]: e.currentTarget.value})}
+              />
+              <div>
+                <Button
+                  // icon={<AddIcon style={{ flex: 0 }} />}
+                  mode="ghost"
+                  tone="positive"
+                  onClick={() =>
+                    handleAddValue(property._id, newValue[property._id], property?.title)
+                  }
+                  // disabled={!newName.trim() || !newValue.trim()}
+                >
+                  Lưu
+                </Button>
+              </div>
+            </Flex>
+          ))}
+        </Stack>
+      )}
       {renderDefault({
         ...props,
-        value: filteredValue,
+        // value: filteredValue,
       })}
     </Stack>
   )

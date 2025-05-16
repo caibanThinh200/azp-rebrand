@@ -3,22 +3,37 @@ import ProductList from "@/components/blocks/ProductListing";
 import Filter from "@/components/blocks/ProductListing/Filter";
 import { CombinedPagination } from "@/components/ui/combined-pagination";
 import { sanityFetch } from "@/sanity/lib/live";
-import { getProductsQuery, singleCategoryQuery } from "@/sanity/lib/queries";
+import {
+  getPaginatedProducts,
+  getProductsQuery,
+  getProperties,
+  singleCategoryQuery,
+} from "@/sanity/lib/queries";
 import { rootCategories } from "@/sanity/lib/queries";
 import { urlForImage } from "@/sanity/lib/utils";
 import Image from "next/image";
 import Products from "./components/ProductList";
+import { PaginatedProducts } from "@/types/override";
 
 const CategoryPage = async ({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
+  console.log(await searchParams);
   const { data } = await sanityFetch({ query: singleCategoryQuery, params });
-  const { data: products } = await sanityFetch({
-    query: getProductsQuery,
-    params: { category: data?._id },
+  const { data: productResult }: { data: PaginatedProducts } =
+    await sanityFetch({
+      query: getPaginatedProducts,
+      params: { category: data?._id, pageSize: 8, pageNumber: 1 },
+    });
+  const { data: properties } = await sanityFetch({
+    query: getProperties,
   });
+
+  const { items: products, ...paginations } = productResult;
 
   return (
     <main className="lg:container px-5">
@@ -34,7 +49,12 @@ const CategoryPage = async ({
         </div>
       )}
       <div>
-        <Products products={products} />
+        <Products
+          paginations={paginations}
+          products={products}
+          properties={properties}
+          categoryId={data?._id as string}
+        />
       </div>
     </main>
   );

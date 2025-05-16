@@ -39,7 +39,7 @@ const Header: AsyncComponent<HeaderProps> = async function ({ siteSetting }) {
             />
           </div>
         </Link>
-        <div className="text-left min-w-5/12 ">
+        <div className="text-center">
           <Link href={"/"}>
             {" "}
             {/* <h1 className="lg:text-heading-1-lg font-bold text-center text-white uppercase">

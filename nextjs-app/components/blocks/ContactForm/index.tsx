@@ -3,7 +3,10 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Phone, Mail, MapPin, User } from "lucide-react";
-import { ContactForm as IContactForm, SettingsQueryResult } from "@/sanity.types";
+import {
+  ContactForm as IContactForm,
+  SettingsQueryResult,
+} from "@/sanity.types";
 import { Input } from "@/components/ui/input";
 
 type FormData = {
@@ -21,16 +24,35 @@ interface ContactFormProps {
 
 export default function ContactForm({ block, siteSettings }: ContactFormProps) {
   const [file, setFile] = useState<File | null>(null);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
-  console.log(siteSettings);
 
   const onSubmit = (data: FormData) => {
-    console.log({ ...data, file });
-    // Handle form submission here
+    setSubmitLoading(true);
+
+    const submitData = {
+      ...data,
+      _type: "submission",
+    };
+
+    fetch("/api/submission", {
+      method: "POST",
+      body: JSON.stringify(submitData),
+    })
+      .then(() => {
+        setIsSubmitted(true);
+      })
+      .catch(() => {
+        alert("Xảy ra lỗi, vui lòng thử lại");
+      })
+      .finally(() => {
+        setSubmitLoading(false);
+      });
   };
 
   return (
@@ -68,13 +90,16 @@ export default function ContactForm({ block, siteSettings }: ContactFormProps) {
                   className="w-full rounded-full"
                   placeholder="Địa chỉ email"
                   {...register("email", {
-                    required: true,
-                    pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    required: "Yêu cầu nhập email",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Email không đúng định dạng",
+                    },
                   })}
                 />
                 {errors.email && (
                   <p className="text-red-500 text-sm">
-                    Valid email is required
+                    {errors?.email?.message}
                   </p>
                 )}
               </div>
@@ -82,20 +107,15 @@ export default function ContactForm({ block, siteSettings }: ContactFormProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label htmlFor="companyName" className="block font-medium">
-                  Tên công ty (nếu có)<span className="text-red-500">*</span>
+                  Tên công ty (nếu có)
                 </label>
                 <Input
                   id="companyName"
                   type="text"
                   className="w-full rounded-full"
                   placeholder="Tên công ty"
-                  {...register("companyName", { required: true })}
+                  {...register("companyName")}
                 />
-                {errors.companyName && (
-                  <p className="text-red-500 text-sm">
-                    Company name is required
-                  </p>
-                )}
               </div>
               <div className="space-y-2">
                 <label htmlFor="phoneNumber" className="block font-medium">
@@ -106,11 +126,13 @@ export default function ContactForm({ block, siteSettings }: ContactFormProps) {
                   type="tel"
                   className="w-full rounded-full"
                   placeholder="Số điện thoại"
-                  {...register("phoneNumber", { required: true })}
+                  {...register("phoneNumber", {
+                    required: "Yêu cầu nhập số điện thoại",
+                  })}
                 />
                 {errors.phoneNumber && (
                   <p className="text-red-500 text-sm">
-                    Phone number is required
+                    {errors.phoneNumber?.message}
                   </p>
                 )}
               </div>
@@ -155,14 +177,21 @@ export default function ContactForm({ block, siteSettings }: ContactFormProps) {
               />
             </div>
 
-            <div>
-              <button
-                type="submit"
-                className="px-8 py-3 bg-light-brown hover:bg-amber-600 text-white font-medium rounded-full transition-colors"
-              >
-                Submit
-              </button>
-            </div>
+            {isSubmitted ? (
+              <p className="text-light-brown">
+                Cảm ơn đã quan tâm đến AZP, Chúng tôi sẽ liên lạc với bạn trong
+                24h
+              </p>
+            ) : (
+              <div>
+                <button
+                  type="submit"
+                  className="px-8 py-3 bg-light-brown hover:bg-amber-600 text-white font-medium rounded-full transition-colors"
+                >
+                  {submitLoading ? "Đang xử lí ..." : "Gửi"}
+                </button>
+              </div>
+            )}
           </form>
         </div>
 

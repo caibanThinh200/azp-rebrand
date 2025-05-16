@@ -84,7 +84,7 @@ export function CombinedPagination({
         const pages = getPageNumbers();
 
         return (
-            <Pagination className="my-4">
+            <Pagination>
                 <PaginationContent>
                     <PaginationItem>
                         <PaginationPrevious
@@ -190,7 +190,7 @@ export function CombinedPagination({
     }
 
     return (
-        <div className="pagination-container">
+        <div className="p-3 w-fit mx-auto bg-white rounded-20 shadow">
             {renderShadcnPagination()}
         </div>
     )

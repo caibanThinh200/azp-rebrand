@@ -173,12 +173,32 @@ export const getFooterQuery = defineQuery(`
 `);
 
 export const getProductsQuery = defineQuery(`
-*[_type == "product" && (
-  category._ref == $category || 
-  category._ref in *[_type == "category" && parent._ref == $category]._id
-)]
+    *[_type == "product" && (
+      category._ref == $category || 
+      category._ref in *[_type == "category" && parent._ref == $category]._id
+    )]
+`);
+
+export const getPaginatedProducts = defineQuery(`
+  {
+    "total": count(*[_type == "product"]),
+    "items": *[_type == "product" && (
+      category._ref == $category || 
+      category._ref in *[_type == "category" && parent._ref == $category]._id
+    )] | order(_createdAt desc) [($pageSize * ($pageNumber - 1))...($pageSize * $pageNumber)],
+    "pageSize": $pageSize,
+    "currentPage": $pageNumber,
+    "totalPages": select(
+      count(*[_type == "product"]) % $pageSize == 0 => count(*[_type == "product"]) / $pageSize,
+      count(*[_type == "product"]) / $pageSize + 1
+    )
+  }
 `);
 
 export const getProductDetailQuery = defineQuery(`
     *[_type == "product" && slug.current == $slug] {...,}[0]
+`);
+
+export const getProperties = defineQuery(`
+    *[_type == "property"]
 `);

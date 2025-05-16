@@ -21,6 +21,8 @@ import contactForm from './components/contact-form'
 import processStep from './components/process'
 import blogContent from './components/blog-content'
 import shoppingCart from './components/shoppingCart'
+import { order } from './documents/order'
+import { submission } from './documents/submision'
 
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/schema-types
 
@@ -33,6 +35,8 @@ export const schemaTypes = [
   product,
   category,
   properties,
+  order,
+  submission,
   // Objects
   blockContent,
   infoSection,
