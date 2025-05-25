@@ -1,4 +1,4 @@
-import {defineField} from 'sanity'
+import {Rule, defineField} from 'sanity'
 
 export default defineField({
   name: 'blogContent',
@@ -8,7 +8,7 @@ export default defineField({
     select: {
       title: 'title',
     },
-    prepare: ({title}) => {
+    prepare: ({title}: {title: string}) => {
       return {
         title: `Quản lí bài viết: ${title}`,
       }
@@ -23,7 +23,7 @@ export default defineField({
     {
       name: 'thumbnail',
       title: 'Hình ảnh',
-      description: 'Vui lòng chọn ảnh có kích thước 500x500px',
+      description: 'Kích thước được chọn tự do theo chiều cao của tấm hình',
       hotspot: true,
       type: 'image',
     },
@@ -40,7 +40,7 @@ export default defineField({
               name: 'slug',
               title: 'Slug',
               type: 'slug',
-              validation: (Rule) => Rule.required(),
+              validation: (Rule: Rule) => Rule.required(),
               options: {
                 source: (doc, ctx) => {
                   return (ctx?.parent as Record<string, {title: string}>)['title']

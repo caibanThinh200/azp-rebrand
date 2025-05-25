@@ -32,7 +32,7 @@ const FloatingHeader: React.FC<FloatingHeaderProps> = ({
   return (
     <div
       className={cn(
-        "fixed w-full rounded-xl left-0 top-0 bg-white py-5 transition-all duration-700 z-[100] shadow-xl",
+        "fixed w-full rounded-xl left-0 top-0 bg-white py-1 transition-all duration-700 z-[100] shadow-xl",
         open ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-[200px]"
       )}
     >

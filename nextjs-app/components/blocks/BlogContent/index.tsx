@@ -1,7 +1,10 @@
 import { BlogContent as IBlogContent } from "@/sanity.types";
+import { urlForImage } from "@/sanity/lib/utils";
 import { CircleChevronUp } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import PortableText from "react-portable-text";
+import { Image as SImage } from "sanity";
 
 interface BlogContentProps {
   block: IBlogContent;
@@ -29,23 +32,45 @@ const BlogContent: React.FC<BlogContentProps> = ({ block }) => {
           </ul>
         </div>
       </div>
-      <div className="flex-1 rounded-20 p-10 bg-white shadow">
-        <h2 className="mb-10">{block?.title}</h2>
-        <div className="flex flex-col gap-10">
-          {block?.sections?.map((section, idx) => (
-            <div
-              className="flex flex-col gap-5 pb-5 border-b border-gray"
-              key={section?._key}
-            >
-              <h3 className="text-light-brown" id={section?.slug?.current}>
-                {idx + 1}. {section?.title}
-              </h3>
-              <PortableText
-                className="leading-10"
-                content={section?.content as object[]}
-              />
-            </div>
-          ))}
+      <div className="flex-1 flex flex-col gap-5">
+        {block?.thumbnail && (
+          <Image
+            className="rounded-20 shadow"
+            alt={block?.title as string}
+            style={{ height: block?.thumbnail?.hotspot?.height || "auto" }}
+            src={urlForImage(block?.thumbnail)?.url() as string}
+            width={block?.thumbnail?.hotspot?.width || 1000}
+            height={block?.thumbnail?.hotspot?.height || 500}
+          />
+        )}
+        <div className="rounded-20 p-10 bg-white shadow">
+          <h2 className="mb-10">{block?.title}</h2>
+          <div className="flex flex-col gap-10">
+            {block?.sections?.map((section, idx) => (
+              <div
+                className="flex flex-col gap-5 pb-5 border-b border-gray"
+                key={section?._key}
+              >
+                <h3 className="text-light-brown" id={section?.slug?.current}>
+                  {idx + 1}. {section?.title}
+                </h3>
+                <PortableText
+                  serializers={{
+                    image: (props: SImage) => (
+                      <Image
+                        alt={props?.asset?._key as string}
+                        src={urlForImage(props)?.url() as string}
+                        width={props?.hotspot?.width || 200}
+                        height={props?.hotspot?.height || 200}
+                      />
+                    ),
+                  }}
+                  className="leading-10"
+                  content={section?.content as object[]}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

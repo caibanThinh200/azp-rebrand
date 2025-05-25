@@ -70,6 +70,12 @@ export const order = defineType({
                   readOnly: true,
                 },
                 {
+                  type: 'string',
+                  name: 'color',
+                  title: 'Màu sắc',
+                  readOnly: true,
+                },
+                {
                   type: 'number',
                   name: 'quanity',
                   title: 'Số lượng',

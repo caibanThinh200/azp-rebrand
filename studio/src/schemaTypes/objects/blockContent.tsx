@@ -17,7 +17,7 @@ export const blockContent = defineType({
   name: 'blockContent',
   type: 'array',
   of: [
-    defineArrayMember({
+    {
       type: 'block',
       marks: {
         annotations: [
@@ -91,6 +91,9 @@ export const blockContent = defineType({
           },
         ],
       },
-    }),
+    },
+    {
+      type: 'image'
+    }
   ],
 })

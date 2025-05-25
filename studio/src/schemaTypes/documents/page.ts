@@ -106,6 +106,11 @@ export const page = defineType({
           name: 'shoppingCart',
           type: 'shoppingCart',
         },
+        {
+          title: 'Trạng thái đặt hàng',
+          name: 'checkoutStatus',
+          type: 'checkoutStatus'
+        }
       ],
     },
   ],

@@ -7,7 +7,6 @@ export default async function Page({
 }: {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  console.log(await searchParams)
   const { data: homepageData } = await sanityFetch({
     query: getPageQuery,
     params: { slug: "home" },

@@ -8,6 +8,7 @@ import {
   Scrollbar,
   A11y,
   EffectFade,
+  Autoplay
 } from "swiper/modules";
 import { urlForImage } from "@/sanity/lib/utils";
 import { Hero as IHero } from "@/sanity.types";
@@ -17,11 +18,15 @@ const Hero: React.FC<{ block: IHero }> = ({ block }) => {
     <div className="rounded-20 overflow-hidden">
       <Swiper
         effect="fade"
-        modules={[Navigation, Pagination, Scrollbar, A11y, EffectFade]}
+        modules={[Navigation, Pagination, Scrollbar, A11y, EffectFade, Autoplay]}
         className="h-[200px] lg:h-[400px]"
         spaceBetween={0}
         slidesPerView={1}
         navigation
+        loop
+        autoplay={{
+          delay: 2000
+        }}
         pagination={{ clickable: true }}
         // onSwiper={(swiper) => console.log(swiper)}
       >

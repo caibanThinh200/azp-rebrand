@@ -11,12 +11,12 @@ import {
 } from "react";
 
 // Define types for our cart items
-export type CartItem = Product & { quantity: number };
+export type CartItem = Product & { quantity: number; color?: string };
 
 // Define the shape of our cart context
 type CartContextType = {
   items: Array<CartItem>;
-  addItem: (item: Omit<Product, "quantity">) => void;
+  addItem: (item: Omit<Product, "quantity"> & { color?: string }) => void;
   removeItem: (_id: string) => void;
   updateQuantity: (_id: string, quantity: number) => void;
   clearCart: () => void;
@@ -57,7 +57,7 @@ export function CartProvider({ children }: CartProviderProps) {
   }, [items]);
 
   // Add an item to the cart
-  const addItem = (item: Product) => {
+  const addItem = (item: Product & { color?: string }) => {
     setItems((prevItems) => {
       // Check if the item is already in the cart
       const existingItemIndex = prevItems.findIndex((i) => i._id === item._id);

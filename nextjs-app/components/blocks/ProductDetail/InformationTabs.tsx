@@ -14,7 +14,7 @@ export default function ProductTabs({ content, properties }: ProductTabProps) {
   const [activeTab, setActiveTab] = useState("description");
 
   return (
-    <div className="mt-12 border-t pt-8">
+    <div className="border-t">
       <Tabs
         defaultValue={content ? "description" : "properties"}
         onValueChange={setActiveTab}

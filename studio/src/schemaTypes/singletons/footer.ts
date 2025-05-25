@@ -31,14 +31,38 @@ export const footer = defineType({
       type: 'string',
     },
     {
+      name: 'backgroundColor',
+      title: 'Màu nền',
+      type: 'color',
+    },
+    {
       name: 'supportColumn',
       title: 'Hỗ trợ khách hàng',
       type: 'array',
       of: [
         {
+          type: 'object',
+          fields: [
+            {
+              type: 'string',
+              name: 'title',
+              title: 'Tiêu đề',
+            },
+            {
+              type: 'slug',
+              name: 'slug',
+              options: {
+                source: (doc, ctx) => {
+                  return (ctx?.parent as Record<string, {title: string}>)['title']
+                },
+                maxLength: 96,
+              },
+              title: 'Đường dẫn',
+            },
+          ],
           //   type: 'reference',
           //   to: [{type: 'page'}],
-          type: 'link',
+          // type: 'link',
         },
       ],
     },
@@ -50,7 +74,12 @@ export const footer = defineType({
         {
           type: 'object',
           fields: [
-            {name: 'logo', title: 'Logo', type: 'image'},
+            {
+              name: 'logo',
+              title: 'Logo',
+              type: 'image',
+              description: 'Vui lòng chọn kích thước 70 x 70',
+            },
             {name: 'name', title: 'Tên', type: 'string'},
             {name: 'url', title: 'URL', type: 'url'},
           ],

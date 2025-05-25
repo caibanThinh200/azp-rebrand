@@ -23,12 +23,15 @@ export async function GET(request: NextRequest) {
     .join(" && ");
 
   const searchQuery = search ? `&& title match "${search}**"` : "";
-  const maxPriceQuery = (max ? `&& discountPrice <= ${max}` : '');
-  const minPriceQuery = min ? `&& discountPrice >= ${min}` : '';
+  const maxPriceQuery = max ? `&& discountPrice <= ${max}` : "";
+  const minPriceQuery = min ? `&& discountPrice >= ${min}` : "";
 
   const getPaginatedProducts = defineQuery(`
   {
-    "total": count(*[_type == "product"]),
+    "total": count(*[_type == "product" && (
+      category._ref == $category || 
+      category._ref in *[_type == "category" && parent._ref == $category]._id
+    )]),
     "items": *[_type == "product" && (
       category._ref == $category || 
       category._ref in *[_type == "category" && parent._ref == $category]._id

@@ -27,7 +27,7 @@ const CategoryPage = async ({
   const { data: productResult }: { data: PaginatedProducts } =
     await sanityFetch({
       query: getPaginatedProducts,
-      params: { category: data?._id, pageSize: 8, pageNumber: 1 },
+      params: { category: data?._id, pageSize: 40, pageNumber: 1 },
     });
   const { data: properties } = await sanityFetch({
     query: getProperties,

@@ -10,7 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { urlForImage } from "@/sanity/lib/utils";
-import { formatVND } from "@/lib/utils";
+import { cn, formatVND } from "@/lib/utils";
 import { ShoppingCart } from "lucide-react";
 import { Order } from "@/sanity.types";
 
@@ -51,12 +51,16 @@ export default function CheckoutPage() {
         ship: shipping,
         total,
         subTotal: subtotal,
-        products: items.map((item) => ({
-          _key: item?._id,
-          product: item,
-          quanity: item?.quantity,
-          price: item.discountPrice * item.quantity,
-        })),
+        products: items.map((item) => {
+          const { color, quantity, _id, ...rest } = item;
+          return {
+            _key: _id,
+            product: rest,
+            quanity: quantity,
+            price: rest?.discountPrice * quantity,
+            color: color,
+          };
+        }),
       },
     };
 
@@ -67,7 +71,7 @@ export default function CheckoutPage() {
       // .then((res) => res.json())
       .then(() => {
         clearCart();
-        router.push("/checkout/thanh-cong");
+        router.push("/dat-hang-thanh-cong");
       })
       .catch((e) => {
         throw new Error(e);
@@ -93,13 +97,13 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="container px-10 mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-8">Thanh toán</h1>
 
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Customer Information Form - Left Side */}
         <div className="w-full lg:w-2/3">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-20 shadow-sm border border-gray-200 p-6">
             <h2 className="text-lg font-bold mb-6">Thông tin khách hàng</h2>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -223,7 +227,7 @@ export default function CheckoutPage() {
               <div className="pt-4">
                 <Button
                   type="submit"
-                  className="bg-light-brown"
+                  className="bg-light-brown rounded-20"
                   size="lg"
                   disabled={isSubmitting}
                 >
@@ -236,7 +240,7 @@ export default function CheckoutPage() {
 
         {/* Order Summary - Right Side */}
         <div className="w-full lg:w-1/3">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sticky top-4">
+          <div className="bg-white rounded-20 shadow-sm border border-gray-200 p-6 sticky top-4">
             <h2 className="text-lg font-bold mb-6">Thông tin đơn hàng</h2>
 
             {/* Cart Items */}
@@ -245,10 +249,13 @@ export default function CheckoutPage() {
                 Sản phẩm ({items.length})
               </h3>
               <div className="max-h-80 overflow-y-auto pr-2">
-                {items.map((item) => (
+                {items.map((item, idx) => (
                   <div
                     key={item._id}
-                    className="flex items-start py-3 border-b border-gray-100"
+                    className={cn(
+                      "flex items-start py-3 border-b border-gray-100",
+                      idx < items.length - 1 && "border-b"
+                    )}
                   >
                     <div className="relative h-16 w-16 rounded-md overflow-hidden border border-gray-200 flex-shrink-0">
                       <Image
@@ -284,7 +291,7 @@ export default function CheckoutPage() {
                 <span className="font-medium">{formatVND(subtotal)}</span>
               </div>
 
-              <div className="flex justify-between">
+              {/* <div className="flex justify-between">
                 <span className="text-gray-600">Shipping</span>
                 <span className="font-medium">{formatVND(shipping)}</span>
               </div>
@@ -292,12 +299,12 @@ export default function CheckoutPage() {
               <div className="flex justify-between">
                 <span className="text-gray-600">Tax</span>
                 <span className="font-medium">{formatVND(tax)}</span>
-              </div>
+              </div> */}
 
-              <div className="border-t border-gray-200 pt-4 flex justify-between">
+              {/* <div className="border-t border-gray-200 pt-4 flex justify-between">
                 <span className="font-bold">Total</span>
                 <span className="font-bold text-lg">{formatVND(total)}</span>
-              </div>
+              </div> */}
             </div>
 
             {/* Back to Cart */}

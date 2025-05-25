@@ -179,9 +179,17 @@ export const getProductsQuery = defineQuery(`
     )]
 `);
 
+export const searchProductQuery = defineQuery(`
+  *[_type == "product" && title match "$search**"
+  ]
+`);
+
 export const getPaginatedProducts = defineQuery(`
   {
-    "total": count(*[_type == "product"]),
+    "total": count(*[_type == "product" && (
+      category._ref == $category || 
+      category._ref in *[_type == "category" && parent._ref == $category]._id
+    )]),
     "items": *[_type == "product" && (
       category._ref == $category || 
       category._ref in *[_type == "category" && parent._ref == $category]._id

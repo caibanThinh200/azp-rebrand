@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 
 import { Button } from "@/components/ui/button"
 import { CheckCircle } from "lucide-react"
@@ -12,7 +12,7 @@ export default function CheckoutSuccessPage() {
           <CheckCircle className="h-16 w-16 text-green-500" />
         </div>
 
-        <h1 className="text-2xl font-bold mb-4">Thanh toán hoàn tất!</h1>
+        <h1 className="text-2xl font-bold mb-4">Cảm ơn vì đã đặt hàng!</h1>
 
         <p className="text-gray-600 mb-8">
           Chúng tôi sẽ liên lạc với bạn để tiến hành thanh toán cũng như vận chuyển đơn hàng

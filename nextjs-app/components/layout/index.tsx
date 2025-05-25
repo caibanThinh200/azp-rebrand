@@ -9,6 +9,8 @@ import React, { ReactElement } from "react";
 import { AsyncComponent } from "@/types/async-component";
 import { SettingsQueryResult } from "@/sanity.types";
 import { CartProvider } from "@/context/cart";
+import { CookiesProvider } from "react-cookie";
+import ClientWrapper from "./ClientWrapper";
 
 export type BreadcrumbPath = {
   title: string;
@@ -27,7 +29,7 @@ const Layout: React.FC<LayoutProps> = ({
   breadcrumpSitemap,
 }) => {
   return (
-    <CartProvider>
+    <ClientWrapper>
       <FloatContact />
       <Header siteSetting={siteSettings} />
       <BreadcrumbNavigation
@@ -35,9 +37,9 @@ const Layout: React.FC<LayoutProps> = ({
         separator={<ChevronRight className="h-4 w-4" />}
       />
       <div className="mb-20">{children}</div>
-  
+
       <Footer siteSetting={siteSettings} />
-    </CartProvider>
+    </ClientWrapper>
   );
 };
 

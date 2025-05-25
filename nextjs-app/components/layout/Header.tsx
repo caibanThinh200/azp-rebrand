@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Input } from "../ui/input";
-import { Phone, Search, ShoppingCart } from "lucide-react";
+import { Phone, ShoppingCart } from "lucide-react";
 import MegaMenu from "../ui/categories-mega-menu";
 import { Button } from "../ui/button";
 import Image from "next/image";
@@ -15,6 +15,8 @@ import FloatingHeader from "./FloatingHeader";
 import { TypeAnimation } from "react-type-animation";
 import AutoTyping from "../ui/autotyping";
 import CartNavItem from "../ui/cartNavItem";
+import Search from "../ui/search";
+import TranslationToogle from "../ui/translation-toogle";
 
 type HeaderProps = {
   siteSetting: SettingsQueryResult;
@@ -27,7 +29,10 @@ const Header: AsyncComponent<HeaderProps> = async function ({ siteSetting }) {
 
   return (
     <header className="lg:py-10 py-5 flex flex-col gap-5 container">
-      <div className="rounded-20 bg-light-brown p-5 flex justify-between items-center relative">
+      <div
+        style={{ background: data?.headerBackground?.hex }}
+        className="rounded-20 p-5 flex justify-between items-center relative"
+      >
         <Link href={"/"}>
           <div className="bg-white size-[40px] lg:size-[70px] rounded-full">
             <Image
@@ -55,27 +60,7 @@ const Header: AsyncComponent<HeaderProps> = async function ({ siteSetting }) {
         <MobileHeader />
         <FloatingHeader data={data} siteSetting={siteSetting} />
         <div className="hidden lg:block"></div>
-        <div className="items-center absolute right-5 hidden lg:flex">
-          <Button
-            variant={"link"}
-            className="flex items-center gap-2 text-white"
-          >
-            <Image
-              height={32}
-              width={32}
-              src={"/icons/vietnam.png"}
-              alt="Vietnam"
-            />
-            Tiếng Việt
-          </Button>
-          <Button
-            variant={"link"}
-            className="flex items-center gap-2 text-white"
-          >
-            <Image height={32} width={32} src={"/icons/us.png"} alt="US" />
-            English
-          </Button>
-        </div>
+        <TranslationToogle />
       </div>
       <div className="flex-col gap-5 hidden lg:flex">
         <div className="flex justify-between items-center">
@@ -117,12 +102,15 @@ const Header: AsyncComponent<HeaderProps> = async function ({ siteSetting }) {
               Giỏ hàng
             </Link> */}
             <div>
-              <Input icon={<Search />} placeholder="Tìm kiếm sản phẩm" />
+              <Search />
             </div>
           </div>
         </div>
-        <div className="flex justify-center rounded-20 bg-grey px-5">
-          <ul className="flex gap-5 items-center text-white">
+        <div
+          className="flex justify-center rounded-20 px-5"
+          style={{ background: data?.categoriesBackground?.hex || "#78787b" }}
+        >
+          <ul className="flex gap-x-5 justify-center flex-wrap items-center text-white p-5">
             {data?.categories?.map((item) => (
               <li key={item._id}>
                 <MegaMenu data={item} />

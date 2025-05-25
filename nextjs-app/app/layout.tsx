@@ -27,6 +27,7 @@ import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { handleError } from "./client-utils";
 import Layout from "@/components/layout";
 import { SettingsQueryResult } from "@/sanity.types";
+import { CookiesProvider } from "react-cookie";
 
 /**
  * Generate metadata for the page.

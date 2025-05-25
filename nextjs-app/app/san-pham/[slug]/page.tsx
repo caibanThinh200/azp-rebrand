@@ -28,18 +28,22 @@ export default async function ProductDetail({
   });
 
   return (
-    <div className="container space-y-10">
-      <div className="grid grid-cols-3 gap-8">
-        <ProductThumbnail images={(data?.images as SanityAsset[]) || []} />
+    <div className="container space-y-0">
+      <div className="grid grid-cols-3 gap-4">
+        <div className="sticky top-24 h-fit">
+          <ProductThumbnail images={(data?.images as SanityAsset[]) || []} />
+        </div>
 
         {/* Product Info */}
-        <ProductMetaInformation data={data} />
+        <div className="col-span-2">
+          <ProductMetaInformation data={data} />
+        </div>
       </div>
-      {(data?.content || data?.properties) && (
+      {/* {(data?.content || data?.properties) && (
         <div>
           <ProductTabs content={data?.content} properties={data?.properties} />
         </div>
-      )}
+      )} */}
       {/* <div>
         <ProductSwiper block={{ title: "Sản phẩm tương tự", _type: "productSwiper" }} />
       </div>

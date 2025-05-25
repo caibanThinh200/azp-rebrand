@@ -88,7 +88,7 @@ export default function MegaMenu({ data }: MegaMenuProps) {
             openTimeout = setTimeout(() => setIsOpen(false), 200); // 200ms delay
           }}
           key={data?._id}
-          className="py-5 outline-none"
+          className="py-2 outline-none"
         >
           <Link
             href={`/danh-muc/${data?.slug?.current}`}

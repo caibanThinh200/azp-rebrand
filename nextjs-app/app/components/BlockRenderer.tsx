@@ -19,6 +19,9 @@ const Quote = dynamic(() => import("@/components/blocks/Quote"));
 const BlogContent = dynamic(() => import("@/components/blocks/BlogContent"));
 const Map = dynamic(() => import("@/components/blocks/Map"));
 const ContactForm = dynamic(() => import("@/components/blocks/ContactForm"));
+const CheckoutSuccess = dynamic(
+  () => import("@/components/blocks/CheckoutStatus")
+);
 
 type BlocksType = {
   [key: string]: React.ComponentType<any>;
@@ -47,7 +50,8 @@ const Blocks: BlocksType = {
   quote: Quote,
   blogContent: BlogContent,
   map: Map,
-  shoppingCart: ShoppingCart
+  checkoutStatus: CheckoutSuccess,
+  shoppingCart: ShoppingCart,
 };
 
 /**

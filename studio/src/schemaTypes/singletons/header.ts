@@ -16,6 +16,7 @@ export const header = defineType({
       name: 'logo',
       title: 'Logo',
       type: 'image',
+      description: 'Vui lòng chọn kích thước 70 x 70',
       validation: (Rule) => Rule.required(),
     },
     {
@@ -23,6 +24,8 @@ export const header = defineType({
       title: 'Tiêu đề',
       type: 'string',
     },
+    {name: 'headerBackground', title: 'Màu nền tiêu đề', type: 'color'},
+    {name: 'categoriesBackground', title: 'Màu nền danh mục', type: 'color'},
     {
       name: 'navItems',
       title: 'Trang điều hướng',

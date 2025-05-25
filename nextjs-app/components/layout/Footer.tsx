@@ -13,7 +13,12 @@ interface FooterProps {
 const Footer: AsyncComponent<FooterProps> = async ({ siteSetting }) => {
   const { data } = await sanityFetch({ query: getFooterQuery });
   return (
-    <footer className="bg-gray-800 text-white pt-20 pb-5">
+    <footer
+      style={{
+        backgroundColor: data?.backgroundColor?.hex || "#493b3b",
+      }}
+      className="text-white pt-20 pb-5"
+    >
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Address Section */}
@@ -51,8 +56,8 @@ const Footer: AsyncComponent<FooterProps> = async ({ siteSetting }) => {
             <ul className="text-sm space-y-3">
               {data?.supportColumn?.map((column) => (
                 <li key={column?._key}>
-                  <Link href={column?.post?.slug?.current as string}>
-                    {column?.post?.title}
+                  <Link href={`/chinh-sach#${column?.slug?.current as string}` || ""}>
+                    {column?.title}
                   </Link>
                 </li>
               ))}

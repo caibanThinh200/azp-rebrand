@@ -3,7 +3,7 @@
 import type React from 'react'
 import {useEffect, useState} from 'react'
 import {useClient, useFormValue} from 'sanity'
-import {Card, Stack, Text, Flex, TextInput, Label, Button} from '@sanity/ui'
+import {Card, Stack, Text, Flex, TextInput, Label, Button, Select} from '@sanity/ui'
 import {AddIcon, RemoveIcon} from '@sanity/icons'
 import {set, unset, type ArraySchemaType, type ObjectSchemaType, type InputProps} from 'sanity'
 
@@ -21,6 +21,7 @@ interface FilterValue {
 interface Property {
   _id: string
   title: string
+  values: string[]
 }
 
 interface PropertyFilterInputProps {
@@ -64,17 +65,19 @@ export const ConditionalPropertiesInput = (props: InputProps) => {
         obj[item.propertyId as string] = item?.values
       }
     })
-    setNewValue({...newValue, ...obj});
+    setNewValue({...newValue, ...obj})
   }, [value])
 
   const handleAddValue = (key: string, values: string, name: string) => {
     const newValue = {propertyId: key, values, _key: key, title: name}
     const uniqueValues = [
       ...new Map(
-        [...((value as any[]) || []), newValue].map((item) => [item['_key'], item]),
+        [...((value as any[]) || []), newValue]
+          .filter((val) => val?.values)
+          .map((item) => [item['_key'], item]),
       ).values(),
     ]
-    onChange(set(uniqueValues));
+    onChange(set(uniqueValues))
   }
 
   return (
@@ -91,12 +94,31 @@ export const ConditionalPropertiesInput = (props: InputProps) => {
           {availableProperties.map((property) => (
             <Flex align={'center'} key={property._id} gap={5}>
               <Label style={{flexBasis: '15%'}}>{property.title}</Label>
-              <TextInput
-                defaultValue={
-                  (value as FilterValue[]).find((item) => item.propertyId === property._id)?.values
-                }
-                onChange={(e) => setNewValue({...newValue, [property._id]: e.currentTarget.value})}
-              />
+              {property?.values?.length > 0 ? (
+                <Select
+                  onChange={(e) =>
+                    setNewValue({...newValue, [property._id]: e.currentTarget.value})
+                  }
+                >
+                  {property?.values?.map((value) => (
+                    <option value={value} key={value}>
+                      {value}
+                    </option>
+                  ))}
+                </Select>
+              ) : (
+                <div style={{width: '100%'}}>
+                  <TextInput
+                    defaultValue={
+                      (value as FilterValue[]).find((item) => item.propertyId === property._id)
+                        ?.values
+                    }
+                    onChange={(e) =>
+                      setNewValue({...newValue, [property._id]: e.currentTarget.value})
+                    }
+                  />
+                </div>
+              )}
               <div>
                 <Button
                   // icon={<AddIcon style={{ flex: 0 }} />}

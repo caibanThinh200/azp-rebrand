@@ -46,7 +46,7 @@ export default {
     },
     {
       name: 'description',
-      title: 'Mô tả',
+      title: 'Tóm tắt',
       type: 'text',
     },
     {
@@ -78,45 +78,39 @@ export default {
       type: 'array',
       of: [
         {
-          type: 'color',
-          options: {
-            colorList: [
-              '#FF6900',
-              {hex: '#FCB900'},
-              {r: 123, g: 220, b: 181},
-              {r: 0, g: 208, b: 132, a: 0.5},
-              {h: 203, s: 95, l: 77, a: 1},
-              {h: 202, s: 95, l: 46, a: 0.5},
-              {h: 345, s: 43, v: 97},
-              {h: 344, s: 91, v: 92, a: 0.5},
-            ],
-          },
+          type: 'string',
         },
       ],
     },
     {
-      name: 'property',
-      title: 'Thông số',
-      type: 'array',
-      of: [
-        {
-          type: 'block',
-        },
-        {
-          type: 'image',
-          fields: [
-            {
-              type: 'text',
-              name: 'alt',
-              title: 'Alternative text',
-              options: {
-                isHighlighted: true,
-              },
-            },
-          ],
-        },
-      ],
+      name: 'note',
+      title: 'Lưu ý',
+      type: 'text',
+      initialValue: 'Lưu ý: Giá chưa bao gồm thuế GTGT 10%.Giá sản phẩm có thể thay đổi dựa vào chất liệu'
     },
+    // {
+    //   name: 'property',
+    //   title: 'Thông số',
+    //   type: 'array',
+    //   of: [
+    //     {
+    //       type: 'block',
+    //     },
+    //     {
+    //       type: 'image',
+    //       fields: [
+    //         {
+    //           type: 'text',
+    //           name: 'alt',
+    //           title: 'Alternative text',
+    //           options: {
+    //             isHighlighted: true,
+    //           },
+    //         },
+    //       ],
+    //     },
+    //   ],
+    // },
     {
       name: 'images',
       title: 'Hình ảnh',

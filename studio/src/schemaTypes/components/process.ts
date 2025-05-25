@@ -14,6 +14,7 @@ const processStep = defineType({
     }),
   },
   fields: [
+    {name: 'backgroundColor', title: 'Màu nền', type: 'color'},
     {name: 'title', title: 'Tiêu đề', type: 'string'},
     {
       name: 'steps',
@@ -41,7 +42,7 @@ const processStep = defineType({
             {
               name: 'description',
               title: 'Mô tả',
-              type: 'string',
+              type: 'text',
             },
           ],
         },

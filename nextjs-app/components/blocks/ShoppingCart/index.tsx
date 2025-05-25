@@ -92,10 +92,16 @@ export default function ShoppingCart({ block }: ShoppingCartProps) {
                           className="object-cover"
                         />
                       </div>
-                      <div>
-                        <p className="font-medium text-gray-900 line-clamp-3">
+                      <div className="flex flex-col gap-2">
+                        <p className="font-medium text-sm text-gray-900 line-clamp-2">
                           {item.title}
                         </p>
+                        {item?.color && (
+                          <p className="text-sm">
+                            Màu sắc:{" "}
+                            <span className="font-bold">{item?.color}</span>
+                          </p>
+                        )}
                         <button
                           onClick={() => removeItem(item._id)}
                           className="text-sm text-red-500 mt-1 flex items-center"
@@ -109,7 +115,7 @@ export default function ShoppingCart({ block }: ShoppingCartProps) {
                     {/* Price */}
                     <div className="col-span-1 md:col-span-2 flex md:block items-center justify-between">
                       <span className="md:hidden text-sm text-gray-500">
-                        Price:
+                        Giá:
                       </span>
                       <span className="text-gray-900">
                         {formatVND(item.discountPrice)}
@@ -119,7 +125,7 @@ export default function ShoppingCart({ block }: ShoppingCartProps) {
                     {/* Quantity */}
                     <div className="col-span-1 md:col-span-2 flex md:justify-center items-center justify-between">
                       <span className="md:hidden text-sm text-gray-500">
-                        Quantity:
+                        Số lượng:
                       </span>
                       <div className="flex items-center border border-gray-200 rounded-md">
                         <button
@@ -163,34 +169,6 @@ export default function ShoppingCart({ block }: ShoppingCartProps) {
           <div className="w-full lg:w-1/3">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sticky top-4">
               <h2 className="text-lg font-bold mb-6">Thông tin đơn hàng</h2>
-
-              {/* <div className="mb-6">
-                <label
-                  htmlFor="promo-code"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Promo Code
-                </label>
-                <div className="flex gap-2">
-                  <Input
-                    id="promo-code"
-                    type="text"
-                    placeholder="Enter code"
-                    value={promoCode}
-                    onChange={(e) => setPromoCode(e.target.value)}
-                    className="flex-1"
-                  />
-                  <Button onClick={applyPromoCode} variant="outline">
-                    Apply
-                  </Button>
-                </div>
-                {promoApplied && (
-                  <p className="text-green-600 text-sm mt-2">
-                    Promo code applied!
-                  </p>
-                )}
-              </div> */}
-
               {/* Summary Details */}
               <div className="space-y-4 border-t border-gray-200 pt-4">
                 <div className="flex justify-between">
@@ -200,13 +178,13 @@ export default function ShoppingCart({ block }: ShoppingCartProps) {
 
                 <div className="flex justify-between">
                   <span className="text-gray-600">Phí ship</span>
-                  <span className="font-medium">{formatVND(shipping)}</span>
+                  <span className="font-medium">Tùy khu vực</span>
                 </div>
 
-                <div className="flex justify-between">
+                {/* <div className="flex justify-between">
                   <span className="text-gray-600">Thuế</span>
                   <span className="font-medium">{10}%</span>
-                </div>
+                </div> */}
 
                 {/* {promoApplied && (
                   <div className="flex justify-between text-green-600">
@@ -227,11 +205,11 @@ export default function ShoppingCart({ block }: ShoppingCartProps) {
                 size="lg"
               >
                 <Link
-                    href="/checkout"
-                    // className="text-sm bg-black text-white text-gray-600 hover:text-gray-900"
-                  >
-                    Tiếp tục thanh toán
-                  </Link>
+                  href="/checkout"
+                  // className="text-sm bg-black text-white text-gray-600 hover:text-gray-900"
+                >
+                  Tiếp tục thanh toán
+                </Link>
               </Button>
 
               {/* Continue Shopping */}

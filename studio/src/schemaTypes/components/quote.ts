@@ -9,8 +9,14 @@ export default {
     {
       name: 'quote',
       title: 'Đoạn trích',
-      type: 'string',
+      type: 'text',
       validation: (Rule: Rule) => Rule.required(),
+    },
+    {
+      name: 'backgroundColor',
+      title: 'Màu nền',
+      description: 'Nhập mã màu',
+      type: 'color',
     },
   ],
   preview: {

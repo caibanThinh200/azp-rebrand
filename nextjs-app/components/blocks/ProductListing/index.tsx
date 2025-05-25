@@ -25,7 +25,7 @@ const ProductList: React.FC<ProductListProps> = ({ block }) => {
       {/* <div>
         <Filter />
       </div> */}
-      <div className="grid lg:grid-cols-4 gap-10">
+      <div className="grid lg:grid-cols-4 gap-5">
         {block?.products?.map((product, idx) => (
           <ProductCard data={product} key={idx} />
         ))}

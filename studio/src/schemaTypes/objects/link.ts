@@ -42,21 +42,6 @@ export const link = defineType({
         }),
     }),
     {
-      name: 'post',
-      title: 'Post',
-      type: 'reference',
-      to: [{type: 'post'}],
-      hidden: ({parent}) => parent?.linkType !== 'post',
-      validation: (Rule) =>
-        // Custom validation to ensure post reference is provided if the link type is 'post'
-        Rule.custom((value, context: any) => {
-          if (context.parent?.linkType === 'post' && !value) {
-            return 'Yêu cầu chọn bài viết'
-          }
-          return true
-        }),
-    },
-    {
       name: 'openInNewTab',
       title: 'Open in new tab',
       type: 'boolean',

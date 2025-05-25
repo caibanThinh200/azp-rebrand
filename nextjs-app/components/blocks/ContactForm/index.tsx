@@ -8,6 +8,7 @@ import {
   SettingsQueryResult,
 } from "@/sanity.types";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 type FormData = {
   name: string;
@@ -199,8 +200,15 @@ export default function ContactForm({ block, siteSettings }: ContactFormProps) {
           <div className="h-full flex flex-col">
             <div className="mb-8">
               <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-light-brown rounded-md flex items-center justify-center mr-4">
-                  <span className="text-white font-bold text-xl">AZP</span>
+                <div className="w-12 h-12 flex items-center justify-center mr-2">
+                  {/* <span className="text-white font-bold text-xl">AZP</span> */}
+                  <Image
+                    src={"/images/logo.jpg"}
+                    unoptimized
+                    alt="logo"
+                    width={30}
+                    height={30}
+                  />
                 </div>
                 <h3 className="text-2xl font-bold text-yellow">
                   Thông tin liên lạc
