@@ -15,6 +15,8 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { getProductDetailQuery } from "@/sanity/lib/queries";
 import { ImageProps } from "next-sanity/image";
 import { SanityAsset } from "@sanity/image-url/lib/types/types";
+import { getProductsQuery } from "@/sanity/lib/queries";
+import RecentProducts from "./components/RecentProducts";
 
 export default async function ProductDetail({
   params,
@@ -26,6 +28,10 @@ export default async function ProductDetail({
     query: getProductDetailQuery,
     params: { slug },
   });
+
+  const {data: products} = await sanityFetch({query: getProductsQuery, params: {
+    category: data?.category?._ref
+  }})
 
   return (
     <div className="container space-y-0">
@@ -44,10 +50,11 @@ export default async function ProductDetail({
           <ProductTabs content={data?.content} properties={data?.properties} />
         </div>
       )} */}
-      {/* <div>
-        <ProductSwiper block={{ title: "Sản phẩm tương tự", _type: "productSwiper" }} />
+      <div className="mt-10">
+        <ProductSwiper block={{ title: "Sản phẩm tương tự", _type: "productSwiper", products }} />
       </div>
-      <div>
+      <RecentProducts product={data} />
+      {/* <div>
         <ProductSwiper title="Sản phẩm đã xem" />
       </div> */}
     </div>

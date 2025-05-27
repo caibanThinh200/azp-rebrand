@@ -431,8 +431,8 @@ export type Order = {
     total?: number;
     products?: Array<{
       product?: {
-        title: string;
         productId: string;
+        title: string;
         slug: Slug;
         originPrice: number;
         discountPrice: number;
@@ -518,8 +518,8 @@ export type Product = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title: string;
   productId: string;
+  title: string;
   slug: Slug;
   originPrice: number;
   discountPrice: number;
@@ -666,6 +666,10 @@ export type Settings = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  productFilter?: {
+    minPrice?: number;
+    maxPrice?: number;
+  };
   contact?: {
     phone?: string;
     email?: string;
@@ -929,6 +933,10 @@ export type SettingsQueryResult = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  productFilter?: {
+    minPrice?: number;
+    maxPrice?: number;
+  };
   contact?: {
     phone?: string;
     email?: string;
@@ -1011,8 +1019,8 @@ export type GetAllProductsResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title: string;
   productId: string;
+  title: string;
   slug: Slug;
   originPrice: number;
   discountPrice: number;
@@ -1257,8 +1265,8 @@ export type GetPageQueryResult = {
       _createdAt: string;
       _updatedAt: string;
       _rev: string;
-      title: string;
       productId: string;
+      title: string;
       slug: Slug;
       originPrice: number;
       discountPrice: number;
@@ -1330,8 +1338,8 @@ export type GetPageQueryResult = {
       _createdAt: string;
       _updatedAt: string;
       _rev: string;
-      title: string;
       productId: string;
+      title: string;
       slug: Slug;
       originPrice: number;
       discountPrice: number;
@@ -1698,8 +1706,8 @@ export type GetProductsQueryResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title: string;
   productId: string;
+  title: string;
   slug: Slug;
   originPrice: number;
   discountPrice: number;
@@ -1768,8 +1776,8 @@ export type SearchProductQueryResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title: string;
   productId: string;
+  title: string;
   slug: Slug;
   originPrice: number;
   discountPrice: number;
@@ -1838,8 +1846,8 @@ export type GetProductDetailQueryResult = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title: string;
   productId: string;
+  title: string;
   slug: Slug;
   originPrice: number;
   discountPrice: number;

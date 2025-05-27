@@ -11,7 +11,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import useDebounce from "@/hooks/useDebounce";
 import { cn, formatVND } from "@/lib/utils";
-import { GetPropertiesResult } from "@/sanity.types";
+import { GetPropertiesResult, Settings } from "@/sanity.types";
 import {
   ArrowBigDownIcon,
   ChevronDown,
@@ -28,6 +28,7 @@ import {
 } from "react";
 
 interface FilterProps {
+  priceFilter: Settings["productFilter"];
   properties: GetPropertiesResult;
   filters: { [x: string]: string };
   handleUpdateFilter: (filter: { [x: string]: string }) => void;
@@ -35,14 +36,24 @@ interface FilterProps {
 
 const MemoSelect = memo(Select);
 
-const priceRange = [0, 20000000];
-
-const Filter = ({ properties, filters, handleUpdateFilter }: FilterProps) => {
+const Filter = ({
+  properties,
+  filters,
+  priceFilter,
+  handleUpdateFilter,
+}: FilterProps) => {
   const filterPaneRef = useRef<HTMLDivElement>(null);
   const [search, setSearch] = useState("");
-  const [range, setRange] = useState(priceRange);
+  const [range, setRange] = useState([
+    priceFilter?.minPrice || 0,
+    priceFilter?.maxPrice || 0,
+  ]);
   const [expandFilter, setExpandFilter] = useState(false);
   const debouncedQuery = useDebounce(search, 500);
+
+  useEffect(() => {
+    setRange([priceFilter?.minPrice || 0, priceFilter?.maxPrice || 0]);
+  }, [priceFilter]);
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -88,8 +99,8 @@ const Filter = ({ properties, filters, handleUpdateFilter }: FilterProps) => {
                       });
                     }}
                     onValueChange={setRange}
-                    min={priceRange[0]}
-                    max={priceRange[1]}
+                    min={priceFilter?.minPrice}
+                    max={priceFilter?.maxPrice}
                     step={100000}
                   />
                 </div>

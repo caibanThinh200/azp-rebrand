@@ -23,33 +23,34 @@ export async function bulkCreateProducts(
   const batchSize = 10 // Process in batches to avoid overwhelming Sanity
   const totalBatches = Math.ceil(products.length / batchSize)
   for (let i = 0; i < totalBatches; i++) {
-    const batch = products.slice(i * batchSize, (i + 1) * batchSize)
+    let batch = products.slice(i * batchSize, (i + 1) * batchSize)
+    batch = batch.slice(1, batch.length - 1)
     // Process batch
     const batchPromises = batch.map(async (product, index) => {
       const rowNumber = i * batchSize + index + 2 // +2 for Excel row numbering
       try {
         // Check if category exists
-        const categoryExists = await client.fetch(
-          '*[_type == "category" && title == $category][0]',
-          {
-            category: product.category,
-          },
-        )
+        // const categoryExists = await client.fetch(
+        //   '*[_type == "category"][0]',
+        //   {
+        //     category: product.category,
+        //   },
+        // )
 
-        if (!categoryExists) {
-          throw new Error(`Category with ID '${product.category}' not found`)
-        } else {
-          product['category'] = {
-            _ref: categoryExists?._id,
-            _type: 'reference',
-          }
-        }
+        // if (!categoryExists) {
+        //   throw new Error(`Category with ID '${product.category}' not found`)
+        // } else {
+        //   product['category'] = {
+        //     _ref: categoryExists?._id,
+        //     _type: 'reference',
+        //   }
+        // }
 
-        if (product?.colors) {
-          product['colors'] = (product?.colors as any)
-            ?.split('/')
-            .map((color: string) => (color || '')?.trim())
-        }
+        // if (product?.colors) {
+        //   product['colors'] = (product?.colors as any)
+        //     ?.split('/')
+        //     .map((color: string) => (color || '')?.trim())
+        // }
 
         // Check if product with same title already exists
         const existingProduct = await client.fetch(
@@ -58,10 +59,10 @@ export async function bulkCreateProducts(
             productId: product.productId,
           },
         )
-        console.log(product, 123123123)
+        // console.log(product, 123123123)
         if (existingProduct) {
           // throw new Error(`Product with title '${product.title}'÷ already exists`)
-          return await client.patch(existingProduct?._id, product as any)
+          await client.patch(existingProduct?._id).set(product).commit()
         }
         // Create the product
         else {

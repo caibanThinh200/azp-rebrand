@@ -3,7 +3,7 @@
 import ProductList from "@/components/blocks/ProductListing";
 import Filter from "@/components/blocks/ProductListing/Filter";
 import { CombinedPagination } from "@/components/ui/combined-pagination";
-import { GetPropertiesResult, Product } from "@/sanity.types";
+import { GetPropertiesResult, Product, Settings } from "@/sanity.types";
 import { client } from "@/sanity/lib/client";
 import { getPaginatedProducts } from "@/sanity/lib/queries";
 import { PaginatedProducts } from "@/types/override";
@@ -15,6 +15,7 @@ interface ProductListProps {
   products: Array<Product>;
   properties: GetPropertiesResult;
   categoryId: string;
+  priceFilter: Settings["productFilter"];
 }
 
 const Products: React.FC<ProductListProps> = ({
@@ -22,6 +23,7 @@ const Products: React.FC<ProductListProps> = ({
   properties,
   paginations,
   categoryId,
+  priceFilter,
 }) => {
   const [result, setResult] = useState<PaginatedProducts>({
     ...paginations,
@@ -75,6 +77,7 @@ const Products: React.FC<ProductListProps> = ({
   return (
     <div>
       <Filter
+        priceFilter={priceFilter}
         filters={filterParams}
         handleUpdateFilter={handleUpdateFilter}
         properties={properties}

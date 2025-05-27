@@ -1,21 +1,21 @@
-"use client"
+'use client'
 
-import { useState, useCallback } from "react"
-import { useClient } from "sanity"
-import { Button, Card, Checkbox, Flex, Heading, Stack, Text, TextInput, useToast } from "@sanity/ui"
-import { DownloadIcon } from "@sanity/icons"
-import { exportProductsToExcel } from "../utils/excelUtils"
+import {useState, useCallback} from 'react'
+import {useClient} from 'sanity'
+import {Button, Card, Code, Heading, Stack, Text, TextInput, useToast} from '@sanity/ui'
+import {DownloadIcon} from '@sanity/icons'
+import {exportProductsToExcel} from '../utils/excelUtils'
 
 export function ProductExporter() {
-  const client = useClient({ apiVersion: "2023-05-03" })
+  const client = useClient({apiVersion: '2023-05-03'})
   const toast = useToast()
   const [isExporting, setIsExporting] = useState(false)
   const [exportOptions, setExportOptions] = useState({
-    category: "",
+    category: '',
     includeProperties: true,
     includeImages: false,
-    format: "xlsx",
-    fileName: "products-export",
+    format: 'xlsx',
+    fileName: 'azp-data-san-pham',
   })
 
   const handleExport = useCallback(async () => {
@@ -27,22 +27,14 @@ export function ProductExporter() {
       const params: any = {}
 
       if (exportOptions.category) {
-        query = '*[_type == "product" && category->slug.current == $categorySlug]'
-        params.categorySlug = exportOptions.category
+        query = '*[_type == "product"'
+        // params.categorySlug = exportOptions.category
       }
 
       query += ` {
-        _id,
-        title,
-        price,
-        description,
-        "slug": slug.current,
-        "category": category->slug.current,
-        "categoryTitle": category->title,
-        ${exportOptions.includeProperties ? '"properties": properties[],' : ""}
-        ${exportOptions.includeImages ? '"image": image.asset->url,' : ""}
-        _createdAt,
-        _updatedAt
+        productId,
+        originPrice,
+        discountPrice,
       }`
 
       // Fetch products
@@ -50,13 +42,12 @@ export function ProductExporter() {
 
       if (products.length === 0) {
         toast.push({
-          status: "warning",
-          title: "No products found",
-          description: "No products match the selected criteria",
+          status: 'warning',
+          title: 'Không tìm thấy sản phẩm',
+          description: 'Vui lòng kiểm tra lại danh sách sản phẩm trong hệ thống',
         })
         return
       }
-
       // Export to Excel
       await exportProductsToExcel(products, {
         fileName: exportOptions.fileName,
@@ -65,15 +56,15 @@ export function ProductExporter() {
       })
 
       toast.push({
-        status: "success",
-        title: "Export completed",
+        status: 'success',
+        title: 'Export completed',
         description: `Exported ${products.length} products to Excel`,
       })
     } catch (error) {
       toast.push({
-        status: "error",
-        title: "Export failed",
-        description: error instanceof Error ? error.message : "Unknown error occurred",
+        status: 'error',
+        title: 'Export failed',
+        description: error instanceof Error ? error.message : 'Unknown error occurred',
       })
     } finally {
       setIsExporting(false)
@@ -82,15 +73,15 @@ export function ProductExporter() {
 
   return (
     <Stack space={4} padding={4}>
-      <Heading size={2}>Export Products to Excel</Heading>
+      <Heading size={2}>Export sản phẩm ra Excel</Heading>
 
-      <Card padding={4}>
-        <Stack space={4}>
+      <Card padding={3}>
+        <Stack space={3}>
           <Stack space={3}>
-            <Text weight="semibold">Export Options</Text>
+            {/* <Text weight="semibold">Export Options</Text> */}
 
             <Stack space={2}>
-              <Text size={1}>File Name:</Text>
+              <Text size={1}>Tên file:</Text>
               <TextInput
                 value={exportOptions.fileName}
                 onChange={(event) =>
@@ -99,11 +90,11 @@ export function ProductExporter() {
                     fileName: event.currentTarget.value,
                   }))
                 }
-                placeholder="products-export"
+                placeholder="azp-data"
               />
             </Stack>
 
-            <Stack space={2}>
+            {/* <Stack space={2}>
               <Text size={1}>Category Filter (optional):</Text>
               <TextInput
                 value={exportOptions.category}
@@ -115,8 +106,8 @@ export function ProductExporter() {
                 }
                 placeholder="Enter category slug"
               />
-            </Stack>
-
+            </Stack> */}
+            {/* 
             <Flex align="center" gap={2}>
               <Checkbox
                 checked={exportOptions.includeProperties}
@@ -141,12 +132,12 @@ export function ProductExporter() {
                 }
               />
               <Text size={1}>Include image URLs</Text>
-            </Flex>
+            </Flex> */}
           </Stack>
 
           <Button
             icon={DownloadIcon}
-            text={isExporting ? "Exporting..." : "Export to Excel"}
+            text={isExporting ? 'Exporting...' : 'Export to Excel'}
             tone="positive"
             disabled={isExporting}
             onClick={handleExport}
@@ -154,14 +145,15 @@ export function ProductExporter() {
         </Stack>
       </Card>
 
-      <Card padding={4} tone="primary">
-        <Stack space={3}>
-          <Text weight="semibold">Export Format</Text>
-          <Text size={1}>The exported Excel file will contain the following columns:</Text>
-          <Text size={1}>• Basic fields: title, price, description, category, slug</Text>
-          <Text size={1}>• Properties: property_[name] columns (if enabled)</Text>
-          <Text size={1}>• Images: image_url column (if enabled)</Text>
-          <Text size={1}>• Metadata: created and updated dates</Text>
+      <Card padding={3} tone="primary">
+        <Stack padding={4} space={5}>
+          <Text weight="semibold">Cấu trúc file Excel</Text>
+          <Text size={1}>Bảng excel sẽ bao gồm những cột sau:</Text>
+          <Code language="text">
+            {`- Mã hàng: Mã hàng của sản phẩm
+- Giá Bán Lẻ: Giá trước khi giảm
+- Giá Onsite: Giá bán chính thức`}
+          </Code>
         </Stack>
       </Card>
     </Stack>

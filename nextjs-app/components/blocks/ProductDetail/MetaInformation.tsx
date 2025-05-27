@@ -53,7 +53,9 @@ const ProductMetaInformation: React.FC<ProductMetaInformationProps> = ({
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-5 col-span-2 p-10 shadow-lg rounded-20 bg-white">
-        <h1 className="font-bold text-2xl">{data?.title}</h1>
+        <h1 className="font-bold text-2xl">
+          {data?.title || `Mã sản phẩm: ${data?.productId}`}
+        </h1>
         <div className="flex items-center gap-2">
           {data?.originPrice && (
             <span className="text-gray-500 line-through text-xl">

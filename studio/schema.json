@@ -2706,14 +2706,14 @@
                       "value": {
                         "type": "object",
                         "attributes": {
-                          "title": {
+                          "productId": {
                             "type": "objectAttribute",
                             "value": {
                               "type": "string"
                             },
                             "optional": false
                           },
-                          "productId": {
+                          "title": {
                             "type": "objectAttribute",
                             "value": {
                               "type": "string"
@@ -3312,14 +3312,14 @@
           "type": "string"
         }
       },
-      "title": {
+      "productId": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
         "optional": false
       },
-      "productId": {
+      "title": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
@@ -4288,6 +4288,29 @@
         "value": {
           "type": "string"
         }
+      },
+      "productFilter": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "object",
+          "attributes": {
+            "minPrice": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "number"
+              },
+              "optional": true
+            },
+            "maxPrice": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "number"
+              },
+              "optional": true
+            }
+          }
+        },
+        "optional": true
       },
       "contact": {
         "type": "objectAttribute",

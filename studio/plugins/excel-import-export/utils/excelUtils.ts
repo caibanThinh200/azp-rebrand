@@ -1,6 +1,6 @@
 import * as XLSX from 'xlsx'
 import {saveAs} from 'file-saver'
-import {productFields, transformExcelToProduct} from './transformData'
+import {productFields, transformExcelToProduct, transformProductToExcel} from './transformData'
 
 export interface ExcelProduct {
   title: string
@@ -44,9 +44,6 @@ export async function parseExcelFile(file: File): Promise<ExcelProduct[]> {
           header: 1,
           defval: '',
         }) as string[][]
-
-        //remove the title and description rows, only focus on data
-        jsonData = jsonData.slice(2, jsonData.length - 1)
         //remove stt column
         // jsonData = jsonData.map((row) => row.filter((column, idx) => column[idx] !== column[0]))
         // console.log(jsonData)
@@ -56,7 +53,7 @@ export async function parseExcelFile(file: File): Promise<ExcelProduct[]> {
 
         // Get headers from first row
         const headers = jsonData[0]
-
+        console.log(headers)
         // Convert rows to objects
         const products: any[] = []
 
@@ -100,13 +97,10 @@ export function validateProductData(products: ExcelProduct[]): string[] {
   }
 
   // Check required fields
-  const requiredFields = Object.keys(productFields)
-    .filter((key) => key === 'colors')
-    .map((key) => productFields[key])
-
+  const requiredFields = ['Mã Hàng', 'Giá Bán Lẻ', 'Giá Onsite']
   products.forEach((product, index) => {
     const rowNumber = index + 2 // +2 because Excel rows start at 1 and we skip header
-
+    
     requiredFields.forEach((field) => {
       if (!product[field]) {
         errors.push(`Dòng ${rowNumber}: Sản phẩm này đang thiếu trường '${field}'`)
@@ -114,9 +108,9 @@ export function validateProductData(products: ExcelProduct[]): string[] {
     })
 
     // Validate price is a number
-    if (product.price && isNaN(Number(product.price))) {
-      errors.push(`Dòng ${rowNumber}: Giá phải là số`)
-    }
+    // if (product.price && isNaN(Number(product.price))) {
+    //   errors.push(`Dòng ${rowNumber}: Giá phải là số`)
+    // }
 
     // Validate title length
     // if (product.title && product.title.length > 200) {
@@ -185,33 +179,24 @@ export async function exportProductsToExcel(
 ): Promise<void> {
   // Transform products to flat structure for Excel
   const excelData = products.map((product) => {
-    const row: any = {
-      title: product.title,
-      price: product.price,
-      description: product.description || '',
-      category: product.category,
-      categoryTitle: product.categoryTitle || '',
-      slug: product.slug,
-      createdAt: product._createdAt,
-      updatedAt: product._updatedAt,
-    }
+    const row = transformProductToExcel(product)
 
     // Add image URL if requested
-    if (options.includeImages && product.image) {
-      row.image_url = product.image
-    }
+    // if (options.includeImages && product.image) {
+    //   row.image_url = product.image
+    // }
 
-    // Add properties as separate columns if requested
-    if (options.includeProperties && product.properties) {
-      product.properties.forEach((prop: any) => {
-        const columnName = `property_${prop.title.toLowerCase().replace(/\s+/g, '_')}`
-        row[columnName] = prop.values
-      })
-    }
-
+    // // Add properties as separate columns if requested
+    // if (options.includeProperties && product.properties) {
+    //   product.properties.forEach((prop: any) => {
+    //     const columnName = `property_${prop.title.toLowerCase().replace(/\s+/g, '_')}`
+    //     row[columnName] = prop.values
+    //   })
+    // }
+    // console.log(row)
     return row
   })
-
+  // console.log(excelData);
   // Create workbook and worksheet
   const workbook = XLSX.utils.book_new()
   const worksheet = XLSX.utils.json_to_sheet(excelData)

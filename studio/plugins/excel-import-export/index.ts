@@ -7,7 +7,7 @@ export const excelImportExportPlugin = definePlugin({
   tools: [
     {
       name: "excel-import-export",
-      title: "Excel Import/Export",
+      title: "Nhập / Xuất",
       icon: DocumentIcon,
       component: ExcelImportExportTool,
     },

@@ -7,6 +7,7 @@ import {
   getPaginatedProducts,
   getProductsQuery,
   getProperties,
+  settingsQuery,
   singleCategoryQuery,
 } from "@/sanity/lib/queries";
 import { rootCategories } from "@/sanity/lib/queries";
@@ -22,7 +23,6 @@ const CategoryPage = async ({
   params: Promise<{ slug: string }>;
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  console.log(await searchParams);
   const { data } = await sanityFetch({ query: singleCategoryQuery, params });
   const { data: productResult }: { data: PaginatedProducts } =
     await sanityFetch({
@@ -32,6 +32,8 @@ const CategoryPage = async ({
   const { data: properties } = await sanityFetch({
     query: getProperties,
   });
+
+  const { data: siteSetting } = await sanityFetch({ query: settingsQuery });
 
   const { items: products, ...paginations } = productResult;
 
@@ -50,6 +52,7 @@ const CategoryPage = async ({
       )}
       <div>
         <Products
+          priceFilter={siteSetting?.productFilter}
           paginations={paginations}
           products={products}
           properties={properties}

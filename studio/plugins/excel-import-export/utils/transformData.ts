@@ -20,3 +20,15 @@ export const transformExcelToProduct = (product: {[x: string]: string}) => {
 
   return productTransform
 }
+
+export const transformProductToExcel = (product: {[x: string]: string}) => {
+  let productTransform: {[x: string]: string} = {}
+  Object.entries(productFields).forEach(([key, value]) => {
+    // console.log(key, value, product[value])
+    if (!!product[key]) {
+      productTransform[value] = product[key]
+    }
+  })
+
+  return productTransform
+}

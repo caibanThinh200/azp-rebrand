@@ -97,7 +97,6 @@ export function ProductImporter() {
 
       // Transform to Sanity format
       const products = rawData.map(transformExcelToProduct)
-
       // Import products in batches
       const result = await bulkCreateProducts(client, products as any[], (progress) => {
         setProgress(progress)
@@ -106,15 +105,15 @@ export function ProductImporter() {
       setImportResult(result)
 
       // Log import to history
-      await client.create({
-        _type: 'importHistory',
-        fileName: file.name,
-        importDate: new Date().toISOString(),
-        totalRecords: rawData.length,
-        successCount: result.success,
-        failedCount: result.failed,
-        errors: result.errors,
-      })
+      // await client.create({
+      //   _type: 'importHistory',
+      //   fileName: file.name,
+      //   importDate: new Date().toISOString(),
+      //   totalRecords: rawData.length,
+      //   successCount: result.success,
+      //   failedCount: result.failed,
+      //   errors: result.errors,
+      // })
 
       toast.push({
         status: 'success',
@@ -145,21 +144,17 @@ export function ProductImporter() {
 
   return (
     <Stack space={4} padding={4}>
-      <Heading size={2}>Import Products from Excel</Heading>
+      <Heading size={2}>Import sản phẩm từ file Excel</Heading>
 
       <Card padding={4} tone="primary">
         <Stack space={3}>
-          <Text weight="semibold">Required Excel Format:</Text>
+          <Text weight="semibold">Excel Format:</Text>
           <Code language="text">
-            {`Columns:
-- title (required): Product title
-- price (required): Product price (number)
-- description: Product description
-- category (required): Category slug
-- property_[name]: Properties (e.g., property_material, property_color)
-- image_url: Image URL (optional)`}
+            {`- Mã hàng: Mã hàng của sản phẩm
+- Giá Bán Lẻ: Giá trước khi giảm
+- Giá Onsite: Giá bán chính thức`}
           </Code>
-          <Button mode="ghost" onClick={downloadTemplate} text="Download Template" />
+          {/* <Button mode="ghost" onClick={downloadTemplate} text="Download Template" /> */}
         </Stack>
       </Card>
 

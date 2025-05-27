@@ -7,16 +7,24 @@ export default {
   title: 'Sản phẩm',
   icon: PackageIcon,
   type: 'document',
+  preview: {
+    select: {
+      productId: 'productId',
+    },
+    prepare: ({productId}: {productId: string}) => ({
+      title: productId,
+    }),
+  },
   fields: [
     {
-      name: 'title',
-      title: 'Tên sản phẩm',
+      name: 'productId',
+      title: 'Mã sản phẩm',
       type: 'string',
       validation: (Rule: Rule) => Rule.required(),
     },
     {
-      name: 'productId',
-      title: 'Mã sản phẩm',
+      name: 'title',
+      title: 'Tên sản phẩm',
       type: 'string',
       validation: (Rule: Rule) => Rule.required(),
     },
@@ -86,7 +94,8 @@ export default {
       name: 'note',
       title: 'Lưu ý',
       type: 'text',
-      initialValue: 'Lưu ý: Giá chưa bao gồm thuế GTGT 10%.Giá sản phẩm có thể thay đổi dựa vào chất liệu'
+      initialValue:
+        'Lưu ý: Giá chưa bao gồm thuế GTGT 10%.Giá sản phẩm có thể thay đổi dựa vào chất liệu',
     },
     // {
     //   name: 'property',

@@ -15,6 +15,15 @@ export const settings = defineType({
   icon: CogIcon,
   fields: [
     {
+      name: 'productFilter',
+      title: 'Bộ lọc sản phẩm',
+      type: 'object',
+      fields: [
+        {name: 'minPrice', title: 'Giá thấp nhất', type: 'number', initialValue: 0},
+        {name: 'maxPrice', title: 'Giá cao nhất', type: 'number', initialValue: 50000000},
+      ],
+    },
+    {
       name: 'contact',
       title: 'Thông tin liên hệ',
       type: 'object',
