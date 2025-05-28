@@ -22,7 +22,7 @@ const Process = ({ block }: { block: IProcessStep }) => {
                 <h3 className="text-yellow font-bold text-center lg:text-left">
                   {step?.title}
                 </h3>
-                <p className="text-white text-center lg:text-left">
+                <p className="text-white text-center lg:text-left whitespace-pre-line">
                   {step?.description}
                 </p>
               </div>

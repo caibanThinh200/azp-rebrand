@@ -61,6 +61,9 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       images: ogImage ? [ogImage] : [],
     },
+    icons: {
+      icon: `/icons/logo.ico`,
+    },
   };
 }
 

@@ -80,7 +80,7 @@ export default function MegaMenu({ data }: MegaMenuProps) {
 
   return (
     <div>
-      <DropdownMenu key={data?._id} modal={false} open={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenu modal={false} open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger
           onMouseEnter={() => {
             clearTimeout(openTimeout);
@@ -90,7 +90,6 @@ export default function MegaMenu({ data }: MegaMenuProps) {
             console.log("leave");
             openTimeout = setTimeout(() => setIsOpen(false), 500); // 200ms delay
           }}
-          key={data?._id}
           className="py-2 outline-none"
         >
           <Link
