@@ -34,10 +34,13 @@ export default function MegaMenu({ data }: MegaMenuProps) {
 
   const renderCategoryTree = (nodes: CategoryNode[], currentLevel = 1) => {
     return (
-      <DropdownMenuSub>
+      <DropdownMenuSub key={data?._id}>
         {nodes?.map((menu) => (
           <div key={menu?._id}>
-            <DropdownMenuSubTrigger className="flex gap-2 items-center">
+            <DropdownMenuSubTrigger
+              key={menu?._id}
+              className="flex gap-2 items-center"
+            >
               <Link
                 className="flex gap-2 items-center relative group"
                 href={`/danh-muc/${menu?.slug}`}
@@ -77,7 +80,7 @@ export default function MegaMenu({ data }: MegaMenuProps) {
 
   return (
     <div>
-      <DropdownMenu modal={false} open={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenu key={data?._id} modal={false} open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger
           onMouseEnter={() => {
             clearTimeout(openTimeout);
@@ -85,7 +88,7 @@ export default function MegaMenu({ data }: MegaMenuProps) {
           }}
           onMouseLeave={() => {
             console.log("leave");
-            openTimeout = setTimeout(() => setIsOpen(false), 200); // 200ms delay
+            openTimeout = setTimeout(() => setIsOpen(false), 500); // 200ms delay
           }}
           key={data?._id}
           className="py-2 outline-none"
@@ -105,7 +108,7 @@ export default function MegaMenu({ data }: MegaMenuProps) {
               setIsOpen(true);
             }}
             onMouseLeave={() => {
-              openTimeout = setTimeout(() => setIsOpen(false), 200); // 200ms delay
+              openTimeout = setTimeout(() => setIsOpen(false), 500); // 200ms delay
             }}
             sideOffset={0}
             align="start"

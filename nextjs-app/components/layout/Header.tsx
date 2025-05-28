@@ -26,7 +26,7 @@ const Header: AsyncComponent<HeaderProps> = async function ({ siteSetting }) {
   const { data }: { data: GetHeaderQueryResult } = await sanityFetch({
     query: getHeaderQuery,
   });
-
+  console.log(data);
   return (
     <header className="lg:py-10 py-5 flex flex-col gap-5 container">
       <div

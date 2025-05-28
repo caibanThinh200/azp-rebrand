@@ -23,10 +23,10 @@ const CategoriesGrid: React.FC<CategoriesGridProps> = ({ block }) => {
             className="relative h-[200px] flex justify-center items-center group overflow-hidden flex-1 basis-full md:basis-1/3 lg:basis-1/5 2xl:basis-1/6"
           >
             <FallbackImage
-              src={(urlForImage(category?.image)?.url() as string) || ""}
+              src={(urlForImage(category?.coverImage)?.url() as string) || ""}
               alt={category?.title}
-              width={category?.image?.hotspot?.width || 200}
-              height={category?.image?.hotspot?.height || 200}
+              width={category?.coverImage?.hotspot?.width || 200}
+              height={category?.coverImage?.hotspot?.height || 200}
               className="size-full absolute inset-0 brightness-50 object-cover group-hover:scale-125 transition-all duration-500"
             />
             <p className="text-white text-xl font-bold relative z-10 text-center">

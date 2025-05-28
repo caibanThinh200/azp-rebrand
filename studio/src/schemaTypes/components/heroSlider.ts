@@ -48,6 +48,16 @@ const heroSlider = defineType({
               description: 'Hãy chọn hình ảnh có kích thước 1200 x 400',
               title: 'Thumbnail',
             },
+            {
+              name: 'link',
+              title: 'Đường dẫn',
+              type: 'string',
+            },
+            {
+              name: 'openNewTab',
+              title: 'Mở dường dẫn trong tab mới ?',
+              type: 'boolean',
+            },
           ],
         },
       ],

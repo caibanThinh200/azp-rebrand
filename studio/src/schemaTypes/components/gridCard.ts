@@ -22,7 +22,7 @@ export default {
     {
       name: 'categories',
       description:
-        'Chọn kích thước hình ảnh theo từng bố cục sau: 1 hàng (1200 × 200 px), 1/2 hàng (596 × 200 px), 1/3 hàng (395 × 200 px), 1/4 (294 × 200 px)',
+        'Chọn kích thước ảnh bìa theo từng bố cục sau: 1 hàng (1200 × 200 px), 1/2 hàng (596 × 200 px), 1/3 hàng (395 × 200 px), 1/4 (294 × 200 px)',
       title: 'Danh mục', // "Categories"
       type: 'array',
       of: [

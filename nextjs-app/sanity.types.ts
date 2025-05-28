@@ -225,13 +225,15 @@ export type Hero = {
       crop?: SanityImageCrop;
       _type: "image";
     };
+    link?: string;
+    openNewTab?: boolean;
     _key: string;
   }>;
 };
 
 export type Link = {
   _type: "link";
-  linkType?: "href" | "page" | "post";
+  linkType?: "href" | "page";
   href?: string;
   openInNewTab?: boolean;
 };
@@ -596,6 +598,17 @@ export type Category = {
     [internalGroqTypeReferenceTo]?: "category";
   };
   image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  coverImage?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -1108,6 +1121,17 @@ export type GetAllCategoriesResult = Array<{
     crop?: SanityImageCrop;
     _type: "image";
   };
+  coverImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
 }>;
 // Variable: getPageQuery
 // Query: *[_type == 'page' && slug.current == $slug][0]{  _id,  _type,  name,  slug,  heading,  subheading,  "pageBuilder": pageBuilder[]{    ...,    _type == "productSwiper" => {      ...,      products[]-> {        ...,      }    },    _type == "gridCard" => {      ...,      categories[]-> {        ...,      }    },    _type == "productListing" => {      ...,      products[]-> {        ...,      }    },  },}
@@ -1220,6 +1244,17 @@ export type GetPageQueryResult = {
         crop?: SanityImageCrop;
         _type: "image";
       };
+      coverImage?: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
     }> | null;
   } | {
     _key: string;
@@ -1238,6 +1273,8 @@ export type GetPageQueryResult = {
         crop?: SanityImageCrop;
         _type: "image";
       };
+      link?: string;
+      openNewTab?: boolean;
       _key: string;
     }>;
   } | {
@@ -1581,6 +1618,17 @@ export type GetHeaderQueryResult = {
       crop?: SanityImageCrop;
       _type: "image";
     };
+    coverImage?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
     children: Array<{
       _id: string;
       title: string;
@@ -1634,6 +1682,17 @@ export type RootCategoriesResult = Array<{
     crop?: SanityImageCrop;
     _type: "image";
   };
+  coverImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
 }>;
 // Variable: singleCategoryQuery
 // Query: *[_type == "category" && slug.current == $slug] {  ...,}[0]
@@ -1652,6 +1711,17 @@ export type SingleCategoryQueryResult = {
     [internalGroqTypeReferenceTo]?: "category";
   };
   image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  coverImage?: {
     asset?: {
       _ref: string;
       _type: "reference";

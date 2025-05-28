@@ -15,14 +15,14 @@ export const link = defineType({
   fields: [
     defineField({
       name: 'linkType',
-      title: 'Link Type',
+      title: 'Loại đường dẫn',
       type: 'string',
       initialValue: 'url',
       options: {
         list: [
           {title: 'URL', value: 'href'},
           {title: 'Trang', value: 'page'},
-          {title: 'Blog', value: 'post'},
+          // {title: 'Blog', value: 'post'},
         ],
         layout: 'radio',
       },

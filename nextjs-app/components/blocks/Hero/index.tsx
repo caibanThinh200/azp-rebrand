@@ -8,39 +8,54 @@ import {
   Scrollbar,
   A11y,
   EffectFade,
-  Autoplay
+  Autoplay,
 } from "swiper/modules";
 import { urlForImage } from "@/sanity/lib/utils";
 import { Hero as IHero } from "@/sanity.types";
+import Link from "next/link";
 
 const Hero: React.FC<{ block: IHero }> = ({ block }) => {
   return (
     <div className="rounded-20 overflow-hidden">
       <Swiper
         effect="fade"
-        modules={[Navigation, Pagination, Scrollbar, A11y, EffectFade, Autoplay]}
-        className="h-[200px] lg:h-[400px]"
+        modules={[
+          Navigation,
+          Pagination,
+          Scrollbar,
+          A11y,
+          EffectFade,
+          Autoplay,
+        ]}
+        className="aspect-[3]"
         spaceBetween={0}
         slidesPerView={1}
         navigation
         loop
         autoplay={{
-          delay: 2000
+          delay: 2000,
         }}
         pagination={{ clickable: true }}
         // onSwiper={(swiper) => console.log(swiper)}
       >
-        {(block?.sliders || []).map((slider: any) => (
-          <SwiperSlide key={slider?._key}>
-            <Image
-              className="size-full object-cover"
-              src={urlForImage(slider?.image)?.url() || ""}
-              alt={`Image ${slider?._key}`}
-              width={1000}
-              height={500}
-            />
-          </SwiperSlide>
-        ))}
+        {(block?.sliders || []).map(
+          (slider: Exclude<IHero["sliders"], undefined>[number]) => (
+            <SwiperSlide key={slider?._key}>
+              <Link
+                target={slider?.openNewTab ? "_blank" : "_self"}
+                href={slider?.link || "/"}
+              >
+                <Image
+                  className="size-full object-cover"
+                  src={urlForImage(slider?.image)?.url() || ""}
+                  alt={`Image ${slider?._key}`}
+                  width={1200}
+                  height={400}
+                />
+              </Link>
+            </SwiperSlide>
+          )
+        )}
       </Swiper>
     </div>
   );
