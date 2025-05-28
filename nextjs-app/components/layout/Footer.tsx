@@ -17,7 +17,7 @@ const Footer: AsyncComponent<FooterProps> = async ({ siteSetting }) => {
       style={{
         backgroundColor: data?.backgroundColor?.hex || "#493b3b",
       }}
-      className="text-white pt-20 pb-5"
+      className="text-white pt-10 pb-5"
     >
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

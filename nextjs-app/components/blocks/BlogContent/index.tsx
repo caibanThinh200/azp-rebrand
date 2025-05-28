@@ -65,7 +65,7 @@ const BlogContent: React.FC<BlogContentProps> = ({ block }) => {
                       />
                     ),
                   }}
-                  className="leading-10"
+                  className="leading-normal"
                   content={section?.content as object[]}
                 />
               </div>

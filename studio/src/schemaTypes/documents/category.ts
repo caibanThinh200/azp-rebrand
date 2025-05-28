@@ -46,7 +46,7 @@ export default {
     {
       title: 'Hình ảnh',
       name: 'image',
-      description: 'Hãy chọn hình ảnh có kích thước 950 × 350',
+      description: 'Hãy chọn hình ảnh có kích thước 1200 × 300',
       type: 'image',
       options: {
         hotspot: true,

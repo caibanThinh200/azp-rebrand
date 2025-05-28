@@ -11,7 +11,7 @@ interface ProductSwiperProps {
 
 const ProductSwiper: React.FC<ProductSwiperProps> = ({ block }) => {
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-4">
       <h2 className="text-light-brown">{block?.title}</h2>
       <div>
         <Swiper
