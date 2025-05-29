@@ -10,6 +10,9 @@ interface ProductSwiperProps {
 }
 
 const ProductSwiper: React.FC<ProductSwiperProps> = ({ block }) => {
+  if((block?.products || [])?.length == 0) {
+    return <></>
+  }
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-light-brown">{block?.title}</h2>
@@ -29,7 +32,7 @@ const ProductSwiper: React.FC<ProductSwiperProps> = ({ block }) => {
           }}
           spaceBetween={20}
         >
-          {block?.products.map((product, idx) => (
+          {block?.products?.map((product, idx) => (
             <SwiperSlide key={idx}>
               <ProductCard data={product} />
             </SwiperSlide>

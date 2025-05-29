@@ -19,6 +19,9 @@ interface ProductListProps {
 }
 
 const ProductList: React.FC<ProductListProps> = ({ block }) => {
+  if ((block?.products || [])?.length == 0) {
+    return <></>;
+  }
   return (
     <div className="flex flex-col gap-4">
       {block?.title && <h2 className="text-light-brown">{block?.title}</h2>}

@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
       count(*[_type == "product"]) / $pageSize + 1
     )
   }
-`)
+`, params)
   const { data } = await sanityFetch({
     query: getPaginatedProducts,
     params,

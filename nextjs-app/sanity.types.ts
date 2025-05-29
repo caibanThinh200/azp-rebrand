@@ -1769,7 +1769,7 @@ export type GetFooterQueryResult = {
   copyright?: string;
 } | null;
 // Variable: getProductsQuery
-// Query: *[_type == "product" && (      category._ref == $category ||       category._ref in *[_type == "category" && parent._ref == $category]._id    )]
+// Query: *[_type == "product" && (      $category in category._ref ||       category._ref in *[_type == "category" && parent._ref == $category]._id    )]
 export type GetProductsQueryResult = Array<{
   _id: string;
   _type: "product";
@@ -2009,7 +2009,7 @@ declare module "@sanity/client" {
     "\n*[_type == \"category\" && !defined(parent)] {\n  ...,\n}\n": RootCategoriesResult;
     "\n*[_type == \"category\" && slug.current == $slug] {\n  ...,\n}[0]\n": SingleCategoryQueryResult;
     "\n  *[_type == \"footer\"] {\n    ...,\n    \"supportColumn\": supportColumn[]{\n      ...,\n      \"post\": post->,\n      \"page\": page->,  \n    }\n  }[0]\n": GetFooterQueryResult;
-    "\n    *[_type == \"product\" && (\n      category._ref == $category || \n      category._ref in *[_type == \"category\" && parent._ref == $category]._id\n    )]\n": GetProductsQueryResult;
+    "\n    *[_type == \"product\" && (\n      $category in category._ref || \n      category._ref in *[_type == \"category\" && parent._ref == $category]._id\n    )]\n": GetProductsQueryResult;
     "\n  *[_type == \"product\" && title match \"$search**\"\n  ]\n": SearchProductQueryResult;
     "\n    *[_type == \"product\" && slug.current == $slug] {...,}[0]\n": GetProductDetailQueryResult;
     "\n    *[_type == \"property\"]\n": GetPropertiesResult;
