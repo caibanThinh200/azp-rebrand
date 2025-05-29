@@ -13,15 +13,21 @@ const ProductPage = () => {
 
   useEffect(() => {
     const search = searchParams.get("search");
+    console.log(
+      `*[_type == "product" && (title match "${search}**"] || productId match "${search}**")]`
+    );
     client
-      .fetch(`*[_type == "product" && title match "${search}**"]`)
+      .fetch(
+        `*[_type == "product" && (title match "${search}**" || productId match "${search}**")]`
+      )
       .then(setResult);
   }, [searchParams]);
-
   return (
     <main className="lg:container px-5 flex flex-col gap-5 lg:gap-20">
       <div className="relative">
-        <h3 className="mb-10 font-light">Kết quả tìm của từ khóa: {searchParams.get("search")}</h3>
+        <h3 className="mb-10 font-light">
+          Kết quả tìm của từ khóa: {searchParams.get("search")}
+        </h3>
         <ProductList
           block={{
             type: "pagination",

@@ -29,9 +29,12 @@ export default async function ProductDetail({
     params: { slug },
   });
 
-  const {data: products} = await sanityFetch({query: getProductsQuery, params: {
-    category: data?.category?._ref
-  }})
+  const { data: products } = await sanityFetch({
+    query: getProductsQuery,
+    params: {
+      category: data?.category?._ref || "",
+    },
+  });
 
   return (
     <div className="container space-y-0">
@@ -51,7 +54,13 @@ export default async function ProductDetail({
         </div>
       )} */}
       <div className="mt-10">
-        <ProductSwiper block={{ title: "Sản phẩm tương tự", _type: "productSwiper", products }} />
+        <ProductSwiper
+          block={{
+            title: "Sản phẩm tương tự",
+            _type: "productSwiper",
+            products,
+          }}
+        />
       </div>
       <RecentProducts product={data} />
       {/* <div>

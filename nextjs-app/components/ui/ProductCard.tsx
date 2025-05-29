@@ -8,6 +8,7 @@ import { urlForImage } from "@/sanity/lib/utils";
 import { useCart } from "@/context/cart";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import FallbackImage from "./fallback-image";
 
 interface ProductCardProps {
   data: GetProductsQueryResult[number];
@@ -33,7 +34,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
       href={`/san-pham/${data?.slug?.current}`}
       className="p-5 bg-white shadow-xl rounded-xl block relative"
     >
-      <Image
+      <FallbackImage
         src={
           (urlForImage(
             ((data?.images as GetProductsQueryResult[number]["images"]) ||
