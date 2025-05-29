@@ -138,8 +138,8 @@ export default {
     {
       name: 'category',
       title: 'Danh mục',
-      type: 'reference',
-      to: [{type: 'category'}],
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'category'}]}],
       validation: (Rule: Rule) => Rule.required(),
     },
     defineField({

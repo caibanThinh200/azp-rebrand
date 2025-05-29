@@ -29,11 +29,11 @@ export async function GET(request: NextRequest) {
   const getPaginatedProducts = defineQuery(`
   {
     "total": count(*[_type == "product" && (
-      category._ref == $category || 
+      $category in category._ref || 
       category._ref in *[_type == "category" && parent._ref == $category]._id
     )]),
     "items": *[_type == "product" && (
-      category._ref == $category || 
+      $category in category._ref || 
       category._ref in *[_type == "category" && parent._ref == $category]._id
     )${filterConditions?.length ? `&&${filterConditions}` : ""} ${searchQuery} ${maxPriceQuery} ${minPriceQuery}] | order(_createdAt desc) [($pageSize * ($pageNumber - 1))...($pageSize * $pageNumber)],
     "pageSize": $pageSize,
@@ -44,7 +44,24 @@ export async function GET(request: NextRequest) {
     )
   }
 `);
-
+  console.log(`
+  {
+    "total": count(*[_type == "product" && (
+      $category in category._ref || 
+      category._ref in *[_type == "category" && parent._ref == $category]._id
+    )]),
+    "items": *[_type == "product" && (
+      $category in category._ref || 
+      category._ref in *[_type == "category" && parent._ref == $category]._id
+    )${filterConditions?.length ? `&&${filterConditions}` : ""} ${searchQuery} ${maxPriceQuery} ${minPriceQuery}] | order(_createdAt desc) [($pageSize * ($pageNumber - 1))...($pageSize * $pageNumber)],
+    "pageSize": $pageSize,
+    "currentPage": $pageNumber,
+    "totalPages": select(
+      count(*[_type == "product"]) % $pageSize == 0 => count(*[_type == "product"]) / $pageSize,
+      count(*[_type == "product"]) / $pageSize + 1
+    )
+  }
+`)
   const { data } = await sanityFetch({
     query: getPaginatedProducts,
     params,

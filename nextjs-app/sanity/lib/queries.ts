@@ -174,7 +174,7 @@ export const getFooterQuery = defineQuery(`
 
 export const getProductsQuery = defineQuery(`
     *[_type == "product" && (
-      category._ref == $category || 
+      $category in category._ref || 
       category._ref in *[_type == "category" && parent._ref == $category]._id
     )]
 `);
@@ -187,11 +187,11 @@ export const searchProductQuery = defineQuery(`
 export const getPaginatedProducts = defineQuery(`
   {
     "total": count(*[_type == "product" && (
-      category._ref == $category || 
+      $category in category._ref || 
       category._ref in *[_type == "category" && parent._ref == $category]._id
     )]),
     "items": *[_type == "product" && (
-      category._ref == $category || 
+      $category in category._ref || 
       category._ref in *[_type == "category" && parent._ref == $category]._id
     )] | order(_createdAt desc) [($pageSize * ($pageNumber - 1))...($pageSize * $pageNumber)],
     "pageSize": $pageSize,

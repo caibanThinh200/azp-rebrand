@@ -20,7 +20,7 @@ const CategoriesGrid: React.FC<CategoriesGridProps> = ({ block }) => {
           <Link
             key={idx}
             href={`/danh-muc/${category?.slug?.current}`}
-            className="relative h-[200px] flex justify-center items-center group overflow-hidden flex-1 basis-full md:basis-1/3 lg:basis-1/5 2xl:basis-1/6"
+            className="relative h-[200px] rounded-20 flex justify-center items-center group overflow-hidden flex-1 basis-full md:basis-1/3 lg:basis-1/5 2xl:basis-1/6"
           >
             <FallbackImage
               src={(urlForImage(category?.coverImage)?.url() as string) || ""}
