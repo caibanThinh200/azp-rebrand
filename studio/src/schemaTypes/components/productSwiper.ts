@@ -7,6 +7,11 @@ export default {
   type: 'object',
   fields: [
     {
+      name: 'thumbnail',
+      title: 'Hình ảnh tham chiếu trên trang web',
+      type: 'image',
+    },
+    {
       name: 'title',
       title: 'Tiêu đề',
       type: 'string',

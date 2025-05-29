@@ -4,6 +4,11 @@ export default {
   type: 'object',
   fields: [
     {
+      name: 'thumbnail',
+      title: 'Hình ảnh tham chiếu trên trang web',
+      type: 'image',
+    },
+    {
       name: 'address',
       title: 'Địa chỉ',
       type: 'string',

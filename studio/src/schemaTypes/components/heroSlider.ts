@@ -25,13 +25,20 @@ const heroSlider = defineType({
             select: {
               title: 'title',
               description: 'description',
+              thumbnail: 'thumbnail',
             },
-            prepare: ({title, description}) => ({
+            prepare: ({title, description, thumbnail}) => ({
               title,
               description,
+              thumbnail,
             }),
           },
           fields: [
+            {
+              name: 'thumbnail',
+              title: 'Hình ảnh tham chiếu trên trang web',
+              type: 'image',
+            },
             {
               name: 'title',
               title: 'Tiêu đề',

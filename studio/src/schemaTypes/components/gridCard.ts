@@ -15,6 +15,11 @@ export default {
   },
   fields: [
     {
+      name: 'thumbnail',
+      title: 'Hình ảnh tham chiếu trên trang web',
+      type: 'image',
+    },
+    {
       name: 'title',
       title: 'Tiêu đề', // "Categories"
       type: 'string',

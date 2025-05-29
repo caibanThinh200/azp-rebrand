@@ -14,6 +14,11 @@ const processStep = defineType({
     }),
   },
   fields: [
+    {
+      name: 'thumbnail',
+      title: 'Hình ảnh tham chiếu trên trang web',
+      type: 'image',
+    },
     {name: 'backgroundColor', title: 'Màu nền', type: 'color'},
     {name: 'title', title: 'Tiêu đề', type: 'string'},
     {

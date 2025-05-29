@@ -24,7 +24,7 @@ export async function bulkCreateProducts(
   const totalBatches = Math.ceil(products.length / batchSize)
   for (let i = 0; i < totalBatches; i++) {
     let batch = products.slice(i * batchSize, (i + 1) * batchSize)
-    batch = batch.slice(1, batch.length - 1)
+    batch = batch.slice(1)
     // Process batch
     const batchPromises = batch.map(async (product, index) => {
       const rowNumber = i * batchSize + index + 2 // +2 for Excel row numbering
@@ -60,9 +60,10 @@ export async function bulkCreateProducts(
           },
         )
         // console.log(product, 123123123)
+        console.log(product);
         if (existingProduct) {
           // throw new Error(`Product with title '${product.title}'÷ already exists`)
-          await client.patch(existingProduct?._id).set(product).commit()
+          await client.patch(existingProduct?._id).set(product).commit();
         }
         // Create the product
         else {
