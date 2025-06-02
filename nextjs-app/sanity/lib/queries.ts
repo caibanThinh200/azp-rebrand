@@ -187,12 +187,12 @@ export const searchProductQuery = defineQuery(`
 export const getPaginatedProducts = defineQuery(`
   {
     "total": count(*[_type == "product" && (
-      $category in category._ref || 
-      category._ref in *[_type == "category" && parent._ref == $category]._id
+      $category in category[]._ref || 
+       count(category[_ref in *[_type == "category" && parent._ref == *[_type == "category" && slug.current == $category][0]._id]._id]) > 0
     )]),
     "items": *[_type == "product" && (
-      $category in category._ref || 
-      category._ref in *[_type == "category" && parent._ref == $category]._id
+      $category in category[]._ref || 
+      count(category[_ref in *[_type == "category" && parent._ref == *[_type == "category" && slug.current == $category][0]._id]._id]) > 0
     )] | order(_createdAt desc) [($pageSize * ($pageNumber - 1))...($pageSize * $pageNumber)],
     "pageSize": $pageSize,
     "currentPage": $pageNumber,

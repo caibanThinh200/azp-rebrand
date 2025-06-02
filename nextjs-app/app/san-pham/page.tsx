@@ -13,15 +13,13 @@ const ProductPage = () => {
 
   useEffect(() => {
     const search = searchParams.get("search");
-    console.log(
-      `*[_type == "product" && (title match "${search}**"] || productId match "${search}**")]`
-    );
     client
       .fetch(
         `*[_type == "product" && (title match "${search}**" || productId match "${search}**")]`
       )
       .then(setResult);
   }, [searchParams]);
+
   return (
     <main className="lg:container px-5 flex flex-col gap-5 lg:gap-20">
       <div className="relative">

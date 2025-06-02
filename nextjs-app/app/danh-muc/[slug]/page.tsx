@@ -29,6 +29,12 @@ const CategoryPage = async ({
       query: getPaginatedProducts,
       params: { category: data?._id, pageSize: 40, pageNumber: 1 },
     });
+
+  // console.log({
+  //   query: getPaginatedProducts.toString(),
+  //   params: { category: data?._id, pageSize: 40, pageNumber: 1 },
+  // });
+  console.log(getPaginatedProducts, { category: data?._id, pageSize: 40, pageNumber: 1 });
   const { data: properties } = await sanityFetch({
     query: getProperties,
   });
