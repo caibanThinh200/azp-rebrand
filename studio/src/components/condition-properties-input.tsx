@@ -96,6 +96,7 @@ export const ConditionalPropertiesInput = (props: InputProps) => {
               <Label style={{flexBasis: '15%'}}>{property.title}</Label>
               {property?.values?.length > 0 ? (
                 <Select
+                  defaultValue={property?.values[0]}
                   onChange={(e) =>
                     setNewValue({...newValue, [property._id]: e.currentTarget.value})
                   }
