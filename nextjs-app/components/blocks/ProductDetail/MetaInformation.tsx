@@ -101,7 +101,7 @@ const ProductMetaInformation: React.FC<ProductMetaInformationProps> = ({
         <div className="space-y-2">
           <p className="text-sm text-gray-500">
             {data?.note ||
-              "Lưu ý: Giá chưa bao gồm thuế GTGT 10%. Giá sản phẩm có thể thay đổi dựa vào chất liệu."}
+              "Lưu ý: Giá chưa bao gồm thuế GTGT & Phí Vận Chuyển, Phí Lắp Đặt nếu có."}
           </p>
         </div>
         <div className="flex gap-3 items-center">
