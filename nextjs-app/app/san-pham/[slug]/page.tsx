@@ -32,7 +32,7 @@ export default async function ProductDetail({
   const { data: products } = await sanityFetch({
     query: getProductsQuery,
     params: {
-      category: data?.category?._ref || "",
+      category: data?.category[0]?._ref || "",
     },
   });
 
