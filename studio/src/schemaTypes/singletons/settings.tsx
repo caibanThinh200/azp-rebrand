@@ -17,12 +17,18 @@ export const settings = defineType({
     {
       name: 'contact',
       title: 'Thông tin liên hệ',
-      type: 'blockContent'
+      type: 'blockContent',
     },
     {
-      name: "productNote",
+      name: 'phone',
+      description: "Mục này sẽ hiển thị rời rạc với thông tin liên hệ, vd: SDT nằm ở điều hướng trên website",
+      title: 'Số điện thoại',
+      type: 'string',
+    },
+    {
+      name: 'productNote',
       title: 'Lưu ý chung cho tất cả sản phẩm',
-      type: 'text' 
+      type: 'text',
     },
     {
       name: 'productFilter',

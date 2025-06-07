@@ -717,6 +717,7 @@ export type Settings = {
   _updatedAt: string;
   _rev: string;
   contact?: BlockContent;
+  phone?: string;
   productNote?: string;
   productFilter?: {
     minPrice?: number;
@@ -1033,6 +1034,7 @@ export type SettingsQueryResult = {
   _updatedAt: string;
   _rev: string;
   contact?: BlockContent;
+  phone?: string;
   productNote?: string;
   productFilter?: {
     minPrice?: number;

@@ -12,6 +12,7 @@ import ProductTabs from "./InformationTabs";
 
 interface ProductMetaInformationProps {
   data: GetProductDetailQueryResult;
+  note?: string;
 }
 
 type ColorOption = {
@@ -23,6 +24,7 @@ type ColorOption = {
 
 const ProductMetaInformation: React.FC<ProductMetaInformationProps> = ({
   data,
+  note,
 }) => {
   const { addItem } = useCart();
   const router = useRouter();
@@ -101,6 +103,7 @@ const ProductMetaInformation: React.FC<ProductMetaInformationProps> = ({
         <div className="space-y-2">
           <p className="text-sm text-gray-500">
             {data?.note ||
+              note ||
               "Lưu ý: Giá chưa bao gồm thuế GTGT & Phí Vận Chuyển, Phí Lắp Đặt nếu có."}
           </p>
         </div>

@@ -65,12 +65,12 @@ const Header: AsyncComponent<HeaderProps> = async function ({ siteSetting }) {
       <div className="flex-col gap-5 hidden lg:flex">
         <div className="flex justify-between items-center">
           <Link
-            href={"tel:0932120787"}
+            href={`tel:${siteSetting?.phone?.replaceAll(".", "").replaceAll(" ", "")}`}
             className="text-2xl font-bold flex gap-2 items-center text-light-brown relative group"
           >
             <div className="absolute left-0 -bottom-2 w-0 group-hover:w-full transition-all duration-300 h-0.5 rounded-full bg-light-brown"></div>
             <Phone size={32} />
-            0932 12.07.87
+            {siteSetting?.phone}
             {/* {siteSetting?.contact?.phone} */}
           </Link>
           <div className="flex gap-10 items-center">

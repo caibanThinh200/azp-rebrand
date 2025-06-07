@@ -4543,6 +4543,13 @@
         },
         "optional": true
       },
+      "phone": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "productNote": {
         "type": "objectAttribute",
         "value": {

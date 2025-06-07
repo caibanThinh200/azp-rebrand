@@ -152,10 +152,10 @@ export const ConditionalPropertiesInput = (props: InputProps) => {
           ))}
         </Stack>
       )}
-      {renderDefault({
+      {/* {renderDefault({
         ...props,
         // value: filteredValue,
-      })}
+      })} */}
     </Stack>
   )
 }

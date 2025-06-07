@@ -51,7 +51,7 @@ export default function ProductTabs({ content, properties }: ProductTabProps) {
             {properties
               ?.filter((property) => !!property?.values)
               ?.map((property) => (
-                <div key={property?._key} className="flex gap-2 items-center border-b border-border">
+                <div key={property?._key} className="flex gap-2 items-center border-b border-border pb-3">
                   <span className="font-bold basis-1/6">{property?.title}:</span>
                   <span>{property?.values}</span>
                 </div>

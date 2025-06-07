@@ -141,6 +141,7 @@ export default {
       title: 'Danh mục',
       type: 'array',
       of: [{type: 'reference', to: [{type: 'category'}]}],
+      initialValue: [],
       components: {
         input: CategoryTreeInput,
         preview: CategoryTreePreview,
@@ -152,13 +153,18 @@ export default {
       name: 'properties',
       title: 'Thuộc tính sản phẩm',
       type: 'array',
-      description: "Lưu ý: đối với thuộc tính yêu cầu nhập liệu tự do, sau khi nhập xong vui lòng bấm nút 'Lưu' để lưu lại thuộc tính",
+      initialValue: [],
+      readOnly: true,
+      // validation: (Rule) => Rule.info(''),
+      description:
+        "Lưu ý: đối với thuộc tính yêu cầu nhập liệu tự do, sau khi nhập xong vui lòng bấm nút 'Lưu' để lưu lại thuộc tính",
       components: {
         input: ConditionalPropertiesInput,
       },
       of: [
         {
           type: 'object',
+          readOnly: true,
           fields: [
             {
               name: 'title',

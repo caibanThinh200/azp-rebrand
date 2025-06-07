@@ -10,7 +10,7 @@ import {StructureResolverContext} from 'sanity/structure'
  * Learn more: https://www.sanity.io/docs/structure-builder-introduction
  */
 
-const DISABLED_TYPES = ['settings', 'assist.instruction.context', 'header', 'footer', 'category']
+const DISABLED_TYPES = ['settings', 'assist.instruction.context', 'header', 'footer', 'category', 'post']
 
 export const structure: StructureResolver = (
   S: StructureBuilder,

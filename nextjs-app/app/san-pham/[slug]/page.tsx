@@ -12,11 +12,12 @@ import ProductMetaInformation from "@/components/blocks/ProductDetail/MetaInform
 import ProductThumbnail from "@/components/blocks/ProductDetail/Thumbnails";
 import ProductSwiper from "@/components/blocks/ProductSwiper";
 import { sanityFetch } from "@/sanity/lib/live";
-import { getProductDetailQuery } from "@/sanity/lib/queries";
+import { getProductDetailQuery, settingsQuery } from "@/sanity/lib/queries";
 import { ImageProps } from "next-sanity/image";
 import { SanityAsset } from "@sanity/image-url/lib/types/types";
 import { getProductsQuery } from "@/sanity/lib/queries";
 import RecentProducts from "./components/RecentProducts";
+import { defineQuery } from "next-sanity";
 
 export default async function ProductDetail({
   params,
@@ -36,6 +37,12 @@ export default async function ProductDetail({
     },
   });
 
+  const { data: setting } = await sanityFetch({
+    query: defineQuery(`*[_type == "settings"][0] {productNote}`),
+  });
+
+  const { productNote } = setting;
+
   return (
     <div className="container space-y-0">
       <div className="grid grid-cols-3 gap-4">
@@ -45,7 +52,7 @@ export default async function ProductDetail({
 
         {/* Product Info */}
         <div className="col-span-2">
-          <ProductMetaInformation data={data} />
+          <ProductMetaInformation data={data} note={productNote} />
         </div>
       </div>
       {/* {(data?.content || data?.properties) && (
