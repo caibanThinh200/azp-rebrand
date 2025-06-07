@@ -60,14 +60,12 @@ export default function MegaMenu({ data }: MegaMenuProps) {
                     renderCategoryTree(subMenu.children, currentLevel + 1)
                   ) : (
                     <DropdownMenuLabel key={subMenu?._id}>
-                      {" "}
                       <Link href={`/danh-muc/${subMenu?.slug}`}>
                         {subMenu?.title}
                       </Link>
                     </DropdownMenuLabel>
                   )
                 )}
-                {}
               </DropdownMenuSubContent>
             )}
 
