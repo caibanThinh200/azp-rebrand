@@ -1,6 +1,8 @@
 import {Rule, defineField} from 'sanity'
 import {PackageIcon} from '@sanity/icons'
 import {ConditionalPropertiesInput} from '../../components/condition-properties-input'
+import {CategoryTreeInput} from '../../components/category-tree-input'
+import {CategoryTreePreview} from '../../components/category-tree-preview'
 
 export default {
   name: 'product',
@@ -94,8 +96,7 @@ export default {
       name: 'note',
       title: 'Lưu ý',
       type: 'text',
-      initialValue:
-        'Lưu ý: Giá chưa bao gồm thuế GTGT 10%.Giá sản phẩm có thể thay đổi dựa vào chất liệu',
+      initialValue: 'Lưu ý: Giá chưa bao gồm thuế GTGT & Phí Vận Chuyển, Phí Lắp Đặt nếu có.',
     },
     // {
     //   name: 'property',
@@ -140,12 +141,18 @@ export default {
       title: 'Danh mục',
       type: 'array',
       of: [{type: 'reference', to: [{type: 'category'}]}],
+      components: {
+        input: CategoryTreeInput,
+        preview: CategoryTreePreview,
+      },
+      autoGenerateArrayKeys: true,
       validation: (Rule: Rule) => Rule.required(),
     },
     defineField({
       name: 'properties',
       title: 'Thuộc tính sản phẩm',
       type: 'array',
+      description: "Lưu ý: đối với thuộc tính yêu cầu nhập liệu tự do, sau khi nhập xong vui lòng bấm nút 'Lưu' để lưu lại thuộc tính",
       components: {
         input: ConditionalPropertiesInput,
       },

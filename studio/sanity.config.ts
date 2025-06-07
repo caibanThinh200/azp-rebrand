@@ -17,7 +17,8 @@ import {
 } from 'sanity/presentation'
 import {assist} from '@sanity/assist'
 import {colorInput} from '@sanity/color-input'
-import { excelImportExportPlugin } from './plugins/excel-import-export'
+import {excelImportExportPlugin} from './plugins/excel-import-export'
+import {templates} from './src/templates'
 
 // Environment variables for project configuration
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'your-projectID'
@@ -137,11 +138,12 @@ export default defineConfig({
     assist(),
     visionTool(),
     colorInput(),
-    excelImportExportPlugin()
+    excelImportExportPlugin(),
   ],
 
   // Schema configuration, imported from ./src/schemaTypes/index.ts
   schema: {
     types: schemaTypes,
+    templates,
   },
 })

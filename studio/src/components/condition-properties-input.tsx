@@ -73,7 +73,7 @@ export const ConditionalPropertiesInput = (props: InputProps) => {
     const uniqueValues = [
       ...new Map(
         [...((value as any[]) || []), newValue]
-          .filter((val) => val?.values)
+          // .filter((val) => !!val?.values)
           .map((item) => [item['_key'], item]),
       ).values(),
     ]
@@ -96,11 +96,24 @@ export const ConditionalPropertiesInput = (props: InputProps) => {
               <Label style={{flexBasis: '15%'}}>{property.title}</Label>
               {property?.values?.length > 0 ? (
                 <Select
-                  defaultValue={property?.values[0]}
-                  onChange={(e) =>
-                    setNewValue({...newValue, [property._id]: e.currentTarget.value})
+                  defaultValue={
+                    (value as FilterValue[]).find((item) => item.propertyId === property._id)
+                      ?.values || undefined
                   }
+                  // defaultValue={property?.values[0]}
+                  onChange={(e) => {
+                    setNewValue({...newValue, [property?._id]: e.currentTarget.value})
+                    handleAddValue(property._id, e.currentTarget.value, property?.title)
+                  }}
                 >
+                  <option
+                    // disabled={
+                    //   !(value as FilterValue[]).find((item) => item.propertyId === property._id)
+                    //     ?.values || !newValue[property?._id]
+                    // }
+                    selected
+                    value={undefined}
+                  ></option>
                   {property?.values?.map((value) => (
                     <option value={value} key={value}>
                       {value}
@@ -108,31 +121,33 @@ export const ConditionalPropertiesInput = (props: InputProps) => {
                   ))}
                 </Select>
               ) : (
-                <div style={{width: '100%'}}>
-                  <TextInput
-                    defaultValue={
-                      (value as FilterValue[]).find((item) => item.propertyId === property._id)
-                        ?.values
-                    }
-                    onChange={(e) =>
-                      setNewValue({...newValue, [property._id]: e.currentTarget.value})
-                    }
-                  />
-                </div>
+                <Flex style={{width: '100%'}} align={'center'} gap={5}>
+                  <div style={{width: '100%'}}>
+                    <TextInput
+                      defaultValue={
+                        (value as FilterValue[]).find((item) => item.propertyId === property._id)
+                          ?.values
+                      }
+                      onChange={(e) =>
+                        setNewValue({...newValue, [property._id]: e.currentTarget.value})
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Button
+                      // icon={<AddIcon style={{ flex: 0 }} />}
+                      mode="ghost"
+                      tone="positive"
+                      onClick={() =>
+                        handleAddValue(property._id, newValue[property._id], property?.title)
+                      }
+                      // disabled={!newName.trim() || !newValue.trim()}
+                    >
+                      Lưu
+                    </Button>
+                  </div>
+                </Flex>
               )}
-              <div>
-                <Button
-                  // icon={<AddIcon style={{ flex: 0 }} />}
-                  mode="ghost"
-                  tone="positive"
-                  onClick={() =>
-                    handleAddValue(property._id, newValue[property._id], property?.title)
-                  }
-                  // disabled={!newName.trim() || !newValue.trim()}
-                >
-                  Lưu
-                </Button>
-              </div>
             </Flex>
           ))}
         </Stack>

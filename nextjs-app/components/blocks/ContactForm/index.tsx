@@ -9,6 +9,7 @@ import {
 } from "@/sanity.types";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import PortableText from "react-portable-text";
 
 type FormData = {
   name: string;
@@ -216,7 +217,7 @@ export default function ContactForm({ block, siteSettings }: ContactFormProps) {
               </div>
 
               <div className="space-y-6">
-                {siteSettings?.contact?.phone && (
+                {/* {siteSettings?.contact?.phone && (
                   <div className="flex items-center">
                     <Phone className="w-5 h-5 mr-4 text-white" />
                     <span>{siteSettings?.contact?.phone}</span>
@@ -236,7 +237,8 @@ export default function ContactForm({ block, siteSettings }: ContactFormProps) {
                       <MapPin className="w-5 h-5 mr-4 text-white shrink-0" />
                       <span>{addr}</span>
                     </div>
-                  ))}
+                  ))} */}
+                <PortableText content={siteSettings?.contact as object[]} />
               </div>
             </div>
           </div>

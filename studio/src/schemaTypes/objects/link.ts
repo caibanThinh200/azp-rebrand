@@ -13,32 +13,29 @@ export const link = defineType({
   type: 'object',
   icon: LinkIcon,
   fields: [
-    defineField({
-      name: 'linkType',
-      title: 'Loại đường dẫn',
-      type: 'string',
-      initialValue: 'url',
-      options: {
-        list: [
-          {title: 'URL', value: 'href'},
-          {title: 'Trang', value: 'page'},
-          // {title: 'Blog', value: 'post'},
-        ],
-        layout: 'radio',
-      },
-    }),
+    // defineField({
+    //   name: 'linkType',
+    //   title: 'Loại đường dẫn',
+    //   type: 'string',
+    //   initialValue: 'url',
+    //   options: {
+    //     list: [
+    //       {title: 'URL', value: 'href'},
+    //       {title: 'Trang', value: 'page'},
+    //       // {title: 'Blog', value: 'post'},
+    //     ],
+    //     layout: 'radio',
+    //   },
+    // }),
     defineField({
       name: 'href',
-      title: 'URL',
+      title: 'URL', 
       type: 'url',
       hidden: ({parent}) => parent?.linkType !== 'href',
       validation: (Rule) =>
-        // Custom validation to ensure URL is provided if the link type is 'href'
-        Rule.custom((value, context: any) => {
-          if (context.parent?.linkType === 'href' && !value) {
-            return 'Yêu cầu nhập URL'
-          }
-          return true
+        Rule.uri({
+          scheme: ['http', 'https', 'mailto', 'tel'],
+          allowRelative: true
         }),
     }),
     {

@@ -39,18 +39,23 @@ export default function ProductTabs({ content, properties }: ProductTabProps) {
 
         {content && (
           <TabsContent value="description" className="pt-6">
-            <PortableText className="whitespace-pre-line" content={content as object[]} />
+            <PortableText
+              className="whitespace-pre-line"
+              content={content as object[]}
+            />
           </TabsContent>
         )}
 
         <TabsContent value="properties" className="pt-6">
           <div className="flex flex-col gap-5">
-            {properties?.map((property) => (
-              <div key={property?._key} className="flex gap-2 items-center">
-                <span className="font-bold">{property?.title}:</span>
-                <span>{property?.values}</span>
-              </div>
-            ))}
+            {properties
+              ?.filter((property) => !!property?.values)
+              ?.map((property) => (
+                <div key={property?._key} className="flex gap-2 items-center border-b border-border">
+                  <span className="font-bold basis-1/6">{property?.title}:</span>
+                  <span>{property?.values}</span>
+                </div>
+              ))}
           </div>
         </TabsContent>
       </Tabs>

@@ -5,6 +5,7 @@ import { urlForImage } from "@/sanity/lib/utils";
 import { AsyncComponent } from "@/types/async-component";
 import Image from "next/image";
 import Link from "next/link";
+import PortableText from "react-portable-text";
 
 interface FooterProps {
   siteSetting: SettingsQueryResult;
@@ -25,7 +26,7 @@ const Footer: AsyncComponent<FooterProps> = async ({ siteSetting }) => {
           <div>
             <h3 className="text-yellow font-bold mb-4">{data?.headline}</h3>
             <div className="text-sm flex flex-col gap-5">
-              {(siteSetting?.contact?.address || [])?.length > 0 &&
+              {/* {(siteSetting?.contact?.address || [])?.length > 0 &&
                 siteSetting?.contact?.address?.map((addr, idx) => (
                   <p key={idx} className="text-sm">
                     {addr}
@@ -46,7 +47,8 @@ const Footer: AsyncComponent<FooterProps> = async ({ siteSetting }) => {
                 >
                   Email: {siteSetting?.contact?.email}
                 </Link>
-              )}
+              )} */}
+              <PortableText content={siteSetting?.contact as object[]} />
             </div>
           </div>
 
@@ -56,7 +58,11 @@ const Footer: AsyncComponent<FooterProps> = async ({ siteSetting }) => {
             <ul className="text-sm space-y-3">
               {data?.supportColumn?.map((column) => (
                 <li key={column?._key}>
-                  <Link href={`/chinh-sach#${column?.slug?.current as string}` || ""}>
+                  <Link
+                    href={
+                      `/chinh-sach#${column?.slug?.current as string}` || ""
+                    }
+                  >
                     {column?.title}
                   </Link>
                 </li>
