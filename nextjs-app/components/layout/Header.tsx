@@ -70,7 +70,8 @@ const Header: AsyncComponent<HeaderProps> = async function ({ siteSetting }) {
           >
             <div className="absolute left-0 -bottom-2 w-0 group-hover:w-full transition-all duration-300 h-0.5 rounded-full bg-light-brown"></div>
             <Phone size={32} />
-            {siteSetting?.contact?.phone}
+            0932 12.07.87
+            {/* {siteSetting?.contact?.phone} */}
           </Link>
           <div className="flex gap-10 items-center">
             <ul className="flex gap-5 items-center">
