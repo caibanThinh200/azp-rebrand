@@ -173,10 +173,9 @@ export const getFooterQuery = defineQuery(`
 `);
 
 export const getProductsQuery = defineQuery(`
-    *[_type == "product" && (
-      $category in category._ref || 
-      category._ref in *[_type == "category" && parent._ref == $category]._id
-    )]
+    *[_type == "product" && 
+    count(category[_ref in $category]) > 0
+    ]
 `);
 
 export const searchProductQuery = defineQuery(`

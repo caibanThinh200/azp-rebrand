@@ -3,6 +3,7 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSub,
   DropdownMenuSubContent,
@@ -33,12 +34,12 @@ export default function MegaMenu({ data }: MegaMenuProps) {
   let openTimeout: NodeJS.Timeout;
 
   const renderCategoryTree = (nodes: CategoryNode[], currentLevel = 1) => {
-    return (
-      <DropdownMenuSub key={data?._id}>
-        {nodes?.map((menu) => (
+    return nodes?.map((menu) =>
+      menu?.children?.length > 0 ? (
+        <DropdownMenuSub key={`sub-${menu?._id}`}>
           <div key={menu?._id}>
             <DropdownMenuSubTrigger
-              key={menu?._id}
+              key={`sub-${menu?._id}`}
               className="flex gap-2 items-center"
             >
               <Link
@@ -53,13 +54,13 @@ export default function MegaMenu({ data }: MegaMenuProps) {
               <DropdownMenuSubContent
                 sideOffset={10}
                 alignOffset={-8}
-                key={menu?._id}
+                // key={menu?._id}
               >
                 {menu?.children?.map((subMenu) =>
                   subMenu.children.length > 0 ? (
                     renderCategoryTree(subMenu.children, currentLevel + 1)
                   ) : (
-                    <DropdownMenuLabel key={subMenu?._id}>
+                    <DropdownMenuLabel key={`label-${subMenu?._id}`}>
                       <Link href={`/danh-muc/${subMenu?.slug}`}>
                         {subMenu?.title}
                       </Link>
@@ -71,21 +72,31 @@ export default function MegaMenu({ data }: MegaMenuProps) {
 
             {/* <ChevronLeft /> */}
           </div>
-        ))}
-      </DropdownMenuSub>
+        </DropdownMenuSub>
+      ) : (
+        <DropdownMenuItem key={`item-${menu?._id}`}>
+          <Link href={`/danh-muc/${menu?.slug}`}>{menu?.title}</Link>
+        </DropdownMenuItem>
+      )
     );
   };
 
   return (
     <div>
-      <DropdownMenu modal={false} open={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenu
+        key={data?._id}
+        modal={false}
+        open={isOpen}
+        onOpenChange={setIsOpen}
+      >
         <DropdownMenuTrigger
+          asChild
+          key={`trigger-${data?._id}`}
           onMouseEnter={() => {
             clearTimeout(openTimeout);
             setIsOpen(true);
           }}
           onMouseLeave={() => {
-            console.log("leave");
             openTimeout = setTimeout(() => setIsOpen(false), 500); // 200ms delay
           }}
           className="py-2 outline-none"

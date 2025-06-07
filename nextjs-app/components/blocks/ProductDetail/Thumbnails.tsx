@@ -7,6 +7,7 @@ import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import Image from "next/image";
 import type { Image as SanityImage } from "sanity";
 import { urlForImage } from "@/sanity/lib/utils";
+import FallbackImage from "@/components/ui/fallback-image";
 
 interface ProductThumbnailProps {
   images: SanityImage[];
@@ -27,10 +28,10 @@ const ProductThumbnail: React.FC<ProductThumbnailProps> = ({ images }) => {
           modules={[FreeMode, Navigation, Thumbs]}
           className="product-swiper w-full rounded-20"
         >
-          {images.map((image) => (
+          {images?.map((image) => (
             <SwiperSlide key={image._key as string}>
               <div className="aspect-square relative size-full h-auto min-h-[400px]">
-                <Image
+                <FallbackImage
                   src={urlForImage(image)?.url() as string}
                   alt={`image ${image?._key}` as string}
                   width={image?.hotspot?.width || 300}
@@ -55,12 +56,12 @@ const ProductThumbnail: React.FC<ProductThumbnailProps> = ({ images }) => {
           {images.map((image) => (
             <SwiperSlide key={image?._key as string}>
               <div className="aspect-square relative cursor-pointer border rounded-md overflow-hidden bg-gray-100">
-                <Image
+                <FallbackImage
                   src={urlForImage(image)?.url() as string}
                   alt={`image ${image?._key}` as string}
-                  width={image?.hotspot?.width || 100}
-                  height={image?.hotspot?.height || 100}
-                  className="object-contain"
+                  width={image?.hotspot?.width || 300}
+                  height={image?.hotspot?.height || 300}
+                  className="object-cover w-full"
                 />
               </div>
             </SwiperSlide>
