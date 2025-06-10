@@ -30,7 +30,7 @@ const ProductList: React.FC<ProductListProps> = ({ block }) => {
       </div> */}
       <div className="grid lg:grid-cols-4 gap-5">
         {block?.products?.map((product, idx) => (
-          <ProductCard data={product} key={idx} />
+          <ProductCard data={product} key={product?.productId} />
         ))}
       </div>
       <div className="flex justify-center">

@@ -41,7 +41,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
               [])[0]
           )?.url() as string) || ""
         }
-        alt="Product"
+        alt={data?.title || data?.productId}
         width={200}
         height={200}
         className="w-full h-[200px] object-contain rounded-xl"

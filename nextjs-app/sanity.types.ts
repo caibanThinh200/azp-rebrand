@@ -1944,6 +1944,77 @@ export type GetFooterQueryResult = {
   }>;
   copyright?: string;
 } | null;
+// Variable: getProductsQuery
+// Query: *[_type == "product" &&     count(category[_ref in $category]) > 0    ]
+export type GetProductsQueryResult = Array<{
+  _id: string;
+  _type: "product";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  productId: string;
+  title: string;
+  slug: Slug;
+  originPrice: number;
+  discountPrice: number;
+  description?: string;
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }>;
+  colors?: Array<string>;
+  note?: string;
+  images?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
+  category: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "category";
+  }>;
+  properties?: Array<{
+    title?: string;
+    values?: string;
+    _key: string;
+  }>;
+}>;
 // Variable: searchProductQuery
 // Query: *[_type == "product" && title match "$search**"  ]
 export type SearchProductQueryResult = Array<{
@@ -2117,6 +2188,7 @@ declare module "@sanity/client" {
     "\n*[_type == \"category\" && !defined(parent)] {\n  ...,\n}\n": RootCategoriesResult;
     "\n*[_type == \"category\" && slug.current == $slug] {\n  ...,\n}[0]\n": SingleCategoryQueryResult;
     "\n  *[_type == \"footer\"] {\n    ...,\n    \"supportColumn\": supportColumn[]{\n      ...,\n      \"post\": post->,\n      \"page\": page->,  \n    }\n  }[0]\n": GetFooterQueryResult;
+    "\n    *[_type == \"product\" && \n    count(category[_ref in $category]) > 0\n    ]\n": GetProductsQueryResult;
     "\n  *[_type == \"product\" && title match \"$search**\"\n  ]\n": SearchProductQueryResult;
     "\n    *[_type == \"product\" && slug.current == $slug] {...,}[0]\n": GetProductDetailQueryResult;
     "\n    *[_type == \"property\"]\n": GetPropertiesResult;
