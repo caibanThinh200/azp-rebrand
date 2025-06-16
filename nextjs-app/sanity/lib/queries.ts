@@ -121,22 +121,22 @@ export const getHeaderQuery = defineQuery(`
   },
   categories[]-> {
     ...,
-    "children": *[_type == "category" && parent._ref == ^._id] {
+    "children": *[_type == "category" && parent._ref == ^._id] | order(order asc) {
       _id,
       title,
       "slug": slug.current,
       "level": 2,
-      "children": *[_type == "category" && parent._ref == ^._id] {
+      "children": *[_type == "category" && parent._ref == ^._id] | order(order asc) {
         _id,
         title,
         "slug": slug.current,
         "level": 3,
-        "children": *[_type == "category" && parent._ref == ^._id] {
+        "children": *[_type == "category" && parent._ref == ^._id] | order(order asc) {
           _id,
           title,
           "slug": slug.current,
           "level": 4,
-          "children": *[_type == "category" && parent._ref == ^._id] {
+          "children": *[_type == "category" && parent._ref == ^._id] | order(order asc) {
             _id,
             title,
             "slug": slug.current,
@@ -195,10 +195,10 @@ export const getPaginatedProducts = defineQuery(`
     )] | order(_createdAt desc) [($pageSize * ($pageNumber - 1))...($pageSize * $pageNumber)],
     "pageSize": $pageSize,
     "currentPage": $pageNumber,
-    "totalPages": select(
-      count(*[_type == "product"]) % $pageSize == 0 => count(*[_type == "product"]) / $pageSize,
-      count(*[_type == "product"]) / $pageSize + 1
-    )
+    "totalPages": count(*[_type == "product" && (
+      $category in category[]._ref || 
+       count(category[_ref in *[_type == "category" && parent._ref == *[_type == "category" && _id == $category][0]._id]._id]) > 0
+    )])
   }
 `);
 

@@ -30,18 +30,18 @@ export async function GET(request: NextRequest) {
   {
     "total": count(*[_type == "product" && (
       $category in category[]._ref || 
-       count(category[_ref in *[_type == "category" && parent._ref == *[_type == "category" && _id == $category][0]._id]._id]) > 0
-    )]),
+      count(category[_ref in *[_type == "category" && parent._ref == *[_type == "category" && _id == $category][0]._id]._id]) > 0
+    )${filterConditions?.length ? `&&${filterConditions}` : ""} ${searchQuery} ${maxPriceQuery} ${minPriceQuery}] | order(_createdAt desc)),
     "items": *[_type == "product" && (
       $category in category[]._ref || 
       count(category[_ref in *[_type == "category" && parent._ref == *[_type == "category" && _id == $category][0]._id]._id]) > 0
     )${filterConditions?.length ? `&&${filterConditions}` : ""} ${searchQuery} ${maxPriceQuery} ${minPriceQuery}] | order(_createdAt desc) [($pageSize * ($pageNumber - 1))...($pageSize * $pageNumber)],
     "pageSize": $pageSize,
     "currentPage": $pageNumber,
-    "totalPages": select(
-      count(*[_type == "product"]) % $pageSize == 0 => count(*[_type == "product"]) / $pageSize,
-      count(*[_type == "product"]) / $pageSize + 1
-    )
+    "totalPages": count(*[_type == "product" && (
+      $category in category[]._ref || 
+      count(category[_ref in *[_type == "category" && parent._ref == *[_type == "category" && _id == $category][0]._id]._id]) > 0
+    )${filterConditions?.length ? `&&${filterConditions}` : ""} ${searchQuery} ${maxPriceQuery} ${minPriceQuery}] | order(_createdAt desc)) / $pageSize
   }
 `);
   const { data } = await sanityFetch({

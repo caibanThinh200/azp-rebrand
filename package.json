@@ -30,6 +30,7 @@
     "@tailwindcss/postcss": "^4.0.15",
     "lucide-react": "^0.483.0",
     "motion": "^12.5.0",
+    "sanity-plugin-media": "^3.0.3",
     "swiper": "^11.2.6"
   }
 }

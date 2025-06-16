@@ -4,11 +4,11 @@ import ProductList from "@/components/blocks/ProductListing";
 import Filter from "@/components/blocks/ProductListing/Filter";
 import { CombinedPagination } from "@/components/ui/combined-pagination";
 import { GetPropertiesResult, Product, Settings } from "@/sanity.types";
-import { client } from "@/sanity/lib/client";
-import { getPaginatedProducts } from "@/sanity/lib/queries";
 import { PaginatedProducts } from "@/types/override";
 import { Loader, Package } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { parseAsInteger, parseAsString, useQueryStates } from "nuqs";
+import { removeEmptyObject } from "@/lib/utils";
 
 interface ProductListProps {
   paginations: Omit<PaginatedProducts, "items">;
@@ -29,8 +29,23 @@ const Products: React.FC<ProductListProps> = ({
     ...paginations,
     items: products,
   });
-  const [pagination, setPagination] = useState(paginations);
-  const [filterParams, setFilterParams] = useState<{ [x: string]: string }>({});
+  const [pagination, setPagination] = useQueryStates({
+    pageSize: parseAsInteger.withDefault(paginations?.pageSize),
+    currentPage: parseAsInteger.withDefault(paginations?.currentPage),
+    total: parseAsInteger.withDefault(paginations.total),
+  });
+  const [filterParams, setFilterParams] = useQueryStates({
+    ...properties?.reduce(
+      (prev, curr) => ({
+        ...prev,
+        [curr._id]: parseAsString.withDefault(""),
+      }),
+      {}
+    ),
+    min: parseAsInteger.withDefault(0),
+    max: parseAsInteger.withDefault(0),
+    search: parseAsString.withDefault(""),
+  });
   const [loading, setLoading] = useState(false);
 
   const handleFetchProduct = async () => {
@@ -39,7 +54,7 @@ const Products: React.FC<ProductListProps> = ({
       pageSize: pagination.pageSize.toString(),
       pageNumber: pagination.currentPage.toString(),
       category: categoryId,
-      ...filterParams,
+      ...removeEmptyObject(filterParams),
     };
 
     const searchParams = new URLSearchParams(params).toString();
@@ -67,8 +82,8 @@ const Products: React.FC<ProductListProps> = ({
   const handleUpdateFilter = (filter: { [x: string]: string }) => {
     Object.keys(filter).forEach((key) => {
       if (!filter[key]) {
-        delete filter[key];
-        delete filterParams[key];
+        filter[key] = "";
+        delete (filterParams as any)[key];
       }
     });
     setFilterParams({ ...filterParams, ...filter });
@@ -78,7 +93,7 @@ const Products: React.FC<ProductListProps> = ({
     <div>
       <Filter
         priceFilter={priceFilter}
-        filters={filterParams}
+        filters={filterParams as any}
         handleUpdateFilter={handleUpdateFilter}
         properties={properties}
       />
@@ -86,9 +101,9 @@ const Products: React.FC<ProductListProps> = ({
         <Package />
         Danh sách sản phẩm ({result?.total} kết quả)
       </h2>
-      <div className="p-10 bg-[#C1C1BD] rounded-20 mt-5 relative">
+      <div className="p-10 bg-[#C1C1BD] rounded-20 mt-5 relative overflow-hidden">
         {loading && (
-          <div className="absolute z-10 bg-white/50 size-full grid place-items-center">
+          <div className="absolute -m-10 z-10 bg-white/50 size-full grid place-items-center">
             <Loader className="animate-spin" />
           </div>
         )}
@@ -110,7 +125,11 @@ const Products: React.FC<ProductListProps> = ({
             />
           </div>
         )}
-        <CombinedPagination {...pagination} onPageChange={handlePagination} />
+        <CombinedPagination
+          {...pagination}
+          total={result?.total}
+          onPageChange={handlePagination}
+        />
       </div>
     </div>
   );

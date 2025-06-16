@@ -1,6 +1,9 @@
 import {defineType} from 'sanity'
 import ReadOnly from '../../components/read-only'
 import {BillIcon} from '@sanity/icons'
+import {ContactInfoInput} from '../../components/contact-info-input'
+import {OrderItemsTable} from '../../components/order-table'
+import dayjs from 'dayjs'
 
 export const order = defineType({
   type: 'document',
@@ -11,9 +14,10 @@ export const order = defineType({
   preview: {
     select: {
       id: '_id',
+      _createdAt: '_createdAt',
     },
-    prepare: ({id}: {id: string}) => ({
-      title: `Đơn hàng: ${id.slice(0, 10)}`,
+    prepare: ({id, _createdAt}: {id: string; _createdAt: string}) => ({
+      title: `Đơn hàng-${dayjs(_createdAt).format('DD/MM/YYYY-hh:mm:ss')}`,
     }),
   },
   fields: [
@@ -27,21 +31,12 @@ export const order = defineType({
       },
     },
     {
-      name: 'contact',
-      title: 'Thông tin liên lạc',
-      type: 'object',
-      fields: [
-        {name: 'fullName', title: 'Họ tên', type: 'string', readOnly: true},
-        {name: 'address', title: 'Địa chỉ', type: 'string', readOnly: true},
-        {name: 'email', title: 'Email', type: 'string', readOnly: true},
-        {name: 'phone', title: 'SDT', type: 'string', readOnly: true},
-        {name: 'note', title: 'Ghi chú', type: 'text', readOnly: true},
-      ],
-    },
-    {
       name: 'orderSummary',
       title: 'Thông tin sản phẩm',
       type: 'object',
+      components: {
+        input: OrderItemsTable,
+      },
       fields: [
         {name: 'subTotal', title: 'Tổng tạm tính', type: 'number', readOnly: true},
         {name: 'ship', title: 'Phí Ship', type: 'number', readOnly: true},
@@ -91,6 +86,21 @@ export const order = defineType({
             },
           ],
         },
+      ],
+    },
+    {
+      name: 'contact',
+      title: 'Thông tin liên lạc',
+      type: 'object',
+      components: {
+        input: ContactInfoInput,
+      },
+      fields: [
+        {name: 'fullName', title: 'Họ tên', type: 'string', readOnly: true},
+        {name: 'address', title: 'Địa chỉ', type: 'string', readOnly: true},
+        {name: 'email', title: 'Email', type: 'string', readOnly: true},
+        {name: 'phone', title: 'SDT', type: 'string', readOnly: true},
+        {name: 'note', title: 'Ghi chú', type: 'text', readOnly: true},
       ],
     },
   ],

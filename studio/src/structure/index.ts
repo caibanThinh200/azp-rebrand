@@ -1,8 +1,16 @@
-import {CogIcon, ComponentIcon, DocumentIcon, FolderIcon, TagIcon} from '@sanity/icons'
+import {
+  CogIcon,
+  ComponentIcon,
+  DocumentIcon,
+  DragHandleIcon,
+  FolderIcon,
+  TagIcon,
+} from '@sanity/icons'
 import type {StructureBuilder, StructureResolver} from 'sanity/structure'
 import pluralize from 'pluralize-esm'
 import {buildCategoryStructure} from '../lib/category-structure'
 import {StructureResolverContext} from 'sanity/structure'
+import {DraggableCategoryList} from '../components/draggable-category-list'
 
 /**
  * Structure builder is useful whenever you want to control how documents are grouped and
@@ -17,6 +25,7 @@ const DISABLED_TYPES = [
   'footer',
   'category',
   'post',
+  'media.tag'
 ]
 
 export const structure: StructureResolver = (
@@ -40,6 +49,7 @@ export const structure: StructureResolver = (
           return S.list()
             .title('Danh mục')
             .items([
+              S.divider(),
               S.listItem()
                 .title('Tạo danh mục')
                 .icon(TagIcon)

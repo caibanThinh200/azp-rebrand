@@ -24,6 +24,14 @@ export default {
       },
       validation: (Rule: Rule) => Rule.required(),
     },
+    defineField({
+      name: 'order',
+      title: 'Số thứ tự',
+      type: 'number',
+      // description: 'Used for sorting categories within the same parent level',
+      initialValue: 0,
+      validation: (Rule) => Rule.integer(),
+    }),
     {
       name: 'parent',
       title: 'Danh mục cha',

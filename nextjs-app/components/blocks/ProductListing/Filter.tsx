@@ -82,6 +82,7 @@ const Filter = ({
             <div className="flex gap-5 items-center flex-col lg:flex-row">
               <div>
                 <Input
+                  defaultValue={filters?.search}
                   onChange={(e) => setSearch(e.target.value)}
                   icon={<Search size={16} />}
                   placeholder="Tìm kiếm sản phẩm"

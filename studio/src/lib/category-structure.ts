@@ -1,5 +1,14 @@
-import {DocumentIcon, FolderIcon, PackageIcon, TagIcon} from '@sanity/icons'
+import {
+  AddIcon,
+  DocumentIcon,
+  DragHandleIcon,
+  EditIcon,
+  FolderIcon,
+  PackageIcon,
+  TagIcon,
+} from '@sanity/icons'
 import {StructureBuilder, StructureResolver} from 'sanity/structure'
+import {DraggableCategoryList} from '../components/draggable-category-list'
 
 // Helper function to build category tree structure
 export const buildCategoryStructure = async (
@@ -8,7 +17,7 @@ export const buildCategoryStructure = async (
   parentId?: string,
 ): Promise<any[]> => {
   const query = parentId
-    ? `*[_type == "category" && parent._ref == $parentId] | order(title asc) {
+    ? `*[_type == "category" && parent._ref == $parentId] | order(order asc) {
         _id,
         title,
         "slug": slug.current,
@@ -16,7 +25,7 @@ export const buildCategoryStructure = async (
         "hasChildren": count(*[_type == "category" && parent._ref == ^._id]) > 0,
         "productCount": count(*[_type == "product" && ^._id in categories[]._ref])
       }`
-    : `*[_type == "category" && !defined(parent)] | order(title asc) {
+    : `*[_type == "category" && !defined(parent)] | order(order asc) {
         _id,
         title,
         "slug": slug.current,
@@ -27,6 +36,12 @@ export const buildCategoryStructure = async (
 
   const categories = await client.fetch(query, parentId ? {parentId} : {})
 
+  const createDraggableCategoryManagement = (parentId?: string, parentTitle?: string) => {
+    return S.component()
+      .title('Sắp xếp')
+      .component(() => DraggableCategoryList({parentId, parentTitle}))
+  }
+
   return categories.map((category: any) => {
     if (category.hasChildren) {
       // Parent category with children
@@ -36,20 +51,25 @@ export const buildCategoryStructure = async (
         .icon(TagIcon)
         .child(async () => {
           const childItems = await buildCategoryStructure(client, S, category._id)
-
+          console.log(childItems)
           return S.list()
             .title(`${category.title} (${category.childrenCount || 0})`)
             .items([
+              S.listItem()
+                .id(`manage-children-${category._id}`)
+                .title(`Sắp xếp thứ tự danh mục con`)
+                .icon(DragHandleIcon)
+                .child(createDraggableCategoryManagement(category._id, category.title)),
               // Edit this category
               S.listItem()
                 .id(`edit-category-${category._id}`)
                 .title(`Chỉnh sửa "${category.title}"`)
-                .icon(TagIcon)
+                .icon(EditIcon)
                 .child(S.document().documentId(category._id).schemaType('category')),
               S.listItem()
                 .id(`create-child-${category._id}`)
                 .title(`Tạo danh mục con`)
-                .icon(TagIcon)
+                .icon(AddIcon)
                 .child(
                   S.document()
                     .schemaType('category')
@@ -60,6 +80,8 @@ export const buildCategoryStructure = async (
                 ),
               // Divider
               S.divider(),
+              // Child categories
+              ...childItems,
 
               // Products in this category only
               // S.listItem()
@@ -96,9 +118,6 @@ export const buildCategoryStructure = async (
 
               // Divider
               // S.divider(),
-
-              // Child categories
-              ...childItems,
             ])
         })
     } else {
