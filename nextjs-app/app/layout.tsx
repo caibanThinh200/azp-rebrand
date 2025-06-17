@@ -26,7 +26,12 @@ import {
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { handleError } from "./client-utils";
 import Layout from "@/components/layout";
-import { SettingsQueryResult } from "@/sanity.types";
+import {
+  GetAllCategoriesResult,
+  GetAllPagesResult,
+  GetAllProductsResult,
+  SettingsQueryResult,
+} from "@/sanity.types";
 import { CookiesProvider } from "react-cookie";
 
 /**
@@ -95,15 +100,15 @@ export default async function RootLayout({
   const categories = await sanityFetch({ query: getAllCategories });
 
   const breadcrumpSitemap = [
-    ...pages?.data?.map((page) => ({
+    ...(pages?.data as GetAllPagesResult)?.map((page) => ({
       title: page.name,
       slug: page?.slug?.current,
     })),
-    ...products?.data?.map((product) => ({
+    ...(products?.data as GetAllProductsResult)?.map((product) => ({
       title: product?.title,
       slug: product?.slug?.current,
     })),
-    ...categories?.data?.map((category) => ({
+    ...(categories?.data as GetAllCategoriesResult)?.map((category) => ({
       title: category?.title,
       slug: category?.slug?.current,
     })),

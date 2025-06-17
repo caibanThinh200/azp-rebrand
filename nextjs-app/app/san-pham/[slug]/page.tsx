@@ -18,6 +18,8 @@ import { SanityAsset } from "@sanity/image-url/lib/types/types";
 import { getProductsQuery } from "@/sanity/lib/queries";
 import RecentProducts from "./components/RecentProducts";
 import { defineQuery } from "next-sanity";
+import { GetProductDetailQueryResult } from "@/sanity.types";
+import { Reference } from "sanity";
 
 export default async function ProductDetail({
   params,
@@ -33,7 +35,7 @@ export default async function ProductDetail({
   const { data: products } = await sanityFetch({
     query: getProductsQuery,
     params: {
-      category: data?.category?.map((c) => c?._ref) || "",
+      category: (data?.category as Reference[])?.map((c) => c?._ref) || "",
     },
   });
 

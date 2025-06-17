@@ -1,4 +1,8 @@
-import { Settings, SettingsQueryResult } from "@/sanity.types";
+import {
+  GetFooterQueryResult,
+  Settings,
+  SettingsQueryResult,
+} from "@/sanity.types";
 import { sanityFetch } from "@/sanity/lib/live";
 import { getFooterQuery } from "@/sanity/lib/queries";
 import { urlForImage } from "@/sanity/lib/utils";
@@ -12,7 +16,9 @@ interface FooterProps {
 }
 
 const Footer: AsyncComponent<FooterProps> = async ({ siteSetting }) => {
-  const { data } = await sanityFetch({ query: getFooterQuery });
+  const { data }: { data: GetFooterQueryResult } = await sanityFetch({
+    query: getFooterQuery,
+  });
   return (
     <footer
       style={{
