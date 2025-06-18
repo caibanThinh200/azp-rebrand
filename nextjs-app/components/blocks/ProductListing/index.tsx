@@ -1,18 +1,7 @@
 "use client";
 
 import ProductCard from "@/components/ui/ProductCard";
-import Filter from "./Filter";
-import { Button } from "@/components/ui/button";
-import { CombinedPagination } from "@/components/ui/combined-pagination";
-import { sanityFetch } from "@/sanity/lib/live";
-import { getProductsQuery } from "@/sanity/lib/queries";
-import { useEffect, useState } from "react";
-import {
-  GetProductsQueryResult,
-  Product,
-  ProductListing as IProductListing,
-} from "@/sanity.types";
-import { client } from "@/sanity/lib/client";
+import { Product, ProductListing as IProductListing } from "@/sanity.types";
 
 interface ProductListProps {
   block: Omit<IProductListing, "products"> & { products: Product[] };
@@ -28,9 +17,9 @@ const ProductList: React.FC<ProductListProps> = ({ block }) => {
       {/* <div>
         <Filter />
       </div> */}
-      <div className="grid lg:grid-cols-4 gap-5">
-        {block?.products?.map((product, idx) => (
-          <ProductCard data={product} key={product?.productId} />
+      <div className="grid xl:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2 lg:gap-5">
+        {block?.products?.map((product) => (
+          <ProductCard data={product} key={product?._id} />
         ))}
       </div>
       <div className="flex justify-center">

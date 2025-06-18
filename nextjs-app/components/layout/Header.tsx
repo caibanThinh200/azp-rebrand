@@ -31,7 +31,7 @@ const Header: AsyncComponent<HeaderProps> = async function ({ siteSetting }) {
     <header className="lg:py-10 py-5 flex flex-col gap-5 container">
       <div
         style={{ background: data?.headerBackground?.hex }}
-        className="rounded-20 p-5 flex justify-between items-center relative"
+        className="rounded-20 lg:p-5 p-3 flex justify-between items-center relative"
       >
         <Link href={"/"}>
           <div className="bg-white size-[40px] lg:size-[70px] rounded-full">

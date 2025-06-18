@@ -11,7 +11,7 @@ const Process = ({ block }: { block: IProcessStep }) => {
     >
       <div className="flex flex-col gap-10 items-center">
         <h2 className="text-white">{block?.title}</h2>
-        <div className="grid lg:grid-cols-2 gap-y-5 items-center">
+        <div className="grid md:grid-cols-2 gap-5 items-center">
           {block?.steps?.map((step, idx: number) => (
             <div
               key={step?._key}

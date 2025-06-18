@@ -27,7 +27,7 @@ const Hero: React.FC<{ block: IHero }> = ({ block }) => {
           EffectFade,
           Autoplay,
         ]}
-        className="aspect-[3]"
+        className="lg:aspect-[3]"
         spaceBetween={0}
         slidesPerView={1}
         navigation

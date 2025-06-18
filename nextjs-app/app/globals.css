@@ -58,7 +58,7 @@
 
   /* colors */
   --color-grey: #78787b;
-  --color-green: #00FF00;
+  --color-green: #00ff00;
   --color-brown: #493b3b;
   --color-light-brown: #aa875c;
   --color-yellow: #ffff00;
@@ -73,9 +73,16 @@
   --color-dark-charcoal: #2d2d2d;
   --color-dark-blue: #03112e;
 
+  /* container */
+  --container-md: 60rem;
+
+  /* breakpoint */
+  --breakpoint-lg: 64.1rem;
+
   /* radius */
   --radius-20: 20px;
 
+  /* animation */
   @keyframes blink {
     0%,
     100% {
@@ -89,8 +96,9 @@
 }
 
 @utility container {
-  padding-inline: 20px;
+  padding-inline: 10px;
   margin-inline: auto;
+  /* max-width: 95vw; */
 }
 
 :root {
@@ -151,7 +159,7 @@
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
+  --chart-5: oklch(0.645 0.246 16.439);           
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -198,6 +206,12 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@media (max-width: theme("--breakpoint-md")) {
+  .rounded-20 {
+    @apply rounded-lg;
+  }
 }
 
 @layer base {

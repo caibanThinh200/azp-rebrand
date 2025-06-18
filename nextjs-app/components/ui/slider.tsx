@@ -25,7 +25,7 @@ function Slider({
 
   return (
     <div className="flex gap-5 items-center">
-      {formatVND(min)}
+      <p className="hidden lg:block">{formatVND(min)}</p>
       <SliderPrimitive.Root
         data-slot="slider"
         defaultValue={defaultValue}
@@ -61,7 +61,7 @@ function Slider({
           </SliderPrimitive.Thumb>
         ))}
       </SliderPrimitive.Root>
-      {formatVND(max)}
+      <p className="hidden lg:block">{formatVND(max)}</p>
     </div>
   );
 }

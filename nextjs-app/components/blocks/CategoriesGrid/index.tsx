@@ -38,7 +38,7 @@ const CategoriesGrid: React.FC<CategoriesGridProps> = ({ block }) => {
       <div className="lg:hidden">
         <div>
           <Swiper
-            slidesPerView={1.5}
+            slidesPerView={2}
             spaceBetween={5}
             // breakpoints={{
             //   360: {
@@ -56,16 +56,16 @@ const CategoriesGrid: React.FC<CategoriesGridProps> = ({ block }) => {
               <SwiperSlide key={category?._id}>
                 <Link
                   href={`/danh-muc/${category?.slug?.current}`}
-                  className="relative h-[150px] overflow-hidden flex flex-col justify-center rounded-xl"
+                  className="relative h-[100px] overflow-hidden flex flex-col justify-center rounded-xl"
                 >
                   <FallbackImage
                     src={(urlForImage(category?.image)?.url() as string) || ""}
                     alt={category?.title}
                     width={category?.image?.hotspot?.width || 200}
                     height={category?.image?.hotspot?.height || 200}
-                    className="size-full absolute inset-0 brightness-50 object-cover group-hover:scale-125 transition-all duration-500"
+                    className="size-full object-contain absolute inset-0 brightness-50 object-cover group-hover:scale-125 transition-all duration-500"
                   />
-                  <p className="text-white text-xl font-bold relative z-10 text-center">
+                  <p className="text-white font-bold relative z-10 text-center">
                     {category?.title}
                   </p>
                 </Link>

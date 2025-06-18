@@ -17,7 +17,9 @@ import {
   ChevronDown,
   FilterIcon,
   Search,
+  SlidersHorizontal,
 } from "lucide-react";
+import Image from "next/image";
 import {
   Dispatch,
   SetStateAction,
@@ -26,6 +28,7 @@ import {
   useRef,
   useState,
 } from "react";
+import Drawer from "react-modern-drawer";
 
 interface FilterProps {
   priceFilter: Settings["productFilter"];
@@ -48,6 +51,7 @@ const Filter = ({
     priceFilter?.minPrice || 0,
     priceFilter?.maxPrice || 0,
   ]);
+  const [openFilter, setOpenFilter] = useState(false);
   const [expandFilter, setExpandFilter] = useState(false);
   const debouncedQuery = useDebounce(search, 500);
 
@@ -63,77 +67,185 @@ const Filter = ({
 
   const handleToogleFilter = () => setExpandFilter(!expandFilter);
 
+  const handleToogleDrawer = () => {
+    setOpenFilter((prevState) => !prevState);
+  };
+
   return (
-    <div className="flex flex-col gap-5">
-      <h2 className="flex gap-2 items-center text-xl text-[#133955]">
-        <FilterIcon />
-        Bộ lọc sản phẩm
-      </h2>
-      <div
-        ref={filterPaneRef}
-        style={{
-          height: expandFilter ? filterPaneRef?.current?.scrollHeight : 180,
-        }}
-        className="p-10 bg-white transition-[height] duration-500 overflow-hidden rounded-20 shadow"
-      >
-        <div className="flex justify-between">
-          <div className="flex flex-col gap-5 mb-10">
-            <h3 className="text-lg">Bộ lọc chung</h3>
-            <div className="flex gap-5 items-center flex-col lg:flex-row">
-              <div>
-                <Input
-                  defaultValue={filters?.search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  icon={<Search size={16} />}
-                  placeholder="Tìm kiếm sản phẩm"
-                />
-              </div>
-              <div className="flex flex-col gap-5 ">
-                {/* <p>Giá tiền</p> */}
-                <div className="lg:w-[400px]">
-                  <RangeSlider
-                    value={range}
-                    onValueCommit={(value) => {
-                      handleUpdateFilter({
-                        min: value[0].toString(),
-                        max: value[1].toString(),
-                      });
-                    }}
-                    onValueChange={setRange}
-                    min={priceFilter?.minPrice}
-                    max={priceFilter?.maxPrice}
-                    step={100000}
+    <div>
+      <div className="flex-col gap-5 hidden lg:flex">
+        <h2 className="flex gap-2 items-center text-xl text-[#133955]">
+          <FilterIcon />
+          Bộ lọc sản phẩm
+        </h2>
+        <div
+          ref={filterPaneRef}
+          style={{
+            height: expandFilter ? filterPaneRef?.current?.scrollHeight : 180,
+          }}
+          className="p-10 bg-white transition-[height] duration-500 overflow-hidden rounded-20 shadow"
+        >
+          <div className="flex justify-between">
+            <div className="flex flex-col gap-5 mb-10">
+              <h3 className="text-lg">Bộ lọc chung</h3>
+              <div className="flex gap-5 items-center flex-col lg:flex-row">
+                <div>
+                  <Input
+                    defaultValue={filters?.search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    icon={<Search size={16} />}
+                    placeholder="Tìm kiếm sản phẩm"
                   />
                 </div>
-                <div className="flex gap-4 items-center text-light-brown">
-                  Từ {formatVND(range[0])} - đến {formatVND(range[1])}
+                <div className="flex flex-col gap-5 ">
+                  {/* <p>Giá tiền</p> */}
+                  <div className="lg:w-[400px]">
+                    <RangeSlider
+                      value={range}
+                      onValueCommit={(value) => {
+                        handleUpdateFilter({
+                          min: value[0].toString(),
+                          max: value[1].toString(),
+                        });
+                      }}
+                      onValueChange={setRange}
+                      min={priceFilter?.minPrice}
+                      max={priceFilter?.maxPrice}
+                      step={100000}
+                    />
+                  </div>
+                  <div className="flex gap-4 items-center text-light-brown">
+                    Từ {formatVND(range[0])} - đến {formatVND(range[1])}
+                  </div>
                 </div>
               </div>
             </div>
+            <div>
+              <Button
+                onClick={handleToogleFilter}
+                className="flex items-center gap-1 px-5"
+              >
+                {expandFilter ? "Thu gọn" : "Mở rộng"}{" "}
+                <ChevronDown
+                  color="#fff"
+                  size={20}
+                  className={cn(
+                    expandFilter && "rotate-180 transition-[rotate]"
+                  )}
+                />
+              </Button>
+            </div>
           </div>
-          <div>
-            <Button
-              onClick={handleToogleFilter}
-              className="flex items-center gap-1 px-5"
-            >
-              {expandFilter ? "Thu gọn" : "Mở rộng"}{" "}
-              <ChevronDown
-                color="#fff"
-                size={20}
-                className={cn(expandFilter && "rotate-180 transition-[rotate]")}
+          {properties?.filter(
+            (property) => (property?.values || [])?.length > 0
+          )?.length > 0 && (
+            <div className="flex flex-col gap-5">
+              <h3 className="text-lg">Tìm kiếm nâng cao</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+                {properties
+                  ?.filter((property) => (property?.values || [])?.length > 0)
+                  ?.map((property) => (
+                    <div key={property?._id} className="lg:basis-1/5">
+                      <MemoSelect
+                        onValueChange={(value) => {
+                          return handleUpdateFilter({ [property?._id]: value });
+                        }}
+                        value={filters[property?._id]}
+                      >
+                        <SelectTrigger
+                          value={filters[property?._id]}
+                          onClose={() => {
+                            handleUpdateFilter({ [property?._id]: "" });
+                          }}
+                          className="w-full"
+                        >
+                          {/* <SelectValue placeholder={property?.title}>
+                        {filters[property?._id]}
+                      </SelectValue> */}
+                          {filters[property?._id] ? (
+                            filters[property?._id]
+                          ) : (
+                            <span className="text-muted-foreground">
+                              {property?.title}
+                            </span>
+                          )}
+                        </SelectTrigger>
+                        <SelectContent>
+                          {property?.values?.map((value) => (
+                            <SelectItem value={value} key={value}>
+                              {value}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </MemoSelect>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="lg:hidden block">
+        <Button
+          onClick={handleToogleDrawer}
+          className="flex gap-2 items-center"
+        >
+          <SlidersHorizontal />
+          Bộ lọc
+        </Button>
+        <Drawer
+          open={openFilter}
+          onClose={handleToogleDrawer}
+          direction="left"
+          size={"70%"}
+          className="p-5 relative overflow-scroll"
+        >
+          <div className="flex justify-between items-center mb-5">
+            <h2>Bộ lọc sản phẩm</h2>
+            <Button variant={"link"} onClick={handleToogleDrawer}>
+              <Image
+                src={"/icons/close.png"}
+                alt="Close"
+                width={20}
+                height={20}
               />
             </Button>
           </div>
-        </div>
-        {properties?.filter((property) => (property?.values || [])?.length > 0)
-          ?.length > 0 && (
-          <div className="flex flex-col gap-5">
-            <h3 className="text-lg">Tìm kiếm nâng cao</h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="flex gap-10 items-center flex-col lg:flex-row">
+            <div>
+              <Input
+                defaultValue={filters?.search}
+                onChange={(e) => setSearch(e.target.value)}
+                icon={<Search size={16} />}
+                placeholder="Tìm kiếm sản phẩm"
+              />
+            </div>
+            <div className="flex flex-col gap-5 ">
+              {/* <p>Giá tiền</p> */}
+              <div className="lg:w-[400px]">
+                <RangeSlider
+                  value={range}
+                  onValueCommit={(value) => {
+                    handleUpdateFilter({
+                      min: value[0].toString(),
+                      max: value[1].toString(),
+                    });
+                  }}
+                  onValueChange={setRange}
+                  min={priceFilter?.minPrice}
+                  max={priceFilter?.maxPrice}
+                  step={100000}
+                />
+              </div>
+              <div className="flex gap-4 items-center text-light-brown">
+                Từ {formatVND(range[0])} - đến {formatVND(range[1])}
+              </div>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 w-full">
               {properties
                 ?.filter((property) => (property?.values || [])?.length > 0)
                 ?.map((property) => (
-                  <div key={property?._id} className="lg:basis-1/5">
+                  <div key={property?._id}>
                     <MemoSelect
                       onValueChange={(value) => {
                         return handleUpdateFilter({ [property?._id]: value });
@@ -170,7 +282,7 @@ const Filter = ({
                 ))}
             </div>
           </div>
-        )}
+        </Drawer>
       </div>
     </div>
   );

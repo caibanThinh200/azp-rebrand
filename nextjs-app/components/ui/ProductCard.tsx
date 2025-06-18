@@ -32,7 +32,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
   return (
     <Link
       href={`/san-pham/${data?.slug?.current}`}
-      className="p-5 bg-white shadow-xl rounded-xl block relative"
+      className="lg:p-5 p-3 bg-white shadow-xl rounded-xl block relative"
     >
       <FallbackImage
         src={
@@ -44,10 +44,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
         alt={data?.title || data?.productId}
         width={200}
         height={200}
-        className="w-full h-[200px] object-contain rounded-xl"
+        className="w-full h-[100px] lg:h-[200px] object-contain rounded-xl"
       />
 
-      <div className="mt-1 flex flex-col gap-3">
+      <div className="lg:mt-1 mt-5 flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <p className="line-clamp-3">{data?.productId}</p>
           <Button
@@ -58,21 +58,36 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
             }}
             variant={"secondary"}
             className={cn(
-              "flex gap-2 items-center z-20 size-10 rounded-full bg-light-brown",
+              "hidden lg:flex gap-2 items-center z-20 size-10 rounded-full bg-light-brown",
               cartAdded && "bg-green/50"
             )}
           >
             <ShoppingCart />
           </Button>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col md:flex-row lg:items-center gap-2">
           <p className="line-through text-grey">
             {formatVND(data?.originPrice)}
           </p>
-          <p className="text-light-brown text-lg font-bold">
+          <p className="text-light-brown lg:text-lg font-bold">
             {formatVND(data?.discountPrice)}
           </p>
         </div>
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            return handleAddCart(data);
+          }}
+          variant={"secondary"}
+          className={cn(
+            "flex lg:hidden gap-2 items-center z-20 text-white bg-light-brown",
+            cartAdded && "bg-green/50"
+          )}
+        >
+          <ShoppingCart />
+          Thêm vào giỏ
+        </Button>
 
         {/* <Button
           onClick={(e) => {

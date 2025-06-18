@@ -7,9 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { useEventListener } from "usehooks-ts";
-import { Input } from "../ui/input";
-import { Search } from "lucide-react";
-import CartNavItem from "../ui/cartNavItem";
 import MobileHeader from "./MobileHeader";
 import MegaMenu from "../ui/categories-mega-menu";
 

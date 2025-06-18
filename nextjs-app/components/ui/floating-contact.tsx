@@ -34,7 +34,7 @@ const FloatContact: React.FC<IFloatContactProps> = (props) => {
     );
 
     return (
-        <div className="fixed z-30 bottom-[32px] right-16 flex flex-col items-center gap-2 overflow-hidden">
+        <div className="fixed z-30 lg:bottom-[32px] lg:right-16 right-5 bottom-5 flex flex-col items-center gap-2 overflow-hidden">
             <div>
                 <svg
                     onClick={handleOpenContact}
@@ -89,7 +89,7 @@ const FloatContact: React.FC<IFloatContactProps> = (props) => {
                         height={32}
                         width={32}
                     />
-                    <p className="font-bold">0932120787</p>
+                    <p className="font-bold hidden lg:block">0932120787</p>
                 </div>
                 <div
                     ref={overlayRef}
@@ -109,7 +109,7 @@ const FloatContact: React.FC<IFloatContactProps> = (props) => {
                             height={32}
                             width={32}
                         />
-                        <p className="font-bold">Messenger</p>
+                        <p className="font-bold hidden lg:block">Messenger</p>
                     </div>
                     <div
                         onClick={() => window.open("tel:0818598088")}
@@ -133,7 +133,7 @@ const FloatContact: React.FC<IFloatContactProps> = (props) => {
                                 strokeLinejoin="round"
                             />
                         </svg>
-                        <p className="font-bold">0932120787</p>
+                        <p className="font-bold hidden lg:block">0932120787</p>
                     </div>
                 </div>
             </div>

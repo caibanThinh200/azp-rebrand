@@ -15,7 +15,7 @@ const Quote: React.FC<QuoteProps> = ({ block }) => {
       <p className="font-bold text-[100px] absolute -top-0 text-white">
         &#x201F;
       </p>
-      <p className="text-xl text-yellow">{block?.quote}</p>
+      <p className="lg:text-xl text-yellow">{block?.quote}</p>
     </div>
   );
 };

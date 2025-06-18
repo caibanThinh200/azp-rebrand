@@ -101,7 +101,7 @@ const Products: React.FC<ProductListProps> = ({
         <Package />
         Danh sách sản phẩm ({result?.total} kết quả)
       </h2>
-      <div className="p-10 bg-[#C1C1BD] rounded-20 mt-5 relative overflow-hidden">
+      <div className="lg:p-10 lg:bg-[#C1C1BD] rounded-20 mt-5 relative overflow-hidden">
         {loading && (
           <div className="absolute -m-10 z-10 bg-white/50 size-full grid place-items-center">
             <Loader className="animate-spin" />
