@@ -47,7 +47,7 @@ const FloatingHeader: React.FC<FloatingHeaderProps> = ({
               />
             </div>
           </Link>
-          <MobileHeader floating />
+          {/* <MobileHeader floating /> */}
           <div
             className="flex justify-center rounded-20 px-5"
             // style={{ background: data?.categoriesBackground?.hex || "#78787b" }}

@@ -1,34 +1,98 @@
-'use client'
+"use client";
 import React from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import Drawer from 'react-modern-drawer'
+import Drawer from "react-modern-drawer";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Category, GetHeaderQueryResult } from "@/sanity.types";
+import Link from "next/link";
+
+type HeaderType = Exclude<GetHeaderQueryResult, null>;
 
 interface MobileHeaderProps {
-    floating?: boolean
+  floating?: boolean;
+  categories: Exclude<HeaderType["categories"], null>;
 }
 
-const MobileHeader: React.FC<MobileHeaderProps> = ({floating}) => {
-    const [isOpen, setIsOpen] = React.useState(false)
-    const toggleDrawer = () => {
-        setIsOpen((prevState) => !prevState)
-    }
-    return <div className="block lg:hidden">
-        <Button onClick={toggleDrawer} className="p-0" variant={"link"}>
-            <Image src={floating ?  "/icons/burger-bar-yellow.svg" : "/icons/burger-bar.svg"} alt="hamburger" width={32} height={32} />
+const MobileHeader: React.FC<MobileHeaderProps> = ({
+  floating,
+  categories,
+}) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const toggleDrawer = () => {
+    setIsOpen((prevState) => !prevState);
+  };
+  return (
+    <div className="block lg:hidden">
+      <Button onClick={toggleDrawer} className="p-0" variant={"link"}>
+        <Image
+          src={
+            floating ? "/icons/burger-bar-yellow.svg" : "/icons/burger-bar.svg"
+          }
+          alt="hamburger"
+          width={32}
+          height={32}
+        />
+      </Button>
+      <Drawer
+        open={isOpen}
+        onClose={toggleDrawer}
+        direction="right"
+        size={"100%"}
+        className="p-10 overflow-scroll"
+      >
+        <Button className="p-0" variant={"link"} onClick={toggleDrawer}>
+          <Image src={"/icons/close.png"} alt="Close" width={20} height={20} />
         </Button>
-        <Drawer
-            open={isOpen}
-            onClose={toggleDrawer}
-            direction='right'
-            size={"100%"}
-            className='p-10'
-        >
-            <Button variant={"link"} onClick={toggleDrawer}>
-                <Image src={"/icons/close.png"} alt="Close" width={20} height={20} />
-            </Button>
-        </Drawer>
+        <div>
+          <Accordion
+            type="single"
+            collapsible
+            className="w-full flex flex-col gap-4"
+          >
+            {categories?.map((category) =>
+              category?.children?.length > 0 ? (
+                <AccordionItem value={category?._id} key={category?._id}>
+                  <AccordionTrigger>{category?.title}</AccordionTrigger>
+                  <AccordionContent className="flex flex-col gap-4">
+                    {category?.children?.map((category) => (
+                      <Link
+                        onClick={(e) => {
+                        //   e.preventDefault();
+                          toggleDrawer();
+                        }}
+                        key={category?._id}
+                        href={`/danh-muc/${category?.slug}`}
+                      >
+                        {category?.title}
+                      </Link>
+                    ))}
+                  </AccordionContent>
+                </AccordionItem>
+              ) : (
+                <Link
+                  onClick={(e) => {
+                    // e.preventDefault();
+                    toggleDrawer();
+                  }}
+                  className="pb-3 border-b border-border"
+                  key={category?._id}
+                  href={`/danh-muc/${category?.slug?.current}`}
+                >
+                  {category?.title}
+                </Link>
+              )
+            )}
+          </Accordion>
+        </div>
+      </Drawer>
     </div>
-}
+  );
+};
 
-export default MobileHeader
+export default MobileHeader;
