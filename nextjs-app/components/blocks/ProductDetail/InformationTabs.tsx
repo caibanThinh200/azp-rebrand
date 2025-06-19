@@ -18,7 +18,7 @@ export default function ProductTabs({ content, properties }: ProductTabProps) {
       <Tabs
         defaultValue={content ? "description" : "properties"}
         onValueChange={setActiveTab}
-        className="w-full bg-white p-10 rounded-20"
+        className="w-full bg-white p-3 lg:p-10 rounded-20"
       >
         <TabsList className="border-b w-fit rounded-none h-auto p-0 bg-transparent">
           {content && (
@@ -52,7 +52,7 @@ export default function ProductTabs({ content, properties }: ProductTabProps) {
               ?.filter((property) => !!property?.values)
               ?.map((property) => (
                 <div key={property?._key} className="flex gap-2 items-center border-b border-border pb-3">
-                  <span className="font-bold basis-1/6">{property?.title}:</span>
+                  <span className="font-bold basis-1/2 lg:basis-1/6">{property?.title}:</span>
                   <span>{property?.values}</span>
                 </div>
               ))}

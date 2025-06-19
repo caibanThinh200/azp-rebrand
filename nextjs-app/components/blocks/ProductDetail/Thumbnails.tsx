@@ -26,7 +26,7 @@ const ProductThumbnail: React.FC<ProductThumbnailProps> = ({ images }) => {
               thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
           }}
           modules={[FreeMode, Navigation, Thumbs]}
-          className="product-swiper w-full rounded-20"
+          className="product-swiper w-full rounded-20 h-[400px]"
         >
           {images?.map((image) => (
             <SwiperSlide key={image._key as string}>

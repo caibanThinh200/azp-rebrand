@@ -20,6 +20,7 @@ import RecentProducts from "./components/RecentProducts";
 import { defineQuery } from "next-sanity";
 import { GetProductDetailQueryResult } from "@/sanity.types";
 import { Reference } from "sanity";
+import ProductDetailMobile from "@/components/blocks/ProductDetail/Mobile";
 
 export default async function ProductDetail({
   params,
@@ -47,7 +48,7 @@ export default async function ProductDetail({
 
   return (
     <div className="container space-y-0">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="hidden lg:grid grid-cols-3 gap-4">
         <div className="sticky top-24 h-fit">
           <ProductThumbnail images={(data?.images as SanityAsset[]) || []} />
         </div>
@@ -57,6 +58,7 @@ export default async function ProductDetail({
           <ProductMetaInformation data={data} note={productNote} />
         </div>
       </div>
+      <ProductDetailMobile data={data} note={productNote} />
       {/* {(data?.content || data?.properties) && (
         <div>
           <ProductTabs content={data?.content} properties={data?.properties} />

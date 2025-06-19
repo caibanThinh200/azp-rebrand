@@ -57,7 +57,10 @@ const Header: AsyncComponent<HeaderProps> = async function ({ siteSetting }) {
             />
           </Link>
         </div>
-        <MobileHeader categories={data?.categories || []} />
+        <MobileHeader
+          navItems={data?.navItems || []}
+          categories={data?.categories || []}
+        />
         <FloatingHeader data={data} siteSetting={siteSetting} />
         <div className="hidden lg:block"></div>
         <TranslationToogle />

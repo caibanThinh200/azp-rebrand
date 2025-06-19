@@ -12,9 +12,9 @@ interface BlogContentProps {
 
 const BlogContent: React.FC<BlogContentProps> = ({ block }) => {
   return (
-    <div className="flex gap-10 overflow-y-visible">
+    <div className="flex lg:gap-10 overflow-y-visible">
       <div>
-        <div className="sticky h-fit self-start top-32 rounded-20 p-3 py-5 bg-white shadow">
+        <div className="sticky hidden lg:block h-fit self-start top-32 rounded-20 p-3 py-5 bg-white shadow">
           <h3 className="mb-5 font-bold text-light-brown text-lg flex justify-between">
             Nội Dung Bài Viết
           </h3>
