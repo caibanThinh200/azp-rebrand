@@ -32,22 +32,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
   return (
     <Link
       href={`/san-pham/${data?.slug?.current}`}
-      className="lg:p-5 p-3 bg-white shadow-xl rounded-xl block relative"
+      className="lg:p-5 p-3 bg-white shadow-xl rounded-xl flex flex-col justify-between relative"
     >
-      <FallbackImage
-        src={
-          (urlForImage(
-            ((data?.images as GetProductsQueryResult[number]["images"]) ||
-              [])[0]
-          )?.url() as string) || ""
-        }
-        alt={data?.title || data?.productId}
-        width={200}
-        height={200}
-        className="w-full h-[100px] lg:h-[200px] object-contain rounded-xl"
-      />
-
-      <div className="lg:mt-1 mt-5 flex flex-col gap-3">
+      <div className="flex flex-col gap-3">
+        <FallbackImage
+          src={
+            (urlForImage(
+              ((data?.images as GetProductsQueryResult[number]["images"]) ||
+                [])[0]
+            )?.url() as string) || ""
+          }
+          alt={data?.title || data?.productId}
+          width={200}
+          height={200}
+          className="w-full h-[100px] lg:h-[200px] object-contain rounded-xl mb-1 lg:mb-5"
+        />
         <div className="flex items-center justify-between">
           <p className="line-clamp-3">{data?.productId}</p>
           <Button
@@ -73,21 +72,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
             {formatVND(data?.discountPrice)}
           </p>
         </div>
-        <Button
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            return handleAddCart(data);
-          }}
-          variant={"secondary"}
-          className={cn(
-            "flex lg:hidden gap-2 items-center z-20 text-white bg-light-brown",
-            cartAdded && "bg-green/50"
-          )}
-        >
-          <ShoppingCart />
-          Thêm vào giỏ
-        </Button>
 
         {/* <Button
           onClick={(e) => {
@@ -99,6 +83,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
           Thanh toán
         </Button> */}
       </div>
+      <Button
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          return handleAddCart(data);
+        }}
+        variant={"secondary"}
+        className={cn(
+          "flex lg:hidden gap-2 items-center z-20 text-white bg-light-brown mt-5",
+          cartAdded && "bg-green/50"
+        )}
+      >
+        <ShoppingCart />
+        Thêm vào giỏ
+      </Button>
     </Link>
   );
 };

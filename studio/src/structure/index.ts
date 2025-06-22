@@ -25,7 +25,7 @@ const DISABLED_TYPES = [
   'footer',
   'category',
   'post',
-  'media.tag'
+  'media.tag',
 ]
 
 export const structure: StructureResolver = (
@@ -46,6 +46,12 @@ export const structure: StructureResolver = (
             context.getClient({apiVersion: '2024-10-28'}),
             S,
           )
+
+          const createDraggableCategoryManagement = () => {
+            return S.component()
+              .title('Sắp xếp')
+              .component(() => DraggableCategoryList({}))
+          }
           return S.list()
             .title('Danh mục')
             .items([
@@ -61,7 +67,11 @@ export const structure: StructureResolver = (
                       S.document().documentId(documentId).schemaType('category'),
                     ),
                 ),
-
+              S.listItem()
+                .id(`manage-children`)
+                .title(`Sắp xếp thứ tự danh mục con`)
+                .icon(DragHandleIcon)
+                .child(createDraggableCategoryManagement()),
               // Divider
               S.divider(),
 

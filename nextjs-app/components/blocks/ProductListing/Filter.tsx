@@ -270,7 +270,7 @@ const Filter = ({
                           </span>
                         )}
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="z-[102]">
                         {property?.values?.map((value) => (
                           <SelectItem value={value} key={value}>
                             {value}

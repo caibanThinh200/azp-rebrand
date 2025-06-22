@@ -67,10 +67,10 @@ function renderEmptyState(page: GetPageQueryResult) {
   return (
     <div className="container">
       <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
-        This page has no content!
+        Trang này chưa có nội dung
       </h1>
       <p className="mt-2 text-base text-gray-500">
-        Open the page in Sanity Studio to add content.
+        Truy cập vào Quản Trị để xây dựng nội dung cho trang
       </p>
       <div className="mt-10 flex">
         <Link
@@ -79,7 +79,7 @@ function renderEmptyState(page: GetPageQueryResult) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Add content to this page
+          Truy cập quản trị
         </Link>
       </div>
     </div>

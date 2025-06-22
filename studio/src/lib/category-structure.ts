@@ -56,7 +56,7 @@ export const buildCategoryStructure = async (
             .title(`${category.title} (${category.childrenCount || 0})`)
             .items([
               S.listItem()
-                .id(`manage-children-${category._id}`)
+                .id(`manage-child-${category._id}`)
                 .title(`Sắp xếp thứ tự danh mục con`)
                 .icon(DragHandleIcon)
                 .child(createDraggableCategoryManagement(category._id, category.title)),
@@ -67,15 +67,13 @@ export const buildCategoryStructure = async (
                 .icon(EditIcon)
                 .child(S.document().documentId(category._id).schemaType('category')),
               S.listItem()
-                .id(`create-child-${category._id}`)
+                .id(`create-child-${Date.now()}`)
                 .title(`Tạo danh mục con`)
                 .icon(AddIcon)
                 .child(
                   S.document()
                     .schemaType('category')
-                    .documentId(
-                      `category-child-${category._id}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-                    )
+                    // .documentId(`category-${category._id}-new-child`)
                     .initialValueTemplate('category-with-parent', {parentId: category._id}),
                 ),
               // Divider
@@ -130,17 +128,20 @@ export const buildCategoryStructure = async (
           S.list()
             .title(`${category.title}`)
             .items([
+              S.listItem()
+                .id(`manage-children-${category._id}`)
+                .title(`Sắp xếp thứ tự danh mục con`)
+                .icon(DragHandleIcon)
+                .child(createDraggableCategoryManagement(category._id, category.title)),
               // Edit this category
               S.listItem()
-                .id(`create-child-${category._id}`)
+                .id(`create-child-${Date.now()}`)
                 .title(`Tạo danh mục con`)
                 .icon(TagIcon)
                 .child(
                   S.document()
                     .schemaType('category')
-                    .documentId(
-                      `category-child-${category._id}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-                    )
+                    // .documentId(`category-${category._id}-new-child}`)
                     .initialValueTemplate('category-with-parent', {parentId: category._id}),
                 ),
               S.listItem()
