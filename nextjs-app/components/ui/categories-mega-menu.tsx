@@ -10,6 +10,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 import { GetHeaderQueryResult } from "@/sanity.types";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
@@ -34,8 +35,8 @@ export default function MegaMenu({ data }: MegaMenuProps) {
   let openTimeout: NodeJS.Timeout;
 
   const renderCategoryTree = (nodes: CategoryNode[], currentLevel = 1) => {
-    return nodes?.map((menu) =>
-      menu?.children?.length > 0 ? (
+    return nodes?.map((menu) => {
+      return menu?.children?.length > 0 ? (
         <DropdownMenuSub key={`sub-${menu?._id}`}>
           <div key={menu?._id}>
             <DropdownMenuSubTrigger
@@ -74,11 +75,14 @@ export default function MegaMenu({ data }: MegaMenuProps) {
           </div>
         </DropdownMenuSub>
       ) : (
-        <DropdownMenuItem key={`item-${menu?._id}`}>
+        <DropdownMenuItem
+          className={cn(currentLevel == 4 && "-translate-y-5")}
+          key={`item-${menu?._id}`}
+        >
           <Link href={`/danh-muc/${menu?.slug}`}>{menu?.title}</Link>
         </DropdownMenuItem>
-      )
-    );
+      );
+    });
   };
 
   return (

@@ -203,7 +203,16 @@ export const getPaginatedProducts = defineQuery(`
 `);
 
 export const getProductDetailQuery = defineQuery(`
-    *[_type == "product" && slug.current == $slug] {...,}[0]
+*[_type == "product" && slug.current == $slug] {
+  ...,
+  content[]{
+    ...,
+    asset->{
+      ...,
+      "_key": _id
+    }
+  }
+}[0]
 `);
 
 export const getProperties = defineQuery(`

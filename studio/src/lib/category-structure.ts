@@ -121,7 +121,7 @@ export const buildCategoryStructure = async (
     } else {
       // Leaf category without children
       return S.listItem()
-        .id(`category-leaf-${category._id}`)
+        .id(`category-leaf-${category._id?.replace('drafts.', '')}`)
         .title(`${category.title} (${category.childrenCount || 0})`)
         .icon(TagIcon)
         .child(
@@ -145,10 +145,14 @@ export const buildCategoryStructure = async (
                     .initialValueTemplate('category-with-parent', {parentId: category._id}),
                 ),
               S.listItem()
-                .id(`edit-leaf-category-${category._id}`)
+                .id(`edit-leaf-category-${category._id?.replace('drafts.', '')}`)
                 .title(`Chỉnh sửa "${category.title}"`)
                 .icon(DocumentIcon)
-                .child(S.document().documentId(category._id).schemaType('category')),
+                .child(
+                  S.document()
+                    .documentId(category._id?.replace('drafts.', ''))
+                    .schemaType('category'),
+                ),
 
               // Divider
               S.divider(),
