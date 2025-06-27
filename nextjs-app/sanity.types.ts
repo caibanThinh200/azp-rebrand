@@ -2159,7 +2159,7 @@ export type SearchProductQueryResult = Array<{
   }>;
 }>;
 // Variable: getProductDetailQuery
-// Query: *[_type == "product" && slug.current == $slug] {...,}[0]
+// Query: *[_type == "product" && slug.current == $slug] {  ...,  content[]{    ...,    asset->{      ...,      "_key": _id    }  }}[0]
 export type GetProductDetailQueryResult = {
   _id: string;
   _type: "product";
@@ -2172,7 +2172,7 @@ export type GetProductDetailQueryResult = {
   originPrice: number;
   discountPrice: number;
   description?: string;
-  content?: Array<{
+  content: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -2189,20 +2189,38 @@ export type GetProductDetailQueryResult = {
     level?: number;
     _type: "block";
     _key: string;
+    asset: null;
   } | {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+    asset: {
+      _id: string;
+      _type: "sanity.imageAsset";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata?: SanityImageMetadata;
+      source?: SanityAssetSourceData;
+      _key: string;
+    } | null;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
     _key: string;
-  }>;
+  }> | null;
   colors?: Array<string>;
   note?: string;
   images?: Array<{
@@ -2264,7 +2282,7 @@ declare module "@sanity/client" {
     "\n  *[_type == \"footer\"] {\n    ...,\n    \"supportColumn\": supportColumn[]{\n      ...,\n      \"post\": post->,\n      \"page\": page->,  \n    }\n  }[0]\n": GetFooterQueryResult;
     "\n    *[_type == \"product\" && \n    count(category[_ref in $category]) > 0\n    ]\n": GetProductsQueryResult;
     "\n  *[_type == \"product\" && title match \"$search**\"\n  ]\n": SearchProductQueryResult;
-    "\n    *[_type == \"product\" && slug.current == $slug] {...,}[0]\n": GetProductDetailQueryResult;
+    "\n*[_type == \"product\" && slug.current == $slug] {\n  ...,\n  content[]{\n    ...,\n    asset->{\n      ...,\n      \"_key\": _id\n    }\n  }\n}[0]\n": GetProductDetailQueryResult;
     "\n    *[_type == \"property\"]\n": GetPropertiesResult;
   }
 }
