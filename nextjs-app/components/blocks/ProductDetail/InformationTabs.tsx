@@ -2,11 +2,14 @@
 
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GetAllProductsResult } from "@/sanity.types";
+import {
+  GetAllProductsResult,
+  GetProductDetailQueryResult,
+} from "@/sanity.types";
 import PortableText from "react-portable-text";
 
 interface ProductTabProps {
-  content: GetAllProductsResult[number]["content"];
+  content: Exclude<GetProductDetailQueryResult, null>["content"];
   properties: GetAllProductsResult[number]["properties"];
 }
 
@@ -51,8 +54,13 @@ export default function ProductTabs({ content, properties }: ProductTabProps) {
             {properties
               ?.filter((property) => !!property?.values)
               ?.map((property) => (
-                <div key={property?._key} className="flex gap-2 items-center border-b border-border pb-3">
-                  <span className="font-bold basis-1/2 lg:basis-1/6">{property?.title}:</span>
+                <div
+                  key={property?._key}
+                  className="flex gap-2 items-center border-b border-border pb-3"
+                >
+                  <span className="font-bold basis-1/2 lg:basis-1/6">
+                    {property?.title}:
+                  </span>
                   <span>{property?.values}</span>
                 </div>
               ))}

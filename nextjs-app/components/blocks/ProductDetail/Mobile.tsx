@@ -168,7 +168,7 @@ const ProductDetailMobile: React.FC<ProductDetailMobileProps> = ({
           </Button>
         </div>
       </div>
-      <ProductTabs content={data?.content} properties={data?.properties} />
+      <ProductTabs content={data?.content || null} properties={data?.properties} />
       {/* <div className="flex flex-col gap-5 border rounded-20 overflow-hidden bg-white p-3 shadow-lg"></div> */}
     </div>
   );
