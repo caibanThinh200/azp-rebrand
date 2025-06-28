@@ -46,6 +46,7 @@ const Hero: React.FC<{ block: IHero }> = ({ block }) => {
                 href={slider?.link || "/"}
               >
                 <Image
+                  loading="eager"
                   className="size-full object-cover"
                   src={urlForImage(slider?.image)?.url() || ""}
                   alt={`Image ${slider?._key}`}
