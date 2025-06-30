@@ -60,7 +60,7 @@ const CategoriesGrid: React.FC<CategoriesGridProps> = ({ block }) => {
                 >
                   <FallbackImage
                     src={(urlForImage(category?.image)?.url() as string) || ""}
-                    alt={category?.title}
+                    alt={""}
                     width={category?.image?.hotspot?.width || 200}
                     height={category?.image?.hotspot?.height || 200}
                     className="size-full object-contain absolute inset-0 brightness-50 object-cover group-hover:scale-125 transition-all duration-500"

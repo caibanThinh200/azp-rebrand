@@ -37,10 +37,10 @@ const ProductSwiper: React.FC<ProductSwiperProps> = ({ block }) => {
       <div className="flex justify-between items-center">
         <h2 className="text-light-brown">{block?.title}</h2>
         <div className="flex gap-3 items-center">
-          <Button onClick={handlePrevSlide}>
+          <Button aria-label="Prev Slide" onClick={handlePrevSlide}>
             <ArrowLeft />
           </Button>
-          <Button onClick={handleNextSlide}>
+          <Button aria-label="Next Slide" onClick={handleNextSlide}>
             <ArrowRight />
           </Button>
         </div>

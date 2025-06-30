@@ -11,10 +11,28 @@ import {
   singleCategoryQuery,
 } from "@/sanity/lib/queries";
 import { rootCategories } from "@/sanity/lib/queries";
-import { urlForImage } from "@/sanity/lib/utils";
+import { resolveOpenGraphImage, urlForImage } from "@/sanity/lib/utils";
 import Image from "next/image";
 import Products from "./components/ProductList";
 import { PaginatedProducts } from "@/types/override";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  // Fetch data based on the slug
+  const { data } = await sanityFetch({ query: singleCategoryQuery, params });
+  const { data: siteSetting } = await sanityFetch({ query: settingsQuery });
+  return {
+    openGraph: {
+      images:
+        urlForImage(data?.image)?.url() ||
+        resolveOpenGraphImage(siteSetting?.seo?.ogImage),
+    },
+  };
+}
 
 const CategoryPage = async ({
   params,
