@@ -21,6 +21,29 @@ import { defineQuery } from "next-sanity";
 import { GetProductDetailQueryResult } from "@/sanity.types";
 import { Reference } from "sanity";
 import ProductDetailMobile from "@/components/blocks/ProductDetail/Mobile";
+import { Metadata } from "next";
+import { resolveOpenGraphImage, urlForImage } from "@/sanity/lib/utils";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  // Fetch data based on the slug
+  const { slug } = await params;
+  const { data } = await sanityFetch({
+    query: getProductDetailQuery,
+    params: { slug },
+  });
+  const { data: siteSetting } = await sanityFetch({ query: settingsQuery });
+  return {
+    openGraph: {
+      images:
+        urlForImage((data?.images as SanityAsset[])[0])?.url() ||
+        resolveOpenGraphImage(siteSetting?.seo?.ogImage),
+    },
+  };
+}
 
 export default async function ProductDetail({
   params,

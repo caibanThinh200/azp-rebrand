@@ -20,7 +20,7 @@ import { Metadata } from "next";
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   // Fetch data based on the slug
   const { data } = await sanityFetch({ query: singleCategoryQuery, params });
