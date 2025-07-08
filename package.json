@@ -24,12 +24,20 @@
     "nextjs-app"
   ],
   "devDependencies": {
+    "@types/mjml": "^4.7.4",
     "npm-run-all": "^4.1.5"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.0.15",
+    "fs": "^0.0.1-security",
+    "handlebars": "^4.7.8",
     "lucide-react": "^0.483.0",
+    "mjml": "^4.15.3",
     "motion": "^12.5.0",
+    "next-mjml": "^1.2.1",
+    "node-mailjet": "^6.0.8",
+    "path": "^0.12.7",
+    "react-hot-toast": "^2.5.2",
     "sanity-plugin-media": "^3.0.3",
     "swiper": "^11.2.6"
   }

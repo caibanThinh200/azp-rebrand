@@ -9,6 +9,7 @@ import { useCart } from "@/context/cart";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import FallbackImage from "./fallback-image";
+import toast from "react-hot-toast";
 
 interface ProductCardProps {
   data: GetProductsQueryResult[number];
@@ -22,6 +23,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
   const handleAddCart = (product: Product) => {
     addItem(product);
     setCartAdded(true);
+    toast.success('Đã thêm sản phẩm vào giỏ.');
   };
 
   const handlePayment = (product: Product) => {
