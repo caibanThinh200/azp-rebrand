@@ -1,11 +1,5 @@
+import { mailjet } from "@/lib/mailjet";
 import { NextRequest } from "next/server";
-import Mailjet from "node-mailjet";
-
-export const mailjet = new Mailjet({
-  apiKey: process.env.NEXT_PUBLIC_MAILJET_SECRET_KEY,
-  apiSecret: process.env.NEXT_PUBLIC_MAILJET_API_KEY,
-});
-
 export const POST = async (req: NextRequest) => {
   const request = mailjet.post("send", { version: "v3.1" }).request({
     Messages: [
