@@ -34,7 +34,6 @@
     "lucide-react": "^0.483.0",
     "mjml": "^4.15.3",
     "motion": "^12.5.0",
-    "next-mjml": "^1.2.1",
     "node-mailjet": "^6.0.8",
     "path": "^0.12.7",
     "react-hot-toast": "^2.5.2",

@@ -30,7 +30,7 @@ const Layout: React.FC<LayoutProps> = ({
 }) => {
   return (
     <ClientWrapper>
-      <FloatContact />
+      <FloatContact siteSettings={siteSettings} />
       <Header siteSetting={siteSettings} />
       <BreadcrumbNavigation
         breadcrumpSitemap={breadcrumpSitemap}

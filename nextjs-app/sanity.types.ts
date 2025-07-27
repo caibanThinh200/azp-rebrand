@@ -685,6 +685,7 @@ export type Settings = {
   _rev: string;
   contact?: BlockContent;
   phone?: string;
+  facebook?: string;
   productNote?: string;
   productFilter?: {
     minPrice?: number;
@@ -1067,6 +1068,7 @@ export type SettingsQueryResult = {
   _rev: string;
   contact?: BlockContent;
   phone?: string;
+  facebook?: string;
   productNote?: string;
   productFilter?: {
     minPrice?: number;

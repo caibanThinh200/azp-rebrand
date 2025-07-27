@@ -1,6 +1,7 @@
 "use client";
 
 import { useCart } from "@/context/cart";
+import { SettingsQueryResult } from "@/sanity.types";
 import clsx from "clsx";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
@@ -14,8 +15,9 @@ import {
   useState,
 } from "react";
 
-interface IFloatContactProps {}
-
+interface IFloatContactProps {
+  siteSettings: SettingsQueryResult;
+}
 const FloatContact: React.FC<IFloatContactProps> = (props) => {
   const { itemCount } = useCart();
   const [isOpen, setIsOpen] = useState(false);
@@ -100,7 +102,13 @@ const FloatContact: React.FC<IFloatContactProps> = (props) => {
             }}
           >
             <Image src={"/icons/zalo.png"} alt="Zalo" height={32} width={32} />
-            <p className="font-bold hidden lg:block">0932120787</p>
+            <Link
+              href={`https://zalo.me/${props?.siteSettings?.phone?.replace(".", "")}`}
+              target="_blank"
+              className="font-bold hidden lg:block"
+            >
+              {props?.siteSettings?.phone}
+            </Link>
           </div>
           <div
             ref={overlayRef}
@@ -108,7 +116,7 @@ const FloatContact: React.FC<IFloatContactProps> = (props) => {
           >
             <Link
               target="_blank"
-              href={"https://www.facebook.com/azprice/?ref=embed_page#"}
+              href={props?.siteSettings?.facebook as string}
               className="border-2 bg-white border-begonia p-[12px] rounded-xl flex items-center w-full gap-3"
               style={{
                 boxShadow: isOpen
@@ -146,7 +154,12 @@ const FloatContact: React.FC<IFloatContactProps> = (props) => {
                   strokeLinejoin="round"
                 />
               </svg>
-              <p className="font-bold hidden lg:block">0932120787</p>
+              <Link
+                href={`tel:${props?.siteSettings?.phone?.replace(".", "")}`}
+                className="font-bold hidden lg:block"
+              >
+                {props?.siteSettings?.phone}
+              </Link>
             </div>
           </div>
         </div>
