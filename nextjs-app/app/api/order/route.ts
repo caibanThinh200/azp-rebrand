@@ -170,7 +170,10 @@ export const POST = async (req: NextRequest) => {
     .then(async (res) => {
       const formatData = {
         ...res,
-        _createdAt: format(res._createdAt as unknown as Date, "dd/MM/yyyy"),
+        _createdAt: format(
+          (res._createdAt as unknown as Date) || new Date(),
+          "dd/MM/yyyy"
+        ),
         // _updatedAt: dayjs(res._updatedAt).format("DD-MM-YYYY"),
       };
       const mjmlTemplate = compile(template)(formatData);
